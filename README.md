@@ -13,7 +13,7 @@
 | 模型 | `Qwen/Qwen3-4B-Instruct-2507`，BF16 |
 | 推論引擎 | vLLM XPU，官方預覽版 |
 | 已驗證環境 | Intel Arc Pro B70 32 GB、Windows＋Ubuntu 26.04／WSL2 |
-| Playground | http://127.0.0.1:3210/ |
+| Playground | http://127.0.0.1:15413/ |
 | 模型 API | http://127.0.0.1:18000/ |
 | 排程 | 非同步排程、最多八題並行、prefix cache |
 | GPU 執行 | Flash Attention、decode-only XPU Graph（batch 1/2/4/8）、編譯融合的原生 RMSNorm |
@@ -54,7 +54,7 @@ Copy-Item .env.vllm.example .env
 若已有 `.env`，請直接確認／調整以下欄位，避免覆寫其他設定：
 
 ```dotenv
-PORT=3210
+PORT=15413
 INFERENCE_BACKEND=vllm
 VLLM_URL=http://127.0.0.1:18000
 MODEL=Qwen/Qwen3-4B-Instruct-2507
@@ -77,10 +77,10 @@ npm run model:vllm
 npm start
 ```
 
-開啟 http://127.0.0.1:3210/，模型狀態應顯示 `Qwen/Qwen3-4B-Instruct-2507` 與 `vllm`。也可檢查：
+開啟 http://127.0.0.1:15413/，模型狀態應顯示 `Qwen/Qwen3-4B-Instruct-2507` 與 `vllm`。也可檢查：
 
 ```powershell
-Invoke-RestMethod http://127.0.0.1:3210/api/health
+Invoke-RestMethod http://127.0.0.1:15413/api/health
 ```
 
 預期為 `ready: true`、`backend: vllm`。這代表服務與模型可達，不代表答案一定正確。
@@ -134,9 +134,49 @@ vLLM 未提供的逐題模型載入、獨立 Prefill、記憶體配置及實際�
 
 舊 `POST /api/decide` 分類／擷取功能仍保留為 API，不在目前 Playground 顯示；用法見[舊 API 說明](docs/legacy-api.md)。
 
+## 五題並行與解碼步數
+
+目前是「題目之間並行，每題內部逐 token 生成」。五題各自組成獨立提示與模型請求，同時送到 vLLM；應用層並行上限為八題。vLLM 將可執行的序列安排成 GPU 批次，共用同一張 GPU，並不是每題各占一張卡。超過八題時，後面的題目等前面的工作完成後再送出。
+
+每題仍使用自回歸生成：處理輸入並產生第一個 token，再逐步產生後續 token。Token 是文字片段，不等於一個中文字；JSON 欄位、數字與標點也會占 token。「步」指解碼步驟，不是思考步驟、題數或 GPU 核心呼叫次數。
+
+先前一筆測量中，最慢的情緒題輸出 26 tokens，所以第一個 token 之後約需 25 次解碼；輸出 100 tokens，則約需 99 次後續解碼。步數隨實際輸出改變，不固定為 25。這是目前未啟用推測解碼時的運作方式。
+
+```text
+單題耗時 ≈ 首 token 等待時間 + (輸出 token 數 − 1) × 平均解碼間隔 + 其他開銷
+五題整體等待 ≈ 最晚完成題目的時間 + 應用與傳輸開銷
+```
+
+五題時間會重疊，不能把步數或生成時間直接相加。較長輸出的題目通常較慢，但提示長度與排程也會影響完成順序。例如以某次實測約 16.5 ms 的 token 間隔估算，100 tokens 的後續解碼約為 `99 × 16.5 = 1633.5 ms`，還要加上首 token 等待與其他開銷；不是固定速度保證。
+
+### 頻寬估算與 Jev 官方速度
+
+[Intel 官方規格](https://www.intel.com/content/www/us/en/products/sku/245797/intel-arc-pro-b70-graphics/specifications.html)列出 Arc Pro B70 的顯示記憶體頻寬為 608 GB/s。若簡化假設每次解碼讀取約 8 GB 的 BF16 權重、完全利用標稱頻寬：
+
+```text
+8 GB ÷ 608 GB/s ≈ 13.16 ms／步
+25 步 × 13.16 ms ≈ 329 ms（約 330 ms）
+```
+
+**這是特定假設下的權重讀取量級估算，不是這張卡固定的物理極限，也不是完整回應時間。** 實際讀取量、快取與批次共用會影響結果；提示處理、KV cache 存取、計算、排程與傳輸等未納入。五題批次可能共用權重讀取，不能再把上式乘以五。換模型、精度、輸出長度或解碼方法都會改變估算，不能據此宣稱硬體已跑滿。
+
+| 數字 | 定義與條件 |
+|---|---|
+| Jev 官方 70–500 ms | 官方公布的端到端時間；測試通常從美國西岸執行，服務也位於當地 |
+| urJev 約 500 ms 上下 | 本機 Qwen3-4B BF16 五題的實測量級，有波動，詳見下方紀錄 |
+| 約 330 ms | 假設每步讀取 8 GB、頻寬 608 GB/s、25 次解碼的理想化權重讀取估算 |
+
+Jev 數字來自 [2026-09-15 官方發布文章](https://typesafe.ai/blog/introducing-system-one-models-and-jev)。官方描述其模型平行產生決策；urJev 則讓多題請求並行，各題仍逐 token 輸出。兩者題目、模型、硬體與測量條件不同，不能視為同等效能或準確度。
+
 ## 最新實測與驗證
 
-最新一輪 0.5 秒挑戰採用正規化融合與平面具名權重輸出：交錯測試中位數 536.5 ms，十次皆未低於 500 ms；穩定性測試約 531–587 ms。**尚未達到穩定 0.5 秒以下**。完整測試、限制及回復方式見 [0.5 秒挑戰紀錄](docs/half-second-experiment.md)。以下保留上一版數據作比較。
+加入驗證器快取後，交錯測試含準備時間的中位數由 578.4 降到 500.0 ms；實際本機 HTTP 五次測量仍為 524–611 ms，尚未穩定低於 500 ms。見[驗證器快取調校](docs/validator-cache-tuning.md)。
+
+準確度調整後，16 筆案例的情緒／退款／續訂 48 項檢查，由 46/48 改善為首次 48/48、重跑 47/48；額外八筆案例由 20/24 改善為 22/24。25 項單元測試通過，但語意測試尚未全對。該輪五題推論測量約 461–563 ms，不含完整瀏覽器往返。詳見[準確度調整紀錄](docs/accuracy-tuning.md)。
+
+### 先前階段的測量
+
+先前的 0.5 秒挑戰採用正規化融合與平面具名權重輸出：交錯測試中位數 536.5 ms，十次皆未低於 500 ms；穩定性測試約 531–587 ms。**尚未達到穩定 0.5 秒以下**。完整測試、限制及回復方式見 [0.5 秒挑戰紀錄](docs/half-second-experiment.md)。以下保留上一版數據作比較。
 
 2026-09-22，同一份五題範例、Qwen3-4B BF16：
 
@@ -154,7 +194,7 @@ node scripts/benchmark-xpu.js verification http://127.0.0.1:18000 8
 node scripts/stress-xpu.js http://127.0.0.1:18000 1,4,8 xpu-verification
 ```
 
-後兩個命令呼叫真實模型，產生或覆寫 `reports/` 的對應結果。已提交的實測快照在 [docs/benchmarks](docs/benchmarks)，目前版本數據見 [xpu-async-production.json](docs/benchmarks/xpu-async-production.json)。
+後兩個命令呼叫真實模型，產生或覆寫 `reports/` 的對應結果。已提交的實測快照在 [docs/benchmarks](docs/benchmarks)，早期非同步版本數據見 [xpu-async-production.json](docs/benchmarks/xpu-async-production.json)。
 
 ## 歷程、替代方案與限制
 
@@ -163,3 +203,11 @@ node scripts/stress-xpu.js http://127.0.0.1:18000 1,4,8 xpu-verification
 - [舊分類／擷取 API](docs/legacy-api.md)：相容介面與原有評測命令。
 
 服務只綁定 localhost，尚無公開部署所需的登入、租戶隔離或用量限制。未整合 Groq／Cerebras，也沒有 LoRA／蒸餾訓練流程。專案開源不等於模型服務已公開部署。
+
+## Cloudflare Tunnel／遠端測試
+
+將 Tunnel 的 hostname 轉送到 http://127.0.0.1:15413，並在 .env 設定 PUBLIC_ORIGIN=https://你的網域，重啟 npm start。此設定只允許該確切 Host 與 Origin，不會信任任意 X-Forwarded-Host。未設定時只允許 localhost。
+
+目前遠端測試網址為 https://ai3.aischool.edu.pl/；Postman 使用 POST https://ai3.aischool.edu.pl/v1/systemone，Content-Type: application/json，Body 同本機 State／Problem。應用目前未實作登入或 API key；允許 Host 並不等於身分驗證，公開網址可被外部呼叫。
+
+ai2 的結構化 API 為 POST https://ai2.aischool.edu.pl/v1/systemone；與 ai3 共用目前 urJev 模型服務。路由與 gateway 快照見 [部署紀錄](deploy/README.md)。

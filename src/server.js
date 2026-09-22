@@ -9,6 +9,8 @@ const files = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/ja
 files['/feedback-example.js'] = ['feedback-example.js', 'text/javascript'];
 files['/json-input.js'] = ['json-input.js', 'text/javascript'];
 export function createApp(engine = createEngine({ backend: process.env.INFERENCE_BACKEND, url: process.env.INFERENCE_BACKEND === 'vllm' ? process.env.VLLM_URL : process.env.OLLAMA_URL, model: process.env.MODEL, timeout: Number(process.env.INFERENCE_TIMEOUT_MS || 120000) })) {
+  const publicOrigin = process.env.PUBLIC_ORIGIN ? new URL(process.env.PUBLIC_ORIGIN).origin : null;
+  const publicHost = publicOrigin ? new URL(publicOrigin).host : null;
   let active = false;
   return http.createServer(async (req, res) => {
     const requestStarted = performance.now();
@@ -17,8 +19,8 @@ export function createApp(engine = createEngine({ backend: process.env.INFERENCE
     const json = (status, data) => { res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }); res.end(JSON.stringify(data)); };
     try {
       const host = req.headers.host || '';
-      if (!/^(127\.0\.0\.1|localhost)(:\d+)?$/.test(host)) return json(403, { error: { code: 'FORBIDDEN_HOST', message: '僅支援本機存取。' } });
-      if (req.headers.origin && req.headers.origin !== `http://${host}`) return json(403, { error: { code: 'FORBIDDEN_ORIGIN', message: '不允許跨來源存取。' } });
+      if (!/^(127\.0\.0\.1|localhost)(:\d+)?$/.test(host) && host !== publicHost) return json(403, { error: { code: 'FORBIDDEN_HOST', message: '此網域未獲允許。' } });
+      if (req.headers.origin && req.headers.origin !== (host === publicHost ? publicOrigin : `http://${host}`)) return json(403, { error: { code: 'FORBIDDEN_ORIGIN', message: '不允許跨來源存取。' } });
       if (req.method === 'GET' && req.url === '/api/health') return json(200, await engine.health());
       if (req.method === 'GET' && req.url === '/api/runtime') return json(200, await engine.runtime());
       if (req.method === 'POST' && ['/api/decide', '/v1/systemone'].includes(req.url)) {
@@ -54,7 +56,7 @@ export function createApp(engine = createEngine({ backend: process.env.INFERENCE
   });
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const port = Number(process.env.PORT || 3210);
+  const port = Number(process.env.PORT || 15413);
   const server = createApp();
   server.listen(port, '127.0.0.1', () => console.log(`urJev → http://127.0.0.1:${port}`));
   server.on('error', error => { console.error(error.message); process.exitCode = 1; });

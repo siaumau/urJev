@@ -30,4 +30,4 @@ if (-not (Test-Path -LiteralPath $jevExe)) {
 $env:OLLAMA_HOST = '127.0.0.1:11435'
 & $jevExe pull qwen2.5:3b
 if ($LASTEXITCODE -ne 0) { throw 'Model download failed.' }
-Write-Host 'Local model ready. Run npm start, then open http://127.0.0.1:3210'
+Write-Host 'Local model ready. Run npm start, then open http://127.0.0.1:15413'

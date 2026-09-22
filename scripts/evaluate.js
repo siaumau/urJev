@@ -1,5 +1,5 @@
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
-const base = process.env.URJEV_URL || 'http://127.0.0.1:3210';
+const base = process.env.URJEV_URL || 'http://127.0.0.1:15413';
 const cases = (await readFile(process.argv[2] || 'examples/eval.jsonl', 'utf8')).trim().split(/\r?\n/).filter(Boolean).map(JSON.parse);
 const task = process.argv[3] ? JSON.parse(await readFile(process.argv[3], 'utf8')) : { mode: 'classify', labels: ['退款申請', '物流查詢', '產品問題'] };
 if (task.mode !== 'classify') throw new Error('Evaluation currently supports classification tasks only.');
