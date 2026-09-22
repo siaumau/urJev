@@ -54,7 +54,7 @@ test('compact parallel inference preserves question and option order with bounde
     peak = Math.max(peak, ++active);
     await new Promise(resolve => setTimeout(resolve, index === 0 ? 30 : 2));
     active--;
-    return { result: { weights: Object.fromEntries(prepared.schema.properties.weights.required.map((key, i) => [key, rows[index][i]])) }, meta: { backend: 'vllm', output_tokens: 10 } };
+    return { result: Object.fromEntries(prepared.schema.required.map((key, i) => [key, rows[index][i]])), meta: { backend: 'vllm', output_tokens: 10 } };
   } }, feedbackExample);
   assert.equal(peak, 5);
   assert.deepEqual(Object.keys(output.answers), Object.keys(feedbackExample.questions));
@@ -84,7 +84,7 @@ test('sixteen questions use at most eight workers and retain ordering', async ()
     peak=Math.max(peak,++active);
     await new Promise(resolve=>setTimeout(resolve,2));
     active--;
-    return {result:{weights:{false:0,true:100}},meta:{}};
+    return {result:{false:0,true:100},meta:{}};
   }},{state:'test',questions});
   assert.equal(peak,8);
   assert.deepEqual(Object.keys(result.answers),Object.keys(questions));
@@ -94,7 +94,7 @@ test('sixteen questions use at most eight workers and retain ordering', async ()
 test('compact output preserves named schema validation', async () => {
   const input = { state: 'text', questions: { x: { type: 'noul', instructions: 'True?' } } };
   for (const weights of [{false:0}, {false:0,true:0}, {false:-1,true:100}, {false:0,true:101}, {false:0,true:100,extra:0}]) {
-    await assert.rejects(systemOne({ backend: 'vllm', infer: async () => ({result:{weights},meta:{}}) }, input), e => e.status === 502);
+    await assert.rejects(systemOne({ backend: 'vllm', infer: async () => ({result:weights,meta:{}}) }, input), e => e.status === 502);
   }
 });
 test('systemone HTTP route accepts problem alias', async t => {

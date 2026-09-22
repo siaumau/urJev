@@ -5,7 +5,7 @@ const input = JSON.parse(await readFile(new URL('../examples/feedback-systemone.
 const engine = createEngine({ backend: 'vllm', timeout: 180000 });
 const reports = [];
 for (const [name, concurrency, compact] of [['baseline',1,false], ['parallel',4,false], ['compact',1,true], ['combined-first',4,true], ['combined-warm',4,true]]) {
-  const result = await systemOne(engine, input, { concurrency, compact });
+  const result = await systemOne(engine, input, { concurrency, compact, flatWeights: false });
   reports.push({ name, result });
   console.log(JSON.stringify({name, ms:result.meta.latency_ms, tokens:result.usage.output_tokens, answers:result.answers}));
   await writeFile(new URL('../reports/systemone-optimization.json', import.meta.url), JSON.stringify(reports, null, 2));

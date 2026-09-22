@@ -1,0 +1,14 @@
+/home/siaumau/.local/share/urjev/vllm-env/lib/python3.12/site-packages/torch/xpu/__init__.py:251: UserWarning: Can't initialize Level Zero Sysman
+  return _enum_zes_device_infos(visible_mask)
+{"name": "rms_norm", "width": 128, "rows": 1, "errors": [0.015625], "passed": true}
+{"name": "rms_norm", "width": 128, "rows": 5, "errors": [0.015625], "passed": true}
+{"name": "rms_norm", "width": 128, "rows": 64, "errors": [0.03125], "passed": true}
+{"name": "rms_norm", "width": 2560, "rows": 1, "errors": [0.0625], "passed": true}
+{"name": "rms_norm", "width": 2560, "rows": 5, "errors": [0.0625], "passed": true}
+{"name": "rms_norm", "width": 2560, "rows": 64, "errors": [0.0625], "passed": true}
+{"name": "fused_add_rms_norm", "width": 128, "rows": 1, "errors": [0.03125, 0.0], "passed": true}
+{"name": "fused_add_rms_norm", "width": 128, "rows": 5, "errors": [0.015625, 0.0], "passed": true}
+{"name": "fused_add_rms_norm", "width": 128, "rows": 64, "errors": [0.03125, 0.0], "passed": true}
+{"name": "fused_add_rms_norm", "width": 2560, "rows": 1, "errors": [0.03125, 0.0], "passed": true}
+{"name": "fused_add_rms_norm", "width": 2560, "rows": 5, "errors": [0.03125, 0.0], "passed": true}
+{"name": "fused_add_rms_norm", "width": 2560, "rows": 64, "errors": [0.0625, 0.0], "passed": true}

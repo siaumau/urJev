@@ -16,7 +16,7 @@
 | Playground | http://127.0.0.1:3210/ |
 | 模型 API | http://127.0.0.1:18000/ |
 | 排程 | 非同步排程、最多八題並行、prefix cache |
-| GPU 執行 | Triton attention、decode-only XPU Graph（batch 1/2/4/8）、native RMSNorm |
+| GPU 執行 | Flash Attention、decode-only XPU Graph（batch 1/2/4/8）、編譯融合的原生 RMSNorm |
 
 這份啟動配置針對上述環境驗證。換用其他 GPU、作業系統或模型時，需要重新檢查相容性與顯存配置。
 
@@ -135,6 +135,8 @@ vLLM 未提供的逐題模型載入、獨立 Prefill、記憶體配置及實際�
 舊 `POST /api/decide` 分類／擷取功能仍保留為 API，不在目前 Playground 顯示；用法見[舊 API 說明](docs/legacy-api.md)。
 
 ## 最新實測與驗證
+
+最新一輪 0.5 秒挑戰採用正規化融合與平面具名權重輸出：交錯測試中位數 536.5 ms，十次皆未低於 500 ms；穩定性測試約 531–587 ms。**尚未達到穩定 0.5 秒以下**。完整測試、限制及回復方式見 [0.5 秒挑戰紀錄](docs/half-second-experiment.md)。以下保留上一版數據作比較。
 
 2026-09-22，同一份五題範例、Qwen3-4B BF16：
 
