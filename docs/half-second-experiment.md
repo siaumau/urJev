@@ -39,3 +39,5 @@
 精選原始紀錄位於 [benchmarks/half-second](benchmarks/half-second)。若要進一步追求穩定低於 500 ms，需要新的實驗，例如量化或推測解碼；它們未在本輪導入，也不能預先保證速度與品質。
 
 切換正式本機服務後，三次 API 測量為 1601、576、705 ms（第一筆包含暖機影響）。實際運行仍有波動，不能將 536.5 ms 視為每次請求的保證。原始資料見 benchmarks/half-second/xpu-fused-production.json。
+
+後續挑戰見 [300–400 ms 實驗](400ms-experiment.md)：曾達到 352 ms，但語意檢查退步，未替換本版。
