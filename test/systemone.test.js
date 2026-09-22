@@ -56,7 +56,7 @@ test('compact parallel inference preserves question and option order with bounde
     active--;
     return { result: { weights: Object.fromEntries(prepared.schema.properties.weights.required.map((key, i) => [key, rows[index][i]])) }, meta: { backend: 'vllm', output_tokens: 10 } };
   } }, feedbackExample);
-  assert.equal(peak, 4);
+  assert.equal(peak, 5);
   assert.deepEqual(Object.keys(output.answers), Object.keys(feedbackExample.questions));
   assert.equal(output.answers.sentiment.choice, 'mixed');
   assert.equal(output.answers.refund_requested.noul, .9);
@@ -75,6 +75,20 @@ test('parallel failure drains active work and stops scheduling remaining questio
   } }, feedbackExample, { concurrency: 2 }), /inference failed/);
   assert.equal(calls, 2);
   assert.equal(drained, true);
+});
+
+test('sixteen questions use at most eight workers and retain ordering', async () => {
+  let active = 0, peak = 0;
+  const questions=Object.fromEntries(Array.from({length:16},(_,i)=>['q'+i,{type:'noul',instructions:'True?'}]));
+  const result=await systemOne({backend:'vllm',infer:async()=>{
+    peak=Math.max(peak,++active);
+    await new Promise(resolve=>setTimeout(resolve,2));
+    active--;
+    return {result:{weights:{false:0,true:100}},meta:{}};
+  }},{state:'test',questions});
+  assert.equal(peak,8);
+  assert.deepEqual(Object.keys(result.answers),Object.keys(questions));
+  for(const concurrency of [0,9,1.5]) await assert.rejects(systemOne({}, {state:'test',questions},{concurrency}),/Concurrency/);
 });
 
 test('compact output preserves named schema validation', async () => {

@@ -39,8 +39,8 @@ export function prepareProblems(input, { compact = false } = {}) {
   });
 }
 
-export async function systemOne(engine, input, { concurrency = engine.backend === 'vllm' ? 4 : 1, compact = engine.backend === 'vllm' } = {}) {
-  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 4) throw new Error('Concurrency must be 1–4');
+export async function systemOne(engine, input, { concurrency = engine.backend === 'vllm' ? 8 : 1, compact = engine.backend === 'vllm' } = {}) {
+  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Concurrency must be 1–8');
   const plans = prepareProblems(input, { compact }); // Validate every question before starting inference.
   const start = performance.now();
   const answers = Object.create(null), metrics = [];

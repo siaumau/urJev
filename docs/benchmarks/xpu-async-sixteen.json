@@ -1,0 +1,485 @@
+{
+  "model": "urjev",
+  "answers": {
+    "q0": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q1": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q2": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q3": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q4": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q5": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q6": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q7": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q8": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q9": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q10": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q11": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q12": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q13": {
+      "type": "noul",
+      "noul": 0.9
+    },
+    "q14": {
+      "type": "noul",
+      "noul": 1
+    },
+    "q15": {
+      "type": "noul",
+      "noul": 0.9
+    }
+  },
+  "usage": {
+    "input_tokens": 5672,
+    "output_tokens": 224
+  },
+  "meta": {
+    "model": "Qwen/Qwen3-4B-Instruct-2507",
+    "backend": "vllm",
+    "schema_valid": true,
+    "latency_ms": 882,
+    "load_ms": null,
+    "output_tokens": 224,
+    "profile": {
+      "model_ms": null,
+      "load_ms": null,
+      "prompt_ms": null,
+      "generation_ms": null,
+      "cached_input_tokens": null,
+      "input_tokens": 5672,
+      "output_tokens": 224,
+      "output_tokens_per_second": null,
+      "per_question": [
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 457,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 141.54187799431384,
+            "generation_time_ms": 254.23386797774583,
+            "queue_time_ms": 0.03428797936066985,
+            "mean_itl_ms": 19.556451382903525,
+            "tokens_per_second": 35.37356733575167,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q0"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 462,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.026233959943056107,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q1"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 451,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.0203549861907959,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q2"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 456,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.017315964214503765,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q3"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 451,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.01479597995057702,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q4"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 458,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.011790951248258352,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q5"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 452,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.00931497197598219,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q6"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 453,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 67.05349200638011,
+            "generation_time_ms": 272.0462520373985,
+            "queue_time_ms": 0.006827001925557852,
+            "mean_itl_ms": 20.92663477210758,
+            "tokens_per_second": 41.28578757698079,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q7"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 403,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 125.66550297196954,
+            "generation_time_ms": 257.3788140434772,
+            "queue_time_ms": 0.00996800372377038,
+            "mean_itl_ms": 19.798370311036706,
+            "tokens_per_second": 36.549295677020666,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q8"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 406,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.0236289924941957,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q9"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 405,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.018068007193505764,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q10"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 403,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.014994991943240166,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q11"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 403,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.012461969163268805,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q12"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 401,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.01007795799523592,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q13"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 399,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.007827009540051222,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 347,
+          "question_id": "q14"
+        },
+        {
+          "model": "Qwen/Qwen3-4B-Instruct-2507",
+          "backend": "vllm",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 397,
+          "vllm_metrics": {
+            "time_to_first_token_ms": 56.55918800039217,
+            "generation_time_ms": 274.3382889893837,
+            "queue_time_ms": 0.005401961971074343,
+            "mean_itl_ms": 21.10294530687567,
+            "tokens_per_second": 42.309177233263014,
+            "speculative_decoding": null
+          },
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "output_tokens_per_second": null,
+          "output_tokens": 14,
+          "input_tokens": 362,
+          "question_id": "q15"
+        }
+      ]
+    },
+    "probability_method": "llm_generated_weights_normalized",
+    "calibrated": false,
+    "confidence_method": "unavailable",
+    "execution": "independent_parallel",
+    "concurrency": 8,
+    "output_format": "compact_weights",
+    "questions": 16,
+    "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+  }
+}

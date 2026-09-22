@@ -10,11 +10,11 @@ export PATH="$jev_env/bin:$PATH"
 export PYTHONPATH="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)${PYTHONPATH:+:$PYTHONPATH}"
 exec "$jev_env/bin/vllm" serve Qwen/Qwen3-4B-Instruct-2507 \
   --host 127.0.0.1 --port 18000 --dtype bfloat16 \
-  --max-model-len 8192 --max-num-seqs 4 --gpu-memory-utilization 0.65 \
+  --max-model-len 8192 --max-num-seqs 8 --gpu-memory-utilization 0.65 \
   --kv-cache-memory-bytes 2147483648 --worker-cls urjev_xpu_worker.WSLXPUWorker \
-  --no-async-scheduling --enable-prefix-caching \
+  --async-scheduling --enable-prefix-caching \
   --attention-config '{"backend":"TRITON_ATTN"}' \
-  --compilation-config '{"mode":0,"custom_ops":["all"],"cudagraph_mode":"FULL_DECODE_ONLY","cudagraph_capture_sizes":[1,2,4]}' \
+  --compilation-config '{"mode":0,"custom_ops":["all"],"cudagraph_mode":"FULL_DECODE_ONLY","cudagraph_capture_sizes":[1,2,4,8]}' \
   --kernel-config '{"ir_op_priority":{"rms_norm":["native"],"fused_add_rms_norm":["native"]}}' \
   --model-impl vllm \
   --enable-per-request-metrics

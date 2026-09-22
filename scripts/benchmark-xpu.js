@@ -15,7 +15,7 @@ for (const [prompt, expected] of [['What is 2+2? Answer with one number.', '4'],
   if (actual !== expected) throw new Error('Arithmetic check failed: ' + JSON.stringify(body));
 }
 for (let i=0;i<3;i++) {
-  const result = await systemOne(engine, input);
+  const result = await systemOne(engine, input, process.argv[4] ? {concurrency:Number(process.argv[4])} : {});
   report.runs.push(result);
   await writeFile(new URL(`../reports/xpu-${name}.json`,import.meta.url),JSON.stringify(report,null,2));
   console.log(JSON.stringify({name,run:i,ms:result.meta.latency_ms,tokens:result.usage.output_tokens,answers:result.answers}));
