@@ -1,0 +1,1794 @@
+[
+  {
+    "text": "教材條理清楚，可是字幕錯字很多。",
+    "expected": [
+      "mixed",
+      false,
+      false
+    ],
+    "actual": [
+      "mixed",
+      false,
+      false
+    ],
+    "checks": [
+      true,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "content",
+          "probabilities": {
+            "technical": 0,
+            "content": 1,
+            "pricing": 0,
+            "service": 0,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "mixed",
+          "probabilities": {
+            "positive": 0.165,
+            "negative": 0.335,
+            "mixed": 0.5,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 1.3499999999999999,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.7,
+            "2": 0.25,
+            "3": 0.05
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1873,
+        "output_tokens": 95
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 591,
+        "load_ms": null,
+        "output_tokens": 95,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1873,
+          "output_tokens": 95,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 531,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 112.21244098851457,
+                "generation_time_ms": 366.7827360332012,
+                "queue_time_ms": 0.021314015612006187,
+                "mean_itl_ms": 15.947075479704399,
+                "tokens_per_second": 50.10488863212903,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 410,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 567,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 56.271530978847295,
+                "generation_time_ms": 427.83080105436966,
+                "queue_time_ms": 0.020238978322595358,
+                "mean_itl_ms": 16.455030809783448,
+                "tokens_per_second": 55.77333182139552,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 27,
+              "input_tokens": 428,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 326,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 56.271530978847295,
+                "generation_time_ms": 182.80540400883183,
+                "queue_time_ms": 0.013922981452196836,
+                "mean_itl_ms": 16.618673091711987,
+                "tokens_per_second": 50.19304769244437,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 311,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 326,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 56.271530978847295,
+                "generation_time_ms": 182.80540400883183,
+                "queue_time_ms": 0.009629002306610346,
+                "mean_itl_ms": 16.618673091711987,
+                "tokens_per_second": 50.19304769244437,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 326,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 456,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 56.271530978847295,
+                "generation_time_ms": 314.60214604157954,
+                "queue_time_ms": 0.0061470200307667255,
+                "mean_itl_ms": 16.558007686398923,
+                "tokens_per_second": 53.92671747609213,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 398,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "我很喜歡老師的教法，但客服的態度令人失望。",
+    "expected": [
+      "mixed",
+      false,
+      false
+    ],
+    "actual": [
+      "negative",
+      false,
+      false
+    ],
+    "checks": [
+      false,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "service",
+          "probabilities": {
+            "technical": 0,
+            "content": 0,
+            "pricing": 0,
+            "service": 1,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "negative",
+          "probabilities": {
+            "positive": 0.3,
+            "negative": 0.5,
+            "mixed": 0.2,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 2,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1883,
+        "output_tokens": 94
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 529,
+        "load_ms": null,
+        "output_tokens": 94,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1883,
+          "output_tokens": 94,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 485,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 52.73837997810915,
+                "generation_time_ms": 412.83470700727776,
+                "queue_time_ms": 0.01935200998559594,
+                "mean_itl_ms": 17.949335087272946,
+                "tokens_per_second": 51.54937145401039,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 412,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 529,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 52.73837997810915,
+                "generation_time_ms": 456.9911279832013,
+                "queue_time_ms": 0.014559016562998295,
+                "mean_itl_ms": 18.279645119328052,
+                "tokens_per_second": 51.00744530954927,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 26,
+              "input_tokens": 430,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 251,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 52.73837997810915,
+                "generation_time_ms": 182.60593299055472,
+                "queue_time_ms": 0.011655036360025406,
+                "mean_itl_ms": 16.600539362777702,
+                "tokens_per_second": 50.98912248454375,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 313,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 251,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 52.73837997810915,
+                "generation_time_ms": 182.60593299055472,
+                "queue_time_ms": 0.00925303902477026,
+                "mean_itl_ms": 16.600539362777702,
+                "tokens_per_second": 50.98912248454375,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 328,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 405,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 52.73837997810915,
+                "generation_time_ms": 336.63587301271036,
+                "queue_time_ms": 0.007266993634402752,
+                "mean_itl_ms": 17.717677526984755,
+                "tokens_per_second": 51.36446451294136,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 400,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "雖然我用手機上課，但操作一切正常，非常滿意。",
+    "expected": [
+      "positive",
+      false,
+      false
+    ],
+    "actual": [
+      "positive",
+      false,
+      false
+    ],
+    "checks": [
+      true,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "service",
+          "probabilities": {
+            "technical": 0,
+            "content": 0,
+            "pricing": 0,
+            "service": 1,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "positive",
+          "probabilities": {
+            "positive": 1,
+            "negative": 0,
+            "mixed": 0,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 0,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 1,
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1893,
+        "output_tokens": 93
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 523,
+        "load_ms": null,
+        "output_tokens": 93,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1893,
+          "output_tokens": 93,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 491,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 102.77525300625712,
+                "generation_time_ms": 375.98068197257817,
+                "queue_time_ms": 0.011063995771110058,
+                "mean_itl_ms": 16.34698617272079,
+                "tokens_per_second": 50.12992685106031,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 414,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 522,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 58.954736974556,
+                "generation_time_ms": 399.20002297731116,
+                "queue_time_ms": 0.013397017028182745,
+                "mean_itl_ms": 16.633334290721297,
+                "tokens_per_second": 54.566714536866215,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 25,
+              "input_tokens": 432,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 292,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 102.77525300625712,
+                "generation_time_ms": 177.95099900104105,
+                "queue_time_ms": 0.017117010429501534,
+                "mean_itl_ms": 16.177363545549184,
+                "tokens_per_second": 42.74626941440457,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 315,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 308,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 58.954736974556,
+                "generation_time_ms": 185.16581802396104,
+                "queue_time_ms": 0.008993025403469801,
+                "mean_itl_ms": 16.833256183996458,
+                "tokens_per_second": 49.156040957193866,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 330,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 441,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 58.954736974556,
+                "generation_time_ms": 317.17434397432953,
+                "queue_time_ms": 0.00574102159589529,
+                "mean_itl_ms": 16.693386524964712,
+                "tokens_per_second": 53.17323496908212,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 402,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "我並不覺得內容實用，影片也很難看。",
+    "expected": [
+      "negative",
+      false,
+      false
+    ],
+    "actual": [
+      "negative",
+      false,
+      false
+    ],
+    "checks": [
+      true,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "content",
+          "probabilities": {
+            "technical": 0,
+            "content": 1,
+            "pricing": 0,
+            "service": 0,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "negative",
+          "probabilities": {
+            "positive": 0,
+            "negative": 1,
+            "mixed": 0,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 1.8,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.3,
+            "2": 0.6,
+            "3": 0.1
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1873,
+        "output_tokens": 94
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 468,
+        "load_ms": null,
+        "output_tokens": 94,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1873,
+          "output_tokens": 94,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 452,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 53.70406399015337,
+                "generation_time_ms": 379.6861019800417,
+                "queue_time_ms": 0.023504020646214485,
+                "mean_itl_ms": 16.508091390436594,
+                "tokens_per_second": 55.377352520847275,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 410,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 467,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 53.70406399015337,
+                "generation_time_ms": 396.4485729811713,
+                "queue_time_ms": 0.01607899321243167,
+                "mean_itl_ms": 16.518690540882137,
+                "tokens_per_second": 55.536717874636224,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 25,
+              "input_tokens": 428,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 254,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 53.70406399015337,
+                "generation_time_ms": 182.88636999204755,
+                "queue_time_ms": 0.011616037227213383,
+                "mean_itl_ms": 16.626033635640688,
+                "tokens_per_second": 50.7205629493151,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 311,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 254,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 53.70406399015337,
+                "generation_time_ms": 182.88636999204755,
+                "queue_time_ms": 0.00868999632075429,
+                "mean_itl_ms": 16.626033635640688,
+                "tokens_per_second": 50.7205629493151,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 326,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 402,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 53.70406399015337,
+                "generation_time_ms": 330.8934210217558,
+                "queue_time_ms": 0.0066140200942754745,
+                "mean_itl_ms": 16.54467105108779,
+                "tokens_per_second": 54.60254114597169,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 21,
+              "input_tokens": 398,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "我只是查詢取消訂閱的步驟，還沒有決定要取消。",
+    "expected": [
+      "neutral",
+      false,
+      false
+    ],
+    "actual": [
+      "neutral",
+      false,
+      false
+    ],
+    "checks": [
+      true,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "service",
+          "probabilities": {
+            "technical": 0,
+            "content": 0,
+            "pricing": 0,
+            "service": 1,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "neutral",
+          "probabilities": {
+            "positive": 0,
+            "negative": 0,
+            "mixed": 0,
+            "neutral": 1,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 0,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 1,
+            "1": 0,
+            "2": 0,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1893,
+        "output_tokens": 93
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 466,
+        "load_ms": null,
+        "output_tokens": 93,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1893,
+          "output_tokens": 93,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 450,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 51.9838830223307,
+                "generation_time_ms": 381.95130199892446,
+                "queue_time_ms": 0.017619982827454805,
+                "mean_itl_ms": 16.606578347779323,
+                "tokens_per_second": 55.30779901801331,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 414,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 465,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 51.9838830223307,
+                "generation_time_ms": 398.12707999954,
+                "queue_time_ms": 0.012371980119496584,
+                "mean_itl_ms": 16.588628333314166,
+                "tokens_per_second": 55.54185979421537,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 25,
+              "input_tokens": 432,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 250,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 51.9838830223307,
+                "generation_time_ms": 183.03859198931605,
+                "queue_time_ms": 0.009414972737431526,
+                "mean_itl_ms": 16.63987199902873,
+                "tokens_per_second": 51.05894659396012,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 315,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 249,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 51.9838830223307,
+                "generation_time_ms": 183.03859198931605,
+                "queue_time_ms": 0.007165013812482357,
+                "mean_itl_ms": 16.63987199902873,
+                "tokens_per_second": 51.05894659396012,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 330,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 382,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 51.9838830223307,
+                "generation_time_ms": 316.0526899737306,
+                "queue_time_ms": 0.005332985892891884,
+                "mean_itl_ms": 16.63435210388056,
+                "tokens_per_second": 54.3424253660085,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 402,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "請把這期費用退還給我，我仍然會續訂下個月。",
+    "expected": [
+      "neutral",
+      true,
+      false
+    ],
+    "actual": [
+      "negative",
+      true,
+      false
+    ],
+    "checks": [
+      false,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "pricing",
+          "probabilities": {
+            "technical": 0,
+            "content": 0,
+            "pricing": 1,
+            "service": 0,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "negative",
+          "probabilities": {
+            "positive": 0,
+            "negative": 0.5,
+            "mixed": 0.5,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 1
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 1,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 1,
+            "2": 0,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1908,
+        "output_tokens": 93
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 466,
+        "load_ms": null,
+        "output_tokens": 93,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1908,
+          "output_tokens": 93,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 450,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 54.24594902433455,
+                "generation_time_ms": 380.03669801400974,
+                "queue_time_ms": 0.0186559627763927,
+                "mean_itl_ms": 16.52333469626129,
+                "tokens_per_second": 55.26354820684548,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 417,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 466,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 54.24594902433455,
+                "generation_time_ms": 396.31566597381607,
+                "queue_time_ms": 0.01324299955740571,
+                "mean_itl_ms": 16.513152748909004,
+                "tokens_per_second": 55.486306795359425,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 25,
+              "input_tokens": 435,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 254,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 54.24594902433455,
+                "generation_time_ms": 183.4023079718463,
+                "queue_time_ms": 0.0106159714050591,
+                "mean_itl_ms": 16.672937088349663,
+                "tokens_per_second": 50.49479491950512,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 318,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 253,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 54.24594902433455,
+                "generation_time_ms": 183.4023079718463,
+                "queue_time_ms": 0.008328002877533436,
+                "mean_itl_ms": 16.672937088349663,
+                "tokens_per_second": 50.49479491950512,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 333,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 384,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 54.24594902433455,
+                "generation_time_ms": 314.7623380064033,
+                "queue_time_ms": 0.006302958354353905,
+                "mean_itl_ms": 16.566438842442277,
+                "tokens_per_second": 54.199324792762795,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 405,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "老師教得很好，如果播放故障繼續發生，我將停止使用。",
+    "expected": [
+      "mixed",
+      false,
+      true
+    ],
+    "actual": [
+      "mixed",
+      false,
+      false
+    ],
+    "checks": [
+      true,
+      true,
+      false
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "technical",
+          "probabilities": {
+            "technical": 1,
+            "content": 0,
+            "pricing": 0,
+            "service": 0,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "mixed",
+          "probabilities": {
+            "positive": 0.25,
+            "negative": 0.25,
+            "mixed": 0.5,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 1.7,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0.3,
+            "2": 0.7,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1888,
+        "output_tokens": 95
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 507,
+        "load_ms": null,
+        "output_tokens": 95,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1888,
+          "output_tokens": 95,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 459,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 64.67006000457332,
+                "generation_time_ms": 379.6118450118229,
+                "queue_time_ms": 0.016349018551409245,
+                "mean_itl_ms": 16.504862826600995,
+                "tokens_per_second": 54.0197557654622,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 413,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 507,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 64.67006000457332,
+                "generation_time_ms": 428.1417889869772,
+                "queue_time_ms": 0.02333102747797966,
+                "mean_itl_ms": 16.466991884114506,
+                "tokens_per_second": 54.787643712809604,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 27,
+              "input_tokens": 431,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 264,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 64.67006000457332,
+                "generation_time_ms": 182.776189991273,
+                "queue_time_ms": 0.012792996130883694,
+                "mean_itl_ms": 16.616017271933906,
+                "tokens_per_second": 48.49538031067933,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 314,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 265,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 64.67006000457332,
+                "generation_time_ms": 182.776189991273,
+                "queue_time_ms": 0.006985035724937916,
+                "mean_itl_ms": 16.616017271933906,
+                "tokens_per_second": 48.49538031067933,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 329,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 393,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 64.67006000457332,
+                "generation_time_ms": 314.02795598842204,
+                "queue_time_ms": 0.009876035619527102,
+                "mean_itl_ms": 16.52778715728537,
+                "tokens_per_second": 52.81252912708667,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 401,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  },
+  {
+    "text": "The lessons are excellent, but the player keeps freezing.",
+    "expected": [
+      "mixed",
+      false,
+      false
+    ],
+    "actual": [
+      "positive",
+      false,
+      false
+    ],
+    "checks": [
+      false,
+      true,
+      true
+    ],
+    "result": {
+      "model": "urjev",
+      "answers": {
+        "main_topic": {
+          "type": "choice",
+          "choice": "technical",
+          "probabilities": {
+            "technical": 1,
+            "content": 0,
+            "pricing": 0,
+            "service": 0,
+            "other": 0
+          },
+          "confidence": null
+        },
+        "sentiment": {
+          "type": "choice",
+          "choice": "positive",
+          "probabilities": {
+            "positive": 0.6,
+            "negative": 0.3,
+            "mixed": 0.1,
+            "neutral": 0,
+            "unclear": 0
+          },
+          "confidence": null
+        },
+        "refund_requested": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_churn_intent": {
+          "type": "noul",
+          "noul": 0
+        },
+        "expressed_frustration": {
+          "type": "score",
+          "score": 1,
+          "legend": {
+            "0": "沒有表達不滿，只是詢問、陳述或肯定",
+            "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+            "2": "明確抱怨問題持續、反覆發生或處理無效",
+            "3": "表達強烈憤怒、斥責或激烈抗議"
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 1,
+            "2": 0,
+            "3": 0
+          },
+          "confidence": null
+        }
+      },
+      "usage": {
+        "input_tokens": 1863,
+        "output_tokens": 94
+      },
+      "meta": {
+        "model": "Qwen/Qwen3-4B-Instruct-2507",
+        "backend": "vllm",
+        "schema_valid": true,
+        "latency_ms": 481,
+        "load_ms": null,
+        "output_tokens": 94,
+        "profile": {
+          "model_ms": null,
+          "load_ms": null,
+          "prompt_ms": null,
+          "generation_ms": null,
+          "cached_input_tokens": null,
+          "input_tokens": 1863,
+          "output_tokens": 94,
+          "output_tokens_per_second": null,
+          "per_question": [
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 449,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 50.07648398168385,
+                "generation_time_ms": 381.69928098795936,
+                "queue_time_ms": 0.015136029105633497,
+                "mean_itl_ms": 16.595620912519973,
+                "tokens_per_second": 55.584407340896874,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 24,
+              "input_tokens": 408,
+              "question_id": "main_topic"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 481,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 50.07648398168385,
+                "generation_time_ms": 414.16490299161524,
+                "queue_time_ms": 0.020599982235580683,
+                "mean_itl_ms": 16.56659611966461,
+                "tokens_per_second": 56.005347066342864,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 26,
+              "input_tokens": 426,
+              "question_id": "sentiment"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 251,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 50.07648398168385,
+                "generation_time_ms": 184.06797799980268,
+                "queue_time_ms": 0.012526987120509148,
+                "mean_itl_ms": 16.73345254543661,
+                "tokens_per_second": 51.250411384698154,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 309,
+              "question_id": "refund_requested"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 251,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 50.07648398168385,
+                "generation_time_ms": 184.06797799980268,
+                "queue_time_ms": 0.009843031875789165,
+                "mean_itl_ms": 16.73345254543661,
+                "tokens_per_second": 51.250411384698154,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 12,
+              "input_tokens": 324,
+              "question_id": "expressed_churn_intent"
+            },
+            {
+              "model": "Qwen/Qwen3-4B-Instruct-2507",
+              "backend": "vllm",
+              "schema_valid": true,
+              "abstained": false,
+              "latency_ms": 383,
+              "vllm_metrics": {
+                "time_to_first_token_ms": 50.07648398168385,
+                "generation_time_ms": 316.9491710141301,
+                "queue_time_ms": 0.007861002814024687,
+                "mean_itl_ms": 16.681535316533164,
+                "tokens_per_second": 54.4921035567067,
+                "speculative_decoding": null
+              },
+              "model_ms": null,
+              "load_ms": null,
+              "prompt_ms": null,
+              "generation_ms": null,
+              "cached_input_tokens": null,
+              "output_tokens_per_second": null,
+              "output_tokens": 20,
+              "input_tokens": 396,
+              "question_id": "expressed_frustration"
+            }
+          ]
+        },
+        "probability_method": "llm_generated_weights_normalized",
+        "calibrated": false,
+        "confidence_method": "unavailable",
+        "execution": "independent_parallel",
+        "concurrency": 8,
+        "output_format": "flat_named_weights",
+        "questions": 5,
+        "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。"
+      }
+    }
+  }
+]

@@ -5,6 +5,24 @@ import { feedbackExample } from '../public/feedback-example.js';
 import { cleanEscapes, parseEditor } from '../public/json-input.js';
 import { createApp } from '../src/server.js';
 
+test('cached validators keep fresh State and distinguish output schemas', () => {
+  const input = { state: 'first', questions: { x: { type: 'choice', instructions: 'Choose', criteria: { a: 'A', b: 'B' } } } };
+  const first = prepareProblems(input, { flatWeights: true })[0].prepared;
+  input.state = 'second';
+  const second = prepareProblems(input, { flatWeights: true })[0].prepared;
+  assert.equal(first.validate, second.validate);
+  assert.equal(JSON.parse(second.messages[1].content).state, 'second');
+  assert.equal(second.validate({ a: 20, b: 80 }), true);
+  assert.equal(second.validate({ a: -1, b: 80 }), false);
+  input.questions.x.criteria = { c: 'C', d: 'D' };
+  const changed = prepareProblems(input, { flatWeights: true })[0].prepared;
+  assert.equal(changed.validate({ a: 20, b: 80 }), false);
+  assert.equal(changed.validate({ c: 20, d: 80 }), true);
+  const wrapped = prepareProblems(input)[0].prepared;
+  assert.equal(wrapped.validate({ c: 20, d: 80 }), false);
+  assert.equal(wrapped.validate({ weights: { c: 20, d: 80 } }), true);
+});
+
 test('user example compiles into five isolated prompts without question IDs', () => {
   const plans = prepareProblems(feedbackExample);
   assert.equal(plans.length, 5);
