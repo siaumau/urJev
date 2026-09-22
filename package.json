@@ -1,0 +1,15 @@
+{
+  "name": "urjev", "version": "0.1.0", "private": true, "type": "module",
+  "description": "Local structured decisions powered by an open-weight model",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "test": "node --test",
+    "evaluate": "node scripts/evaluate.js",
+    "setup:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1",
+    "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-model.ps1",
+    "model:vllm": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1",
+    "model:vllm:safe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1 -Safe"
+  },
+  "dependencies": { "ajv": "^8.17.1" }
+}

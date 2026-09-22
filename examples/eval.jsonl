@@ -1,0 +1,8 @@
+{"text":"我要退貨退款，商品不想要了。","expected":"退款申請"}
+{"text":"可以告訴我包裹現在送到哪裡嗎？","expected":"物流查詢"}
+{"text":"這款耳機有支援藍牙嗎？","expected":"產品問題"}
+{"text":"今天的天氣如何？","expected":"__unknown__"}
+{"text":"商品已經寄回去了，請幫我退款。","expected":"退款申請"}
+{"text":"我的訂單什麼時候會出貨？","expected":"物流查詢"}
+{"text":"這個杯子可以放洗碗機嗎？","expected":"產品問題"}
+{"text":"謝謝，晚安。","expected":"__unknown__"}

@@ -1,0 +1,165 @@
+{
+  "model": "urjev",
+  "answers": {
+    "main_topic": {
+      "type": "choice",
+      "choice": "service",
+      "probabilities": {
+        "technical": 0,
+        "content": 0,
+        "pricing": 0,
+        "service": 1,
+        "other": 0
+      },
+      "confidence": null
+    },
+    "sentiment": {
+      "type": "choice",
+      "choice": "mixed",
+      "probabilities": {
+        "positive": 0.2,
+        "negative": 0.3,
+        "mixed": 0.5,
+        "neutral": 0,
+        "unclear": 0
+      },
+      "confidence": null
+    },
+    "refund_requested": {
+      "type": "noul",
+      "noul": 0.2
+    },
+    "expressed_churn_intent": {
+      "type": "noul",
+      "noul": 0.1
+    },
+    "expressed_frustration": {
+      "type": "score",
+      "score": 1,
+      "legend": {
+        "0": "沒有表達不滿，只是詢問、陳述或肯定",
+        "1": "表達輕微不便或希望改善，沒有強烈抱怨",
+        "2": "明確抱怨問題持續、反覆發生或處理無效",
+        "3": "表達強烈憤怒、斥責或激烈抗議"
+      },
+      "probabilities": {
+        "0": 0,
+        "1": 1,
+        "2": 0,
+        "3": 0
+      },
+      "confidence": null
+    }
+  },
+  "usage": {
+    "input_tokens": 1978,
+    "output_tokens": 140
+  },
+  "meta": {
+    "model": "qwen2.5:1.5b",
+    "backend": "ollama",
+    "schema_valid": true,
+    "latency_ms": 995,
+    "load_ms": 7.781999999999998,
+    "output_tokens": 140,
+    "profile": {
+      "model_ms": 983.9924,
+      "load_ms": 7.781999999999998,
+      "prompt_ms": 31.025,
+      "generation_ms": 710.4129999999999,
+      "cached_input_tokens": 1973,
+      "input_tokens": 1978,
+      "output_tokens": 140,
+      "output_tokens_per_second": 197.06846580791742,
+      "per_question": [
+        {
+          "model": "qwen2.5:1.5b",
+          "backend": "ollama",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 255,
+          "model_ms": 251.9644,
+          "load_ms": 2.0662,
+          "prompt_ms": 6.551,
+          "generation_ms": 186.858,
+          "cached_input_tokens": 430,
+          "output_tokens_per_second": 192.65966669877662,
+          "output_tokens": 36,
+          "input_tokens": 431,
+          "question_id": "main_topic"
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "backend": "ollama",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 251,
+          "model_ms": 247.4709,
+          "load_ms": 1.5487,
+          "prompt_ms": 5.893,
+          "generation_ms": 190.903,
+          "cached_input_tokens": 448,
+          "output_tokens_per_second": 199.05396981713227,
+          "output_tokens": 38,
+          "input_tokens": 449,
+          "question_id": "sentiment"
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "backend": "ollama",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 151,
+          "model_ms": 149.4264,
+          "load_ms": 1.5791,
+          "prompt_ms": 6.711,
+          "generation_ms": 94.414,
+          "cached_input_tokens": 331,
+          "output_tokens_per_second": 190.64969178299827,
+          "output_tokens": 18,
+          "input_tokens": 332,
+          "question_id": "refund_requested"
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "backend": "ollama",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 137,
+          "model_ms": 135.6059,
+          "load_ms": 1.5467,
+          "prompt_ms": 6.034,
+          "generation_ms": 88.66,
+          "cached_input_tokens": 346,
+          "output_tokens_per_second": 203.02278366794496,
+          "output_tokens": 18,
+          "input_tokens": 347,
+          "question_id": "expressed_churn_intent"
+        },
+        {
+          "model": "qwen2.5:1.5b",
+          "backend": "ollama",
+          "schema_valid": true,
+          "abstained": false,
+          "latency_ms": 201,
+          "model_ms": 199.5248,
+          "load_ms": 1.0413,
+          "prompt_ms": 5.836,
+          "generation_ms": 149.578,
+          "cached_input_tokens": 418,
+          "output_tokens_per_second": 200.564254101539,
+          "output_tokens": 30,
+          "input_tokens": 419,
+          "question_id": "expressed_frustration"
+        }
+      ]
+    },
+    "probability_method": "llm_generated_weights_normalized",
+    "calibrated": false,
+    "confidence_method": "unavailable",
+    "execution": "independent_sequential",
+    "questions": 5,
+    "warning": "機率由本地 LLM 產生權重後正規化，並非 token 機率或 Jev 校準機率；confidence 未實作，回傳 null。",
+    "server_ms": 1020.4049999999697
+  }
+}

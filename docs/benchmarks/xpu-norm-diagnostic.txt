@@ -1,0 +1,2 @@
+{"width": 128, "finite": true, "max_error": 0.015625, "unchanged_fraction": 0.0}
+{"width": 2560, "finite": true, "max_error": 131.0, "unchanged_fraction": 0.75}
