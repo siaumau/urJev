@@ -22,7 +22,9 @@ function candidateMoves(board, history) {
   const last = history?.at(-1)?.direction;
   if (!last || moves.length <= 1) return moves;
   const filtered = moves.filter(m => m.direction !== opposite[last]);
-  return filtered.length ? filtered : moves;
+  // The structured choice schema needs at least two alternatives; keep the
+  // reverse move only when filtering would leave a single option.
+  return filtered.length >= 2 ? filtered : moves;
 }
 export function moveBoard(board, direction) {
   const move = legalMoves(board).find(m => m.direction === direction);
