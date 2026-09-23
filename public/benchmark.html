@@ -19,13 +19,16 @@
         <h1>同一批資料，<span>直接比較。</span></h1>
         <p class="sub">100 筆 State、每筆 5 題，共 500 個判斷。兩側同時逐筆執行，記錄瀏覽器端到端時間與實際答案。</p>
       </div>
-      <div class="benchmark-config">
-        <label for="jev-key">Jev API key <small>只保留在本頁記憶體，重新整理即清除</small></label>
-        <input id="jev-key" type="password" autocomplete="off" spellcheck="false" placeholder="輸入 TypeSafe API key">
-        <label for="jev-model">Jev model</label>
-        <input id="jev-model" value="jev-latest" autocomplete="off" spellcheck="false">
-        <p class="key-note">按下雙邊測試後會產生 100 次 Jev API 呼叫並消耗帳戶額度。API key 不會寫入檔案、localStorage 或匯出結果。建議從 localhost 執行；若透過公開網址開啟，key 會經過該網址的 HTTPS 反向代理。</p>
-      </div>
+      <details id="jev-config" class="benchmark-config" open>
+        <summary><span>Jev API 設定</span><small id="jev-config-state">尚未輸入 key</small></summary>
+        <div class="config-fields">
+          <label for="jev-key">Jev API key <small>只保留在本頁記憶體，重新整理即清除</small></label>
+          <input id="jev-key" type="password" autocomplete="off" spellcheck="false" placeholder="輸入 TypeSafe API key">
+          <label for="jev-model">Jev model</label>
+          <input id="jev-model" value="jev-latest" autocomplete="off" spellcheck="false">
+          <p class="key-note">按下雙邊測試後會產生 100 次 Jev API 呼叫並消耗帳戶額度。API key 不會寫入檔案、localStorage 或匯出結果。建議從 localhost 執行；若透過公開網址開啟，key 會經過該網址的 HTTPS 反向代理。</p>
+        </div>
+      </details>
     </section>
 
     <div class="benchmark-actions">

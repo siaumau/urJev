@@ -159,6 +159,10 @@ async function start(providers) {
     $('jev-key').focus();
     return;
   }
+  if (providers.includes('jev')) {
+    $('jev-config').open = false;
+    $('jev-config-state').textContent = '已設定 · 測試進行中';
+  }
   controls(true);
   $('export-results').disabled = true;
   const fresh = {
@@ -169,15 +173,23 @@ async function start(providers) {
   controllers = providers.map(() => new AbortController());
   const settled = await Promise.allSettled(providers.map((provider, index) => runProvider(provider, stats[provider], controllers[index])));
   const errors = settled.filter(item => item.status === 'rejected').map(item => item.reason.message);
+  if (providers.includes('jev')) $('jev-config-state').textContent = '已設定';
   if (errors.length) {
     $('benchmark-error').textContent = errors.join('；');
     $('benchmark-error').hidden = false;
+    if (providers.includes('jev')) {
+      $('jev-config-state').textContent = '請檢查設定';
+      $('jev-config').open = true;
+    }
   }
   exportData = { created_at: new Date().toISOString(), dataset: 'feedback-calibration-100-v2', model: $('jev-model').value.trim() || 'jev-latest', providers: stats };
   $('export-results').disabled = false;
   controls(false);
 }
 
+$('jev-key').addEventListener('input', event => {
+  $('jev-config-state').textContent = event.target.value.trim() ? '已輸入 key' : '尚未輸入 key';
+});
 $('run-local').onclick = () => start(['urjev']);
 $('run-both').onclick = () => start(['urjev', 'jev']);
 $('stop').onclick = () => controllers.forEach(controller => controller.abort());
