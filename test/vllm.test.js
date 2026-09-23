@@ -68,9 +68,9 @@ test('OneForward keeps one-token semantic labels and replaces multi-token candid
   const engine = createEngine({ backend: 'vllm', fetchImpl: async (_url, options) => {
     calls++;
     const prompt = JSON.parse(options.body).prompt;
-    return new Response(JSON.stringify(prompt === 'unclear' ? { count: 2, tokens: [1, 2] } : { count: 1, tokens: [prompt === 'positive' ? 10 : prompt === 'A' ? 12 : 11] }));
+    return new Response(JSON.stringify(prompt === 'unclear' ? { count: 2, tokens: [1, 2] } : { count: 1, tokens: [prompt === 'positive' ? 10 : prompt === 'unknown' ? 12 : 11] }));
   } });
-  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'A'], tokenIds: [10, 12] });
-  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'A'], tokenIds: [10, 12] });
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'unknown'], tokenIds: [10, 12] });
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'unknown'], tokenIds: [10, 12] });
   assert.equal(calls, 3);
 });

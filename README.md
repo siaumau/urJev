@@ -186,6 +186,8 @@ OneForward 與 Jev 對齊的是封閉候選、沒有自由文字、直接取候�
 
 後續機率校準已建立 100 筆可重現合成資料，每筆包含 State、完整 Problem 與五題標註答案，並固定分成 60／20／20 的 calibration、validation、test。實測 500 個判斷後，OneForward 準確率為 76.2%，產生式基準為 80.0%；p50 延遲為 123 ms 對 490 ms。Temperature scaling 將 OneForward test ECE 由 0.2029 降至 0.0817，但不會改變 78.0% 的 test accuracy。資料與重建方式見[資料集說明](datasets/README.md)，完整結果見[100 筆準確率與校準基準](docs/benchmarks/calibration-accuracy-2026-09-23.md)，後續方法見[校準計畫](docs/calibration-plan.md)。合成資料用來開發管線，不能單獨證明真實流量已校準。
 
+分類邊界調整時，較長 instructions 與固定混合路由都在另一份資料上退步，因此沒有部署。保留的修改只有 unclear → 單 token unknown 語意別名：既有 500 個判斷小幅升至 76.4%，NLL 由 3.9407 降至 3.5379，p50 為 115 ms。新的 40 筆 holdout 為 88.5%、p50 119 ms；兩份合成資料差距代表準確率會隨資料分布變動。詳見[分類邊界調整與獨立 Holdout](docs/benchmarks/accuracy-boundary-tuning-2026-09-23.md)。
+
 加入驗證器快取後，交錯測試含準備時間的中位數由 578.4 降到 500.0 ms；實際本機 HTTP 五次測量仍為 524–611 ms，尚未穩定低於 500 ms。見[驗證器快取調校](docs/validator-cache-tuning.md)。
 
 準確度調整後，16 筆案例的情緒／退款／續訂 48 項檢查，由 46/48 改善為首次 48/48、重跑 47/48；額外八筆案例由 20/24 改善為 22/24。25 項單元測試通過，但語意測試尚未全對。該輪五題推論測量約 461–563 ms，不含完整瀏覽器往返。詳見[準確度調整紀錄](docs/accuracy-tuning.md)。

@@ -38,6 +38,8 @@ urJev 新增 `/v1/systemone/oneforward`。它保留 State、Problem 與 `choice`
 
 目前 temperature 只寫入本機評估報告，沒有佈署至 API，因為樣本少且全為合成資料。
 
+後續邊界調整顯示，增加規則與固定混合路由都會在另一份資料上退步，因此未部署。唯一保留的是把無法單 token 化的 unclear 映射為語意相近的單 token unknown；既有 500 個判斷由 76.2% 小幅升至 76.4%，NLL 由 3.9407 改善至 3.5379。新的 40 筆 holdout 為 88.5%，但結果差距也顯示合成資料分布對準確率影響很大。詳見[分類邊界調整與獨立 Holdout](benchmarks/accuracy-boundary-tuning-2026-09-23.md)。
+
 ## 後續實作
 
 1. 收集真實匿名或人工獨立撰寫的資料，重點審查 sentiment 的 neutral／unclear 與 mixed 界線。

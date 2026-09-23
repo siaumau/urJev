@@ -10,6 +10,7 @@
     "evaluate:calibration-data": "node scripts/evaluate-calibration-dataset.js",
     "calibrate:report": "node scripts/fit-temperature.js",
     "dataset:calibration": "node scripts/generate-calibration-dataset.js",
+    "dataset:holdout": "node scripts/generate-feedback-holdout.js",
     "setup:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1",
     "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-model.ps1",
     "model:vllm": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1",

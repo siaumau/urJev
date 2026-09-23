@@ -18,6 +18,16 @@
 
 五題合計有 500 個標註值。資料涵蓋五種主題、五種情緒、退款與續訂正反例，以及四個 frustration 等級。
 
+## 獨立 Holdout
+
+feedback-holdout-40.jsonl 是第二批獨立撰寫的 40 筆案例，共 200 個答案，用來檢查調整是否只適用於原本的模板資料。
+
+~~~powershell
+npm run dataset:holdout
+~~~
+
+目前 SHA-256：6A34F3E97727E870099740F732DE6978ABA1DAF921CA35D13D98CBEA06CF6234。這批資料已完成第一次評估並查看結果，後續不能再視為完全未見資料。結果見[分類邊界調整與獨立 Holdout](../docs/benchmarks/accuracy-boundary-tuning-2026-09-23.md)。
+
 ## 重新產生
 
 ```powershell
@@ -34,6 +44,13 @@ npm run dataset:calibration
 npm run evaluate:calibration-data
 npm run calibrate:report
 ```
+
+只測試特定 split 或資料檔：
+
+~~~powershell
+npm run evaluate:calibration-data -- --split=validation --oneforward-only
+npm run evaluate:calibration-data -- --dataset=datasets/feedback-holdout-40.jsonl --oneforward-only
+~~~
 
 評估會分別跑 OneForward 與產生式基準，需要本機 vLLM 服務已啟動。完整結果寫入本機 `reports/calibration-dataset-evaluation.json`；已確認的基準摘要收錄在 [`docs/benchmarks/calibration-accuracy-2026-09-23.md`](../docs/benchmarks/calibration-accuracy-2026-09-23.md)。
 

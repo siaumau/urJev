@@ -196,6 +196,7 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
       return detail;
     };
     const details = await Promise.all(keys.map(tokenDetail));
+    const semanticAliases = { unclear: ['unknown'] };
     const usedTokenIds = new Set();
     const labels = [];
     const tokenIds = [];
@@ -204,7 +205,7 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
       let detail = details[index];
       if (!detail.single || usedTokenIds.has(detail.token)) {
         label = null;
-        for (const fallback of 'ABCDEFGHIJ') {
+        for (const fallback of [...(semanticAliases[key] ?? []), ...'ABCDEFGHIJ']) {
           if (keys.includes(fallback)) continue;
           const candidate = await tokenDetail(fallback);
           if (candidate.single && !usedTokenIds.has(candidate.token)) {

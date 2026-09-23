@@ -25,3 +25,13 @@ test('synthetic calibration dataset has 100 unique valid labeled tasks', async (
     assert.equal(Number.isInteger(row.expected.expressed_frustration) && row.expected.expressed_frustration >= 0 && row.expected.expressed_frustration <= 3, true);
   }
 });
+
+test('independent feedback holdout has 40 unique labeled tasks', async () => {
+  const text = await readFile(new URL('../datasets/feedback-holdout-40.jsonl', import.meta.url), 'utf8');
+  const rows = text.trim().split(/\r?\n/).map(JSON.parse);
+  assert.equal(rows.length, 40);
+  assert.equal(new Set(rows.map(row => row.id)).size, 40);
+  assert.equal(new Set(rows.map(row => row.state.feedback.text)).size, 40);
+  assert.equal(rows.every(row => row.split === 'holdout' && row.source === 'synthetic_manual_holdout_v1'), true);
+  assert.equal(rows.every(row => prepareOneForwardProblems({ state: row.state, problem: row.problem }).length === 5), true);
+});

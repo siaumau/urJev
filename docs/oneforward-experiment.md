@@ -9,7 +9,7 @@
 ## 做法
 
 1. 驗證 State、Problem 與每題 criteria。
-2. 使用 vLLM tokenizer 檢查答案 key。可安全表示為唯一單 token 時直接使用語意 key；其餘選項使用 A–J。
+2. 使用 vLLM tokenizer 檢查答案 key。可安全表示為唯一單 token 時直接使用語意 key；已知語意別名（目前 unclear → unknown）優先於無語意的 A–J fallback。
 3. 將唯一 token ID 交給 vLLM `allowed_token_ids` 與 `logprob_token_ids`，設定 `max_tokens: 1`、`logprobs: true`。這可避免同一文字的其他 token 切法擠掉候選標籤。
 4. 從候選 token logprobs 做限定 softmax，再映射回原始 key。
 5. Choice 取 argmax；Noul 回傳 P(true)；Score 計算等級期望值。
@@ -45,6 +45,8 @@ npm test
 ```
 
 另一次 100 筆、500 個標註判斷的完整比較中，OneForward 準確率為 76.2%，產生式基準為 80.0%；延遲 p50 分別為 123 ms 與 490 ms。詳見 [100 筆準確率與校準基準](benchmarks/calibration-accuracy-2026-09-23.md)。
+
+加入單 token 語意別名後，既有 500 個判斷為 76.4%、p50 115 ms；另一批 40 筆獨立合成 holdout 為 88.5%、p50 119 ms。資料分布不同，不能把 88.5% 當成固定產品準確率。調整紀錄見[分類邊界調整與獨立 Holdout](benchmarks/accuracy-boundary-tuning-2026-09-23.md)。
 
 實際使用：
 
