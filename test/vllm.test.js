@@ -35,3 +35,41 @@ test('vLLM keeps per-request metrics separate from Ollama timing definitions', a
   assert.equal(meta.prompt_ms, null);
   assert.equal(meta.output_tokens_per_second, null);
 });
+
+test('vLLM OneForward requests one constrained label and normalizes its logprobs', async () => {
+  let request;
+  const engine = createEngine({ backend: 'vllm', fetchImpl: async (_url, options) => {
+    request = JSON.parse(options.body);
+    return new Response(JSON.stringify({
+      choices: [{ message: { content: 'B' }, finish_reason: 'stop', logprobs: { content: [{ token: 'B', logprob: -0.1, top_logprobs: [{ token: 'B', logprob: -0.1 }, { token: 'A', logprob: -2.1 }] }] } }],
+      usage: { prompt_tokens: 20, completion_tokens: 1 }
+    }));
+  } });
+  const output = await engine.inferLabels({ messages: [{ role: 'user', content: 'test' }], labels: ['A', 'B'] });
+  assert.equal(request.max_tokens, 1);
+  assert.equal(request.logprobs, true);
+  assert.equal(request.top_logprobs, 20);
+  assert.deepEqual(request.structured_outputs.choice, ['A', 'B']);
+  assert.ok(Math.abs(output.probabilities.A + output.probabilities.B - 1) < 1e-12);
+  assert.ok(output.probabilities.B > output.probabilities.A);
+  assert.equal(output.meta.selected_label, 'B');
+  assert.equal(output.meta.output_tokens, 1);
+});
+
+test('OneForward refuses incomplete label logprobs and non-vLLM backends', async () => {
+  const incomplete = createEngine({ backend: 'vllm', fetchImpl: async () => new Response(JSON.stringify({ choices: [{ message: { content: 'A' }, logprobs: { content: [{ top_logprobs: [{ token: 'A', logprob: 0 }] }] } }] })) });
+  await assert.rejects(incomplete.inferLabels({ messages: [], labels: ['A', 'B'] }), error => error.code === 'INVALID_LABEL_LOGPROBS');
+  await assert.rejects(createEngine().inferLabels({ messages: [], labels: ['A', 'B'] }), error => error.code === 'ONEFORWARD_UNSUPPORTED');
+});
+
+test('OneForward keeps one-token semantic labels and replaces multi-token candidates', async () => {
+  let calls = 0;
+  const engine = createEngine({ backend: 'vllm', fetchImpl: async (_url, options) => {
+    calls++;
+    const prompt = JSON.parse(options.body).prompt;
+    return new Response(JSON.stringify(prompt === 'unclear' ? { count: 2, tokens: [1, 2] } : { count: 1, tokens: [prompt === 'positive' ? 10 : 11] }));
+  } });
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), ['positive', 'A']);
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), ['positive', 'A']);
+  assert.equal(calls, 2);
+});

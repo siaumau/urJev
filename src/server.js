@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { createEngine, JevError } from './engine.js';
-import { systemOne } from './systemone.js';
+import { systemOne, systemOneOneForward } from './systemone.js';
 
 const files = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'] };
 files['/feedback-example.js'] = ['feedback-example.js', 'text/javascript'];
@@ -23,7 +23,7 @@ export function createApp(engine = createEngine({ backend: process.env.INFERENCE
       if (req.headers.origin && req.headers.origin !== (host === publicHost ? publicOrigin : `http://${host}`)) return json(403, { error: { code: 'FORBIDDEN_ORIGIN', message: '不允許跨來源存取。' } });
       if (req.method === 'GET' && req.url === '/api/health') return json(200, await engine.health());
       if (req.method === 'GET' && req.url === '/api/runtime') return json(200, await engine.runtime());
-      if (req.method === 'POST' && ['/api/decide', '/v1/systemone'].includes(req.url)) {
+      if (req.method === 'POST' && ['/api/decide', '/v1/systemone', '/v1/systemone/oneforward'].includes(req.url)) {
         if (!req.headers['content-type']?.startsWith('application/json')) throw new JevError(415, 'CONTENT_TYPE', '請使用 application/json。');
         let size = 0;
         const chunks = [];
@@ -37,7 +37,7 @@ export function createApp(engine = createEngine({ backend: process.env.INFERENCE
         if (active) throw new JevError(429, 'BUSY', '模型正在處理其他請求，請稍後重試。');
         active = true;
         try {
-          const result = await (req.url === '/v1/systemone' ? systemOne(engine, body) : engine.decide(body));
+          const result = await (req.url === '/v1/systemone' ? systemOne(engine, body) : req.url === '/v1/systemone/oneforward' ? systemOneOneForward(engine, body) : engine.decide(body));
           const serverMs = performance.now() - requestStarted;
           result.meta = { ...result.meta, server_ms: serverMs };
           res.setHeader('Server-Timing', `app;dur=${serverMs.toFixed(2)}`);

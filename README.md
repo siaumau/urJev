@@ -107,8 +107,9 @@ npm run model:vllm:safe
 
 1. **State**：填入待分析的 JSON，例如客服回饋；普通文字需包成 JSON 字串。
 2. **Problem**：填入具名問題物件，直接使用 `main_topic` 等欄位，不需再包一層 `questions`。
-3. 按「執行判斷」，或使用 Ctrl／⌘＋Enter。
-4. 每張卡片預設收合，右側顯示答案；點開查看規則與各選項權重。
+3. 推論模式預設為 **OneForward 快速模式**；需要比較時可切換為「產生式基準」。
+4. 按「執行判斷」，或使用 Ctrl／⌘＋Enter。
+5. 每張卡片預設收合，右側顯示答案；點開查看規則與各選項權重。
 
 首頁預載五題課程平台回饋範例，也可按「載入你的回饋範例」。完整資料見 [examples/feedback-systemone.json](examples/feedback-systemone.json)。支援匯出／匯入 State 與 Problem；貼上內容有 `&#x20;` 或 `\_` 造成 JSON 無效時，可按「清理貼上轉義」。
 
@@ -118,11 +119,13 @@ npm run model:vllm:safe
 | `noul` | 是／否問題，criteria 可省略 | 「是」的 0–1 估計值 |
 | `score` | criteria 為依序排列的等級陣列 | 從 0 開始的等級加權分數 |
 
-「傾向是／否」以 60%／40% 為介面門檻。權重來自模型文字輸出後正規化，未校準、不是 token 機率；`confidence` 為 null。**格式通過驗證不代表答案正確。** 已知範例情緒題仍可能選 negative，依規則應為 mixed。
+「傾向是／否」以 60%／40% 為介面門檻。OneForward 顯示的是候選 label token logits 的限定 softmax；產生式基準則是模型文字輸出的權重正規化。兩者都尚未校準，`confidence` 為 null。**格式通過驗證不代表答案正確。**
 
 ## API 與效能明細
 
 `POST /v1/systemone` 接受 `{state, problem}` 或 `{state, questions}`，兩種問題欄位不可並存。回傳 `answers`、`usage`、`meta`。可選 `model` 欄位僅接受 `urjev`；實際模型由伺服器 `.env` 決定。
+
+`POST /v1/systemone/oneforward` 接受相同輸入並回傳相同 answer 型別。它把每個選項轉成唯一的單 token 語意標籤；不能安全單 token 化時才使用 A–J。vLLM 只輸出一個 label 並回傳候選 logprobs，因此每題只需一個解碼步。此實驗端點每題最多 10 個選項。
 
 單次最多 16 題，choice 最多 32 選項、score 最多 10 等級；每題提示上限 7,000 UTF-8 bytes。vLLM 最多八題並行，回應保持原問題順序。任一題失敗會等待在途工作結束再回錯誤，不回傳部分成功。
 
@@ -134,7 +137,7 @@ vLLM 未提供的逐題模型載入、獨立 Prefill、記憶體配置及實際�
 
 舊 `POST /api/decide` 分類／擷取功能仍保留為 API，不在目前 Playground 顯示；用法見[舊 API 說明](docs/legacy-api.md)。
 
-## 五題並行與解碼步數
+## 產生式基準：五題並行與解碼步數
 
 目前是「題目之間並行，每題內部逐 token 生成」。五題各自組成獨立提示與模型請求，同時送到 vLLM；應用層並行上限為八題。vLLM 將可執行的序列安排成 GPU 批次，共用同一張 GPU，並不是每題各占一張卡。超過八題時，後面的題目等前面的工作完成後再送出。
 
@@ -163,12 +166,23 @@ vLLM 未提供的逐題模型載入、獨立 Prefill、記憶體配置及實際�
 | 數字 | 定義與條件 |
 |---|---|
 | Jev 官方 70–500 ms | 官方公布的端到端時間；測試通常從美國西岸執行，服務也位於當地 |
+| urJev OneForward p50 117 ms | 本機 24 筆五題測試的伺服器推論中位數；範圍 67–198 ms |
 | urJev 約 500 ms 上下 | 本機 Qwen3-4B BF16 五題的實測量級，有波動，詳見下方紀錄 |
 | 約 330 ms | 假設每步讀取 8 GB、頻寬 608 GB/s、25 次解碼的理想化權重讀取估算 |
 
 Jev 數字來自 [2026-09-15 官方發布文章](https://typesafe.ai/blog/introducing-system-one-models-and-jev)。官方描述其模型平行產生決策；urJev 則讓多題請求並行，各題仍逐 token 輸出。兩者題目、模型、硬體與測量條件不同，不能視為同等效能或準確度。
 
 ## 最新實測與驗證
+
+### OneForward Jev-style 實驗（2026-09-23）
+
+![目前產生式流程](docs/diagrams/current-autoregressive-flow.svg)
+
+![OneForward 調整流程](docs/diagrams/oneforward-jev-aligned-flow.svg)
+
+相同的 Qwen3-4B BF16 與五題輸入，暖機後產生式基準實測 665 ms／94 輸出 tokens；OneForward 實測 127–167 ms／5 輸出 tokens。24 筆案例共 72 個情緒、退款、續訂判定全部符合預期；推論延遲 p50 117 ms、p95 176 ms、範圍 67–198 ms。30 項程式測試通過。這是小型 smoke set，不能代表未見資料的整體準確率。
+
+OneForward 與 Jev 對齊的是封閉候選、沒有自由文字、直接取候選分布與批次推論；它沒有複製 Jev 未公開的模型架構、平行 sampler、RLCD 或 confidence 校準。詳細方法、限制與重跑命令見 [OneForward 實驗紀錄](docs/oneforward-experiment.md)。
 
 加入驗證器快取後，交錯測試含準備時間的中位數由 578.4 降到 500.0 ms；實際本機 HTTP 五次測量仍為 524–611 ms，尚未穩定低於 500 ms。見[驗證器快取調校](docs/validator-cache-tuning.md)。
 
@@ -205,6 +219,87 @@ node scripts/stress-xpu.js http://127.0.0.1:18000 1,4,8 xpu-verification
 服務只綁定 localhost，尚無公開部署所需的登入、租戶隔離或用量限制。未整合 Groq／Cerebras，也沒有 LoRA／蒸餾訓練流程。專案開源不等於模型服務已公開部署。
 
 ## Cloudflare Tunnel／遠端測試
+
+### 目前各服務的用途
+
+| Port | 服務 | 啟動位置／外網入口 |
+|---|---|---|
+| `18000` | Qwen3＋vLLM 模型 | Ubuntu WSL，提供 urJev 推論 |
+| `15413` | urJev 網頁與結構化 API | 本專案，`https://ai3.aischool.edu.pl/` |
+| `15412` | ai2 API gateway | `first_llm_arc` 專案，`https://ai2.aischool.edu.pl/v1/systemone` |
+| `15415` | 原 ARC Workspace／Qwen adapter | 只有使用 gateway 的舊 Qwen／workspace 路由時才需要；urJev 不依賴它 |
+
+```text
+ai2 → Cloudflare Tunnel → 15412 gateway → 15413 urJev → 18000 vLLM
+ai3 → Cloudflare Tunnel → 15413 urJev → 18000 vLLM
+```
+
+`npm start` 只啟動 15413，不會同時啟動 gateway、模型或 Tunnel。下列是此電腦已安裝環境的手動啟動方式；重開機後需重新啟動，不能假設這些終端服務會自動恢復。若對應 port 已在監聽，不要重複啟動。
+
+### 啟動順序：各開一個 PowerShell 終端
+
+先確認本專案 `.env` 有以下設定（保留其他模型設定）：
+
+```dotenv
+PORT=15413
+PUBLIC_ORIGIN=https://ai3.aischool.edu.pl
+```
+
+**終端一：模型服務 18000**，等待模型載入與服務啟動完成。
+
+```powershell
+cd F:\sideproject\urJev
+npm run model:vllm
+```
+
+**終端二：urJev 15413**。
+
+```powershell
+cd F:\sideproject\urJev
+npm start
+```
+
+**終端三：ai2 gateway 15412**。這裡使用另一專案已安裝的 Python 環境，必須切到該專案才能載入 `app.gateway`。
+
+```powershell
+cd F:\sideproject\first_llm_arc
+& .\.venv\Scripts\python.exe -m uvicorn app.gateway:app --host 127.0.0.1 --port 15412
+```
+
+實際 gateway 檔案是 `F:\sideproject\first_llm_arc\app\gateway.py`。本 repository 的 [deploy/ai2-gateway.py](deploy/ai2-gateway.py) 只是部署快照，不會因 `git pull` 自動更新實際執行檔；換電腦時也需要另行準備 Python 相依套件及 gateway。
+
+**終端四：Cloudflare Tunnel**，如果現有 Tunnel 已在執行則跳過。
+
+```powershell
+& 'C:\Program Files (x86)\cloudflared\cloudflared.exe' tunnel --no-autoupdate run --token-file 'F:\sideproject\first_llm_arc\data\cloudflare-token.txt'
+```
+
+此命令使用既有 Tunnel token 檔案，不會建立或修改 Cloudflare hostname 路由。Cloudflare 端應維持 `ai2` → `http://127.0.0.1:15412`、`ai3` → `http://127.0.0.1:15413`。Token 檔案不在 repository 中，請勿提交其內容。
+
+### 確認服務與測試 API
+
+```powershell
+Get-NetTCPConnection -State Listen -LocalPort 18000,15413,15412 -ErrorAction SilentlyContinue
+Invoke-RestMethod http://127.0.0.1:15413/api/health
+Invoke-RestMethod http://127.0.0.1:15412/
+Invoke-RestMethod https://ai3.aischool.edu.pl/api/health
+
+# 外網完整五題推論測試
+$jevBody = Get-Content -Raw -Encoding UTF8 F:\sideproject\urJev\examples\feedback-systemone.json
+Invoke-RestMethod -Method Post -Uri https://ai2.aischool.edu.pl/v1/systemone -ContentType 'application/json; charset=utf-8' -Body ([Text.Encoding]::UTF8.GetBytes($jevBody))
+```
+
+15413 的 health 應為 `ready: true`、`backend: vllm`；15412 首頁應顯示 `urJev structured decision API`。最後的 POST 應回傳 `answers`、`usage`、`meta`。瀏覽器開啟 https://ai3.aischool.edu.pl/；Postman 使用 `POST https://ai2.aischool.edu.pl/v1/systemone`、No Auth、raw JSON Body。
+
+### 停止與常見問題
+
+在要停止的服務終端按 Ctrl+C。建議先停止 gateway，再停止 urJev，最後停止模型；Tunnel 若也供其他服務使用，不需隨 urJev 一起停止。停止 15413 不會自動停止 15412 或 18000。
+
+- `address already in use`：該 port 已有服務，用上方監聽查詢確認，避免重複啟動。
+- `FORBIDDEN_HOST`：確認 `PUBLIC_ORIGIN` 是正確 HTTPS 網域，修改 `.env` 後重啟 15413。
+- `ready: false`：先確認 18000 模型服務已啟動完成。
+- gateway 回傳 `MODEL_OFFLINE`：確認 15413 已啟動；模型未就緒也可能由 urJev 回傳此錯誤。
+- 本機正常但外網失敗：確認 Tunnel 正在執行，以及 Cloudflare 路由目標 port 正確。
 
 將 Tunnel 的 hostname 轉送到 http://127.0.0.1:15413，並在 .env 設定 PUBLIC_ORIGIN=https://你的網域，重啟 npm start。此設定只允許該確切 Host 與 Origin，不會信任任意 X-Forwarded-Host。未設定時只允許 localhost。
 

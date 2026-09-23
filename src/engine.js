@@ -76,6 +76,7 @@ export function prepare(input) {
 export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'http://127.0.0.1:18000' : 'http://127.0.0.1:11435', model = backend === 'vllm' ? 'Qwen/Qwen3-4B-Instruct-2507' : 'qwen2.5:3b', timeout = 120000, fetchImpl = fetch } = {}) {
   if (!['ollama', 'vllm'].includes(backend)) throw new Error('Unsupported inference backend');
   const base = url.replace(/\/$/, '');
+  const tokenLabelCache = new Map();
   async function health() {
     try {
       const response = await fetchImpl(`${base}${backend === 'vllm' ? '/v1/models' : '/api/tags'}`, { signal: AbortSignal.timeout(3000) });
@@ -132,5 +133,76 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
       output_tokens: body.usage?.completion_tokens ?? body.eval_count ?? null, input_tokens: body.usage?.prompt_tokens ?? body.prompt_eval_count ?? null
     } };
   }
-  return { backend, decide, health, infer, runtime };
+  async function inferLabels(prepared) {
+    if (backend !== 'vllm') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', 'OneForward 實驗目前僅支援 vLLM。');
+    const { messages, labels } = prepared;
+    if (!Array.isArray(labels) || labels.length < 2 || labels.length > 10 || labels.some(label => typeof label !== 'string' || !label.length)) bad('OneForward labels 需要 2–10 個非空白標籤。');
+    if (Buffer.byteLength(JSON.stringify(messages), 'utf8') > 7000) bad('單題提示超過 7,000 UTF-8 bytes，請縮短 State 或問題。');
+    const start = performance.now();
+    let response;
+    try {
+      response = await fetchImpl(`${base}/v1/chat/completions`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout),
+        body: JSON.stringify({
+          model, messages, stream: false, temperature: 0, seed: 42, max_tokens: 1,
+          // Some choices have alternate prefix tokenizations (for example "neg" +
+          // "ative") that also occupy the constrained top-k list. Request the
+          // API maximum so every preferred one-token label remains observable.
+          logprobs: true, top_logprobs: 20,
+          structured_outputs: { choice: labels }
+        })
+      });
+    } catch (error) {
+      if (error.name === 'TimeoutError' || error.name === 'AbortError') throw new JevError(504, 'MODEL_TIMEOUT', '模型逾時；可縮短輸入，或提高 INFERENCE_TIMEOUT_MS。');
+      throw new JevError(503, 'MODEL_OFFLINE', '無法連線至 vLLM；請先執行 npm run model:vllm。');
+    }
+    let body;
+    try { body = await response.json(); } catch { throw new JevError(502, 'BACKEND_ERROR', '模型服務回傳無效資料。'); }
+    if (!response.ok) throw new JevError(502, 'BACKEND_ERROR', 'vLLM 拒絕 OneForward 請求，請檢查模型服務日誌。');
+    const tokenLogprobs = body.choices?.[0]?.logprobs?.content?.[0]?.top_logprobs;
+    if (!Array.isArray(tokenLogprobs)) throw new JevError(502, 'INVALID_LABEL_LOGPROBS', 'vLLM 未回傳候選標籤的 token logprobs。');
+    const byLabel = new Map();
+    for (const item of tokenLogprobs) {
+      const label = typeof item?.token === 'string' ? item.token.trim() : '';
+      if (labels.includes(label) && Number.isFinite(item.logprob)) byLabel.set(label, item.logprob);
+    }
+    if (labels.some(label => !byLabel.has(label))) throw new JevError(502, 'INVALID_LABEL_LOGPROBS', 'vLLM 未回傳所有候選標籤的 token logprobs；無法安全比較。');
+    const peak = Math.max(...labels.map(label => byLabel.get(label)));
+    const weights = labels.map(label => Math.exp(byLabel.get(label) - peak));
+    const total = weights.reduce((sum, value) => sum + value, 0);
+    const probabilities = Object.fromEntries(labels.map((label, index) => [label, weights[index] / total]));
+    return { probabilities, meta: {
+      model, backend, schema_valid: true, latency_ms: Math.round(performance.now() - start),
+      vllm_metrics: body.metrics ?? null, model_ms: null, load_ms: null, prompt_ms: null, generation_ms: null,
+      cached_input_tokens: body.usage?.prompt_tokens_details?.cached_tokens ?? null,
+      output_tokens_per_second: null, output_tokens: body.usage?.completion_tokens ?? 1,
+      input_tokens: body.usage?.prompt_tokens ?? null,
+      selected_label: body.choices?.[0]?.message?.content?.trim() || null
+    } };
+  }
+  async function candidateLabels(keys) {
+    if (backend !== 'vllm') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', 'OneForward 實驗目前僅支援 vLLM。');
+    const details = await Promise.all(keys.map(async key => {
+      if (tokenLabelCache.has(key)) return tokenLabelCache.get(key);
+      let response;
+      try {
+        response = await fetchImpl(`${base}/tokenize`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout), body: JSON.stringify({ model, prompt: key, add_special_tokens: false }) });
+      } catch { throw new JevError(503, 'MODEL_OFFLINE', '無法連線至 vLLM tokenizer。'); }
+      let body;
+      try { body = await response.json(); } catch { throw new JevError(502, 'BACKEND_ERROR', 'vLLM tokenizer 回傳無效資料。'); }
+      if (!response.ok || !Number.isInteger(body.count) || !Array.isArray(body.tokens)) throw new JevError(502, 'BACKEND_ERROR', 'vLLM tokenizer 無法檢查候選標籤。');
+      const detail = { single: body.count === 1, token: body.tokens[0] };
+      tokenLabelCache.set(key, detail);
+      return detail;
+    }));
+    const used = new Set();
+    return keys.map((key, index) => {
+      if (details[index].single && !used.has(details[index].token)) { used.add(details[index].token); return key; }
+      const fallback = 'ABCDEFGHIJ'.split('').find(label => !used.has(label) && !keys.includes(label));
+      if (!fallback) throw new JevError(400, 'ONEFORWARD_OPTIONS', '無法為候選選項建立唯一的單 token 標籤。');
+      used.add(fallback);
+      return fallback;
+    });
+  }
+  return { backend, candidateLabels, decide, health, infer, inferLabels, runtime };
 }

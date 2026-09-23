@@ -1,6 +1,6 @@
 import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {createEngine} from '../src/engine.js';
-import {systemOne} from '../src/systemone.js';
+import {systemOne,systemOneOneForward} from '../src/systemone.js';
 const fixture=JSON.parse(await readFile(new URL('../examples/feedback-systemone.json',import.meta.url)));
 const cases=[
  [fixture.state.feedback.text,'mixed',true,true],
@@ -33,9 +33,10 @@ if(process.argv.includes('--holdout')) cases.splice(0,cases.length,
 const name=process.argv[2]||'accuracy';
 if(!/^[a-z0-9-]+$/.test(name))throw Error('Invalid report name');
 const engine=createEngine({backend:'vllm'}),rows=[];
+const run=process.argv.includes('--oneforward')?systemOneOneForward:systemOne;
 for(const [text,...expected] of cases){
  const input=structuredClone(fixture);input.state.feedback.text=text;
- const result=await systemOne(engine,input);
+ const result=await run(engine,input);
  const a=result.answers,actual=[a.sentiment.choice,a.refund_requested.noul>=.6,a.expressed_churn_intent.noul>=.6];
  const checks=expected.map((v,i)=>v===actual[i]);
  rows.push({text,expected,actual,checks,result});

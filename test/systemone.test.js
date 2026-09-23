@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { prepareProblems, systemOne } from '../src/systemone.js';
+import { prepareOneForwardProblems, prepareProblems, systemOne, systemOneOneForward } from '../src/systemone.js';
 import { feedbackExample } from '../public/feedback-example.js';
 import { cleanEscapes, parseEditor } from '../public/json-input.js';
 import { createApp } from '../src/server.js';
@@ -122,4 +122,37 @@ test('systemone HTTP route accepts problem alias', async t => {
   const response = await fetch(`http://127.0.0.1:${server.address().port}/v1/systemone`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state: 'test', problem: { yes: { type: 'noul', instructions: 'Is it true?' } } }) });
   assert.equal(response.status, 200);
   assert.equal((await response.json()).answers.yes.noul, .9);
+});
+
+test('OneForward maps opaque labels back to typed answers', async () => {
+  const plans = prepareOneForwardProblems(feedbackExample);
+  assert.deepEqual(plans[0].prepared.labels, ['A', 'B', 'C', 'D', 'E']);
+  assert.equal(plans[0].prepared.messages[0].content.includes('technical'), true);
+  assert.equal(plans[0].prepared.messages[0].content.includes('main_topic'), false);
+  const rows = [
+    { A: .9, B: .025, C: .025, D: .025, E: .025 },
+    { A: .02, B: .03, C: .9, D: .03, E: .02 },
+    { A: .1, B: .9 }, { A: .05, B: .95 },
+    { A: .01, B: .04, C: .9, D: .05 }
+  ];
+  let calls = 0;
+  const output = await systemOneOneForward({ backend: 'vllm', inferLabels: async () => ({ probabilities: rows[calls++], meta: { model: 'test', backend: 'vllm', input_tokens: 5, output_tokens: 1 } }) }, feedbackExample);
+  assert.equal(output.answers.main_topic.choice, 'technical');
+  assert.equal(output.answers.sentiment.choice, 'mixed');
+  assert.equal(output.answers.refund_requested.noul, .9);
+  assert.ok(Math.abs(output.answers.expressed_frustration.score - 1.99) < 1e-12);
+  assert.equal(output.usage.output_tokens, 5);
+  assert.equal(output.meta.probability_method, 'conditional_label_token_logits');
+  assert.equal(output.meta.experimental, true);
+});
+
+test('OneForward HTTP route returns the same public answer shape', async t => {
+  const server = createApp({ backend: 'vllm', inferLabels: async () => ({ probabilities: { A: .1, B: .9 }, meta: { model: 'test', backend: 'vllm', output_tokens: 1 } }) });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const response = await fetch(`http://127.0.0.1:${server.address().port}/v1/systemone/oneforward`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state: 'test', problem: { yes: { type: 'noul', instructions: 'Is it true?' } } }) });
+  assert.equal(response.status, 200);
+  const body = await response.json();
+  assert.equal(body.answers.yes.noul, .9);
+  assert.equal(body.meta.output_format, 'single_label_logprobs');
 });

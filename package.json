@@ -6,6 +6,7 @@
     "start": "node --env-file-if-exists=.env src/server.js",
     "test": "node --test",
     "evaluate": "node scripts/evaluate.js",
+    "evaluate:oneforward": "node scripts/evaluate-accuracy.js oneforward-main --oneforward",
     "setup:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1",
     "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-model.ps1",
     "model:vllm": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1",
