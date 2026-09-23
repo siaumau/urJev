@@ -7,6 +7,8 @@
     "test": "node --test",
     "evaluate": "node scripts/evaluate.js",
     "evaluate:oneforward": "node scripts/evaluate-accuracy.js oneforward-main --oneforward",
+    "evaluate:calibration-data": "node scripts/evaluate-calibration-dataset.js",
+    "calibrate:report": "node scripts/fit-temperature.js",
     "dataset:calibration": "node scripts/generate-calibration-dataset.js",
     "setup:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1",
     "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-model.ps1",

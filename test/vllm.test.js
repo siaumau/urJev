@@ -45,11 +45,12 @@ test('vLLM OneForward requests one constrained label and normalizes its logprobs
       usage: { prompt_tokens: 20, completion_tokens: 1 }
     }));
   } });
-  const output = await engine.inferLabels({ messages: [{ role: 'user', content: 'test' }], labels: ['A', 'B'] });
+  const output = await engine.inferLabels({ messages: [{ role: 'user', content: 'test' }], labels: ['A', 'B'], tokenIds: [32, 33] });
   assert.equal(request.max_tokens, 1);
   assert.equal(request.logprobs, true);
-  assert.equal(request.top_logprobs, 20);
-  assert.deepEqual(request.structured_outputs.choice, ['A', 'B']);
+  assert.equal(request.top_logprobs, 0);
+  assert.deepEqual(request.allowed_token_ids, [32, 33]);
+  assert.deepEqual(request.logprob_token_ids, [32, 33]);
   assert.ok(Math.abs(output.probabilities.A + output.probabilities.B - 1) < 1e-12);
   assert.ok(output.probabilities.B > output.probabilities.A);
   assert.equal(output.meta.selected_label, 'B');
@@ -58,8 +59,8 @@ test('vLLM OneForward requests one constrained label and normalizes its logprobs
 
 test('OneForward refuses incomplete label logprobs and non-vLLM backends', async () => {
   const incomplete = createEngine({ backend: 'vllm', fetchImpl: async () => new Response(JSON.stringify({ choices: [{ message: { content: 'A' }, logprobs: { content: [{ top_logprobs: [{ token: 'A', logprob: 0 }] }] } }] })) });
-  await assert.rejects(incomplete.inferLabels({ messages: [], labels: ['A', 'B'] }), error => error.code === 'INVALID_LABEL_LOGPROBS');
-  await assert.rejects(createEngine().inferLabels({ messages: [], labels: ['A', 'B'] }), error => error.code === 'ONEFORWARD_UNSUPPORTED');
+  await assert.rejects(incomplete.inferLabels({ messages: [], labels: ['A', 'B'], tokenIds: [32, 33] }), error => error.code === 'INVALID_LABEL_LOGPROBS');
+  await assert.rejects(createEngine().inferLabels({ messages: [], labels: ['A', 'B'], tokenIds: [32, 33] }), error => error.code === 'ONEFORWARD_UNSUPPORTED');
 });
 
 test('OneForward keeps one-token semantic labels and replaces multi-token candidates', async () => {
@@ -67,9 +68,9 @@ test('OneForward keeps one-token semantic labels and replaces multi-token candid
   const engine = createEngine({ backend: 'vllm', fetchImpl: async (_url, options) => {
     calls++;
     const prompt = JSON.parse(options.body).prompt;
-    return new Response(JSON.stringify(prompt === 'unclear' ? { count: 2, tokens: [1, 2] } : { count: 1, tokens: [prompt === 'positive' ? 10 : 11] }));
+    return new Response(JSON.stringify(prompt === 'unclear' ? { count: 2, tokens: [1, 2] } : { count: 1, tokens: [prompt === 'positive' ? 10 : prompt === 'A' ? 12 : 11] }));
   } });
-  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), ['positive', 'A']);
-  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), ['positive', 'A']);
-  assert.equal(calls, 2);
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'A'], tokenIds: [10, 12] });
+  assert.deepEqual(await engine.candidateLabels(['positive', 'unclear']), { labels: ['positive', 'A'], tokenIds: [10, 12] });
+  assert.equal(calls, 3);
 });

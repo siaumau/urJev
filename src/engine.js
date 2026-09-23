@@ -135,8 +135,9 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
   }
   async function inferLabels(prepared) {
     if (backend !== 'vllm') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', 'OneForward 實驗目前僅支援 vLLM。');
-    const { messages, labels } = prepared;
+    const { messages, labels, tokenIds } = prepared;
     if (!Array.isArray(labels) || labels.length < 2 || labels.length > 10 || labels.some(label => typeof label !== 'string' || !label.length)) bad('OneForward labels 需要 2–10 個非空白標籤。');
+    if (!Array.isArray(tokenIds) || tokenIds.length !== labels.length || tokenIds.some(token => !Number.isInteger(token) || token < 0) || new Set(tokenIds).size !== tokenIds.length) bad('OneForward 每個 label 都需要唯一的單 token ID。');
     if (Buffer.byteLength(JSON.stringify(messages), 'utf8') > 7000) bad('單題提示超過 7,000 UTF-8 bytes，請縮短 State 或問題。');
     const start = performance.now();
     let response;
@@ -145,11 +146,10 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout),
         body: JSON.stringify({
           model, messages, stream: false, temperature: 0, seed: 42, max_tokens: 1,
-          // Some choices have alternate prefix tokenizations (for example "neg" +
-          // "ative") that also occupy the constrained top-k list. Request the
-          // API maximum so every preferred one-token label remains observable.
-          logprobs: true, top_logprobs: 20,
-          structured_outputs: { choice: labels }
+          // Ask vLLM for exactly the candidate IDs. This avoids alternate prefix
+          // tokenizations crowding a valid label out of a natural top-k list.
+          logprobs: true, top_logprobs: 0,
+          allowed_token_ids: tokenIds, logprob_token_ids: tokenIds
         })
       });
     } catch (error) {
@@ -182,27 +182,44 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
   }
   async function candidateLabels(keys) {
     if (backend !== 'vllm') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', 'OneForward 實驗目前僅支援 vLLM。');
-    const details = await Promise.all(keys.map(async key => {
-      if (tokenLabelCache.has(key)) return tokenLabelCache.get(key);
+    const tokenDetail = async label => {
+      if (tokenLabelCache.has(label)) return tokenLabelCache.get(label);
       let response;
       try {
-        response = await fetchImpl(`${base}/tokenize`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout), body: JSON.stringify({ model, prompt: key, add_special_tokens: false }) });
+        response = await fetchImpl(`${base}/tokenize`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout), body: JSON.stringify({ model, prompt: label, add_special_tokens: false }) });
       } catch { throw new JevError(503, 'MODEL_OFFLINE', '無法連線至 vLLM tokenizer。'); }
       let body;
       try { body = await response.json(); } catch { throw new JevError(502, 'BACKEND_ERROR', 'vLLM tokenizer 回傳無效資料。'); }
       if (!response.ok || !Number.isInteger(body.count) || !Array.isArray(body.tokens)) throw new JevError(502, 'BACKEND_ERROR', 'vLLM tokenizer 無法檢查候選標籤。');
       const detail = { single: body.count === 1, token: body.tokens[0] };
-      tokenLabelCache.set(key, detail);
+      tokenLabelCache.set(label, detail);
       return detail;
-    }));
-    const used = new Set();
-    return keys.map((key, index) => {
-      if (details[index].single && !used.has(details[index].token)) { used.add(details[index].token); return key; }
-      const fallback = 'ABCDEFGHIJ'.split('').find(label => !used.has(label) && !keys.includes(label));
-      if (!fallback) throw new JevError(400, 'ONEFORWARD_OPTIONS', '無法為候選選項建立唯一的單 token 標籤。');
-      used.add(fallback);
-      return fallback;
-    });
+    };
+    const details = await Promise.all(keys.map(tokenDetail));
+    const usedTokenIds = new Set();
+    const labels = [];
+    const tokenIds = [];
+    for (const [index, key] of keys.entries()) {
+      let label = key;
+      let detail = details[index];
+      if (!detail.single || usedTokenIds.has(detail.token)) {
+        label = null;
+        for (const fallback of 'ABCDEFGHIJ') {
+          if (keys.includes(fallback)) continue;
+          const candidate = await tokenDetail(fallback);
+          if (candidate.single && !usedTokenIds.has(candidate.token)) {
+            label = fallback;
+            detail = candidate;
+            break;
+          }
+        }
+      }
+      if (!label) throw new JevError(400, 'ONEFORWARD_OPTIONS', '無法為候選選項建立唯一的單 token 標籤。');
+      labels.push(label);
+      tokenIds.push(detail.token);
+      usedTokenIds.add(detail.token);
+    }
+    return { labels, tokenIds };
   }
   return { backend, candidateLabels, decide, health, infer, inferLabels, runtime };
 }

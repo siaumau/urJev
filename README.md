@@ -184,7 +184,7 @@ Jev 數字來自 [2026-09-15 官方發布文章](https://typesafe.ai/blog/introd
 
 OneForward 與 Jev 對齊的是封閉候選、沒有自由文字、直接取候選分布與批次推論；它沒有複製 Jev 未公開的模型架構、平行 sampler、RLCD 或 confidence 校準。詳細方法、限制與重跑命令見 [OneForward 實驗紀錄](docs/oneforward-experiment.md)。
 
-後續機率校準已建立 100 筆可重現合成資料，每筆包含 State、完整 Problem 與五題標註答案，並固定分成 60／20／20 的 calibration、validation、test。資料與重建方式見[資料集說明](datasets/README.md)，方法與使用界線見[校準計畫](docs/calibration-plan.md)。合成資料用來開發管線，不能單獨證明真實流量已校準。
+後續機率校準已建立 100 筆可重現合成資料，每筆包含 State、完整 Problem 與五題標註答案，並固定分成 60／20／20 的 calibration、validation、test。實測 500 個判斷後，OneForward 準確率為 76.2%，產生式基準為 80.0%；p50 延遲為 123 ms 對 490 ms。Temperature scaling 將 OneForward test ECE 由 0.2029 降至 0.0817，但不會改變 78.0% 的 test accuracy。資料與重建方式見[資料集說明](datasets/README.md)，完整結果見[100 筆準確率與校準基準](docs/benchmarks/calibration-accuracy-2026-09-23.md)，後續方法見[校準計畫](docs/calibration-plan.md)。合成資料用來開發管線，不能單獨證明真實流量已校準。
 
 加入驗證器快取後，交錯測試含準備時間的中位數由 578.4 降到 500.0 ms；實際本機 HTTP 五次測量仍為 524–611 ms，尚未穩定低於 500 ms。見[驗證器快取調校](docs/validator-cache-tuning.md)。
 

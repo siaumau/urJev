@@ -28,6 +28,15 @@ npm run dataset:calibration
 
 目前檔案 SHA-256：`253DB2D0AEA8A7A21F1D2D351D7A2FBDF52F4B3A658B439AD9F775E72850D75B`。
 
+## 執行準確率與校準測試
+
+```powershell
+npm run evaluate:calibration-data
+npm run calibrate:report
+```
+
+評估會分別跑 OneForward 與產生式基準，需要本機 vLLM 服務已啟動。完整結果寫入本機 `reports/calibration-dataset-evaluation.json`；已確認的基準摘要收錄在 [`docs/benchmarks/calibration-accuracy-2026-09-23.md`](../docs/benchmarks/calibration-accuracy-2026-09-23.md)。
+
 ## 限制
 
 這些文字由規則與模板合成，標籤也由產生規則決定。它們可用來打通 raw logits、temperature fitting、profile 載入及指標計算，但不能代表真實使用者分布，也不能單獨證明 production calibration。

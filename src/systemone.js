@@ -135,7 +135,10 @@ export async function systemOneOneForward(engine, input, { concurrency = 8 } = {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Concurrency must be 1–8');
   if (typeof engine.inferLabels !== 'function') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', '推論引擎不支援 OneForward。');
   const plans = prepareOneForwardProblems(input);
-  if (typeof engine.candidateLabels === 'function') await Promise.all(plans.map(async plan => { plan.prepared = plan.buildPrepared(await engine.candidateLabels(plan.keys)); }));
+  if (typeof engine.candidateLabels === 'function') await Promise.all(plans.map(async plan => {
+    const { labels, tokenIds } = await engine.candidateLabels(plan.keys);
+    plan.prepared = { ...plan.buildPrepared(labels), tokenIds };
+  }));
   const start = performance.now();
   const completed = new Array(plans.length);
   let next = 0, failure;

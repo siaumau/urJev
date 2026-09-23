@@ -10,7 +10,7 @@
 
 1. 驗證 State、Problem 與每題 criteria。
 2. 使用 vLLM tokenizer 檢查答案 key。可安全表示為唯一單 token 時直接使用語意 key；其餘選項使用 A–J。
-3. 將候選限制交給 vLLM `structured_outputs.choice`，設定 `max_tokens: 1`、`logprobs: true`。
+3. 將唯一 token ID 交給 vLLM `allowed_token_ids` 與 `logprob_token_ids`，設定 `max_tokens: 1`、`logprobs: true`。這可避免同一文字的其他 token 切法擠掉候選標籤。
 4. 從候選 token logprobs 做限定 softmax，再映射回原始 key。
 5. Choice 取 argmax；Noul 回傳 P(true)；Score 計算等級期望值。
 
@@ -27,7 +27,7 @@
 | 24 筆 OneForward p50／p95 | 117／176 ms |
 | 24 筆 OneForward範圍 | 67–198 ms |
 | 情緒／退款／續訂檢查 | 72／72 |
-| 程式測試 | 30／30 |
+| 程式測試 | 31／31 |
 
 第一次遇到新提示形狀可能包含 XPU JIT 或 graph 暖機，不能用冷啟動時間代表穩態延遲。這 24 筆是小型 smoke set，其中主集合的邊界規則用於提示調整；另外八筆 holdout 在最後一條泛化規則加入後也全部通過。它不是生產資料的統計準確率證明。
 
@@ -43,6 +43,8 @@ npm run evaluate:oneforward
 node scripts/evaluate-accuracy.js oneforward-holdout --oneforward --holdout
 npm test
 ```
+
+另一次 100 筆、500 個標註判斷的完整比較中，OneForward 準確率為 76.2%，產生式基準為 80.0%；延遲 p50 分別為 123 ms 與 490 ms。詳見 [100 筆準確率與校準基準](benchmarks/calibration-accuracy-2026-09-23.md)。
 
 實際使用：
 
