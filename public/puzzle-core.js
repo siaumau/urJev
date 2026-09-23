@@ -6,6 +6,8 @@ export const goalForSize = size => {
 };
 export function planNextMove(board) {
   if (!validBoard(board)) throw Error('無效盤面');
+  // Exhaustive search is only safe for small boards; never block the UI on 5×5+.
+  if (sizeOf(board) > 4) return null;
   const target = goalForSize(sizeOf(board)), start = board.join(','), queue=[[board,[]]], seen=new Set([start]);
   while(queue.length){const [cur,path]=queue.shift(); if(solved(cur)) return path[0]||null; for(const m of legalMoves(cur)){const next=moveBoard(cur,m.direction), key=next.join(','); if(seen.has(key)) continue; seen.add(key); const p=[...path,m.direction]; if(solved(next)) return p[0]; if(seen.size<200000) queue.push([next,p]);}}
   return null;
