@@ -1,9 +1,9 @@
-import { GOAL, goalForSize, shuffle, runPuzzle, distance, planNextMove } from './puzzle-core.js';
+import { GOAL, goalForSize, shuffle, runPuzzle, distance, planNextMove, moveBoard } from './puzzle-core.js';
 const $ = id => document.getElementById(id);
 const names = { urjev:'urJev', jev:'Jev' };
 const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',cycle_limit:'模型陷入循環',error:'請求失敗',unused:'未參賽' };
 const dirs = {up:'上',down:'下',left:'左',right:'右'};
-let initial, generatedSteps, currentGoal=GOAL, running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
+let initial, generatedSteps, currentGoal=GOAL, plannerSeen=new Set(), running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
 const ms = n => Number.isFinite(n) ? Math.round(n)+' ms' : '—';
 const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 function paint(board,node){node.style.gridTemplateColumns=`repeat(${Math.sqrt(board.length)},1fr)`;node.replaceChildren(...board.map((n,i)=>{const tile=element('div',n||'',`tile${n===0?' blank':n===currentGoal[i]?' correct':''}`);tile.setAttribute('aria-label',n?'數字 '+n:'空格');return tile;}));}
@@ -35,7 +35,7 @@ function render(provider,result){
 }
 function preview(){
   if(running)return;
-  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);if(size>=5&&Number($('scramble').value)>20){$('scramble').value='20';$('notice').textContent='5×5 以上先限制為最多 20 次合法打亂，避免負載過高。';}currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
+  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);plannerSeen=new Set();if(size>=5&&Number($('scramble').value)>20){$('scramble').value='20';$('notice').textContent='5×5 以上先限制為最多 20 次合法打亂，避免負載過高。';}currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;plannerSeen.add(initial.join(','));generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
     for(const p of Object.keys(names)){results[p]={board:[...initial],status:'waiting',moves:[],requests:0,repeats:0,elapsed_ms:0};render(p,results[p]);}
     $('notice').textContent=`盤面 ${$('seed').value} · 合法打亂 ${generatedSteps} 次。兩邊起始盤面相同，按開始才送出請求。`;
   }catch(e){initial=null;$('notice').textContent=e.message;}
@@ -47,7 +47,8 @@ async function request(provider,payload,timeout,key,model,signal){
     const suggestion=planNextMove(payload.state.board.flat());
     payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions}${suggestion?` 本機規劃器建議下一步為「${suggestion}」，請檢查盤面後由你決定是否採用，不要盲目接受。`:''}`}}};
   }
-  const forced=provider==='urjev'&&$('planner')?.value==='guided' ? planNextMove(payload.state.board.flat()) : null;
+  const forced=provider==='urjev'&&$('planner')?.value==='guided' ? planNextMove(payload.state.board.flat(),plannerSeen) : null;
+  if(forced) plannerSeen.add(moveBoard(payload.state.board.flat(),forced).join(','));
   if(forced) payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions} 規劃器指定「${forced}」為本步路徑，請只驗證此方向是否合法，不要改選其他方向。`}}};
   const response=await fetch(provider==='urjev'?'/v1/systemone/oneforward':'/api/benchmark/jev',{
     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(Math.max(1,Math.ceil(timeout)))]),

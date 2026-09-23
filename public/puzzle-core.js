@@ -4,12 +4,12 @@ export const goalForSize = size => {
   if (!Number.isInteger(size) || size < 2 || size > 10) throw Error('拼圖尺寸不合法');
   return Object.freeze(Array.from({ length: size * size }, (_, i) => (i + 1) % (size * size)));
 };
-export function planNextMove(board) {
+export function planNextMove(board, blocked = new Set()) {
   if (!validBoard(board)) throw Error('無效盤面');
   // Large boards use a bounded beam search instead of exhaustive search.
   if (sizeOf(board) > 4) {
     const size=sizeOf(board), score=b=>b.reduce((s,n,i)=>n?s+Math.abs(Math.floor(i/size)-Math.floor((n-1)/size))+Math.abs(i%size-(n-1)%size):s,0);
-    let beam=[{board:[...board],path:[],seen:new Set([board.join(',')])}];
+    let beam=[{board:[...board],path:[],seen:new Set([board.join(','),...blocked])}];
     for(let depth=0;depth<6;depth++){
       const next=[];
       for(const item of beam) for(const m of legalMoves(item.board)){const b=moveBoard(item.board,m.direction),key=b.join(',');if(item.seen.has(key))continue;const path=[...item.path,m.direction];if(solved(b))return path[0];next.push({board:b,path,seen:new Set([...item.seen,key])});}
