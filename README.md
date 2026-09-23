@@ -2,6 +2,8 @@
 
 本地結構化判斷引擎：輸入 **State（資料）** 與 **Problem（問題與規則）**，用收合卡片閱讀分類、是／否傾向與分數。
 
+![urJev 核心概念](docs/urjev-core-concept.png)
+
 **目前實際執行方式是 Qwen3-8B＋vLLM，在 Windows 的 Ubuntu WSL2 使用 Intel GPU。這條路徑不需要啟動 Ollama。** Ollama 是保留的替代後端，請見[獨立說明](docs/ollama-alternative.md)。完整軟硬體、連接埠、OneForward、情緒拆題與拼圖規劃請看[最終系統架構文件](docs/final-system-architecture.md)。
 
 本專案採 [MIT License](LICENSE)。模型權重與第三方套件遵循各自授權，未隨 repository 散布。這是 Jev 類型工作流程的原型，不是 Jev 原始模型或完整 SDK 複製品，也尚未做專屬資料微調。

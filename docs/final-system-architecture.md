@@ -2,7 +2,9 @@
 
 日期：2026-09-23。這份文件描述目前實際使用的版本，並把歷史上曾使用的 Qwen3-4B、Ollama 與舊連接埠視為替代方案或演進紀錄。執行時仍應以 `.env`、`scripts/start-vllm.sh` 與 `/api/health` 的回報為準。
 
-![urJev 最終軟硬體架構](urjev-system-architecture.png)
+![urJev 核心概念](urjev-core-concept.png)
+
+核心流程只有四步：提供資料與規則、把答案限制在封閉候選、交給本機模型判斷、回傳固定格式。後續章節再說明支撐這四步的硬體與服務配置。
 
 ## 1. 系統定位
 
