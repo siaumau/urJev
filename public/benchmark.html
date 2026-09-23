@@ -6,6 +6,7 @@
   <title>urJev vs Jev — 100 筆真實速度比較</title>
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/benchmark.css">
+  <style>.record-tools{display:flex;align-items:center;gap:9px;font-size:10px;color:#87937c}.record-tools select{border:1px solid #d9e2d2;border-radius:6px;padding:7px;background:#fff;color:#40513b}.record-row{cursor:pointer}.record-row:hover,.record-row.expanded{background:#f6f8f2}.record-detail>td{white-space:normal!important;background:#f8faf5;padding:18px!important}.detail-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:16px}.detail-grid section,.detail-grid details{border:1px solid #e1e7dd;background:#fff;border-radius:9px;padding:14px}.detail-grid details{grid-column:1/-1}.detail-grid h3{margin:0 0 10px;font-size:13px}.detail-grid p{white-space:normal;line-height:1.6}.detail-grid pre{max-height:260px;overflow:auto;font-size:11px}.answer-list{display:grid;gap:6px}.answer-list>div{display:grid;grid-template-columns:1fr auto;gap:7px}.answer-list code{overflow-wrap:anywhere}.answer-list small{grid-column:1/-1;margin:0}.answer-pass{color:#35724a}.answer-fail{color:#9b493f;background:#f8e7df;padding:6px;border-radius:5px}@media(max-width:900px){.detail-grid{grid-template-columns:1fr}.detail-grid details{grid-column:auto}.record-tools{align-items:flex-start;flex-direction:column}}</style>
 </head>
 <body>
   <header>
@@ -76,7 +77,7 @@
     </section>
 
     <section class="records">
-      <div class="records-heading"><div><p class="eyebrow">REQUEST LOG</p><h2>逐筆紀錄</h2></div><span>正確數以資料標註答案計算；score 使用最高機率等級。</span></div>
+      <div class="records-heading"><div><p class="eyebrow">REQUEST LOG</p><h2>逐筆紀錄</h2></div><div class="record-tools"><label for="record-filter">篩選</label><select id="record-filter"><option value="all">全部題目</option><option value="any-error">任一模型答錯</option><option value="urjev-error">urJev 答錯</option><option value="jev-error">Jev 答錯</option></select><span>點擊任一列查看題目與逐欄答案。</span></div></div>
       <div class="records-scroll">
         <table>
           <thead><tr><th>#</th><th>ID</th><th>urJev 結果</th><th>urJev 回應</th><th>Jev 結果</th><th>Jev 回應</th></tr></thead>

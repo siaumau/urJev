@@ -6,6 +6,7 @@ let running = false;
 let exportData = null;
 let localModel = null;
 const cells = new Map();
+const rowStates = new Map();
 
 const percentile = (values, fraction) => {
   if (!values.length) return null;
@@ -58,8 +59,9 @@ function renderLatencyCell(index, provider, browserMs, providerMs) {
 function buildRows() {
   $('records-body').replaceChildren();
   cells.clear();
+  rowStates.clear();
   dataset.forEach((row, index) => {
-    const tr = document.createElement('tr');
+    const tr = document.createElement('tr'); tr.className='record-row';
     const number = document.createElement('td'); number.textContent = String(index + 1);
     const id = document.createElement('td'); id.textContent = row.id;
     const urjevResult = document.createElement('td'), urjevLatency = document.createElement('td');
@@ -67,10 +69,17 @@ function buildRows() {
     urjevResult.textContent = jevResult.textContent = '等待';
     urjevLatency.textContent = jevLatency.textContent = '—';
     tr.append(number, id, urjevResult, urjevLatency, jevResult, jevLatency);
-    $('records-body').append(tr);
-    cells.set(index, { urjev: { result: urjevResult, latency: urjevLatency }, jev: { result: jevResult, latency: jevLatency } });
+    const detailRow=document.createElement('tr');detailRow.className='record-detail';detailRow.hidden=true;
+    const detail=document.createElement('td');detail.colSpan=6;detailRow.append(detail);
+    detail.innerHTML=`<div class="detail-grid"><section><h3>State</h3><p>${row.state.feedback.text}</p><small>${row.state.feedback.product} · ${row.state.feedback.channel} · ${row.state.feedback.date}</small></section><section><h3>標註答案</h3><div class="answer-list">${fields.map(f=>`<div><code>${f}</code><strong>${row.expected[f]}</strong></div>`).join('')}</div></section><section data-provider="urjev"><h3>urJev</h3><p>尚未執行</p></section><section data-provider="jev"><h3>Jev</h3><p>尚未執行</p></section><details><summary>查看 Problem 定義</summary><pre>${JSON.stringify(row.problem,null,2)}</pre></details></div>`;
+    tr.onclick=()=>{detailRow.hidden=!detailRow.hidden;tr.classList.toggle('expanded',!detailRow.hidden);};
+    $('records-body').append(tr,detailRow);
+    cells.set(index, { row:tr, detailRow, detail, urjev: { result: urjevResult, latency: urjevLatency }, jev: { result: jevResult, latency: jevLatency } });
+    rowStates.set(index,{urjev:null,jev:null});
   });
 }
+function renderDetail(index,provider,row,result,check,browserMs,providerMs){const section=cells.get(index).detail.querySelector(`[data-provider="${provider}"]`);section.innerHTML=`<h3>${provider==='urjev'?'urJev':'Jev'} · ${check.correct}/${check.total}</h3><div class="answer-list">${fields.map(f=>`<div class="${check.checks[f]?'answer-pass':'answer-fail'}"><code>${f}</code><span>${prediction(result.answers[f])}</span><small>標註 ${row.expected[f]}</small></div>`).join('')}</div><p>${formatMs(browserMs)} 端到端 · ${formatMs(providerMs)} 服務端 · ${result.usage?.input_tokens??'—'} / ${result.usage?.output_tokens??'—'} tokens</p>`;rowStates.get(index)[provider]=check.correct===check.total;applyRecordFilter();}
+function applyRecordFilter(){const mode=$('record-filter')?.value||'all';for(const [index,state] of rowStates){const cell=cells.get(index);const show=mode==='all'||mode==='any-error'&&(state.urjev===false||state.jev===false)||mode==='urjev-error'&&state.urjev===false||mode==='jev-error'&&state.jev===false;cell.row.hidden=!show;cell.detailRow.hidden=true;cell.row.classList.remove('expanded');}}
 function resetProvider(provider) {
   const stats = freshStats(provider);
   renderStats(provider, stats);
@@ -122,6 +131,7 @@ async function runProvider(provider, stats, controller) {
       stats.inputTokens += response.result.usage?.input_tokens || 0;
       stats.outputTokens += response.result.usage?.output_tokens || 0;
       stats.rows.push({ id: row.id, browser_ms: response.browserMs, provider_ms: response.providerMs, correct: check.correct, total: check.total, checks: check.checks, answers: response.result.answers, model: response.result.meta?.model, probability_method: response.result.meta?.probability_method, inference_requests: response.result.meta?.inference_requests });
+      renderDetail(index,provider,row,response.result,check,response.browserMs,response.providerMs);
       renderCell(index, provider, check.correct + ' / ' + check.total + ' 正確', check.correct === check.total ? 'cell-pass' : 'cell-partial');
       renderLatencyCell(index, provider, response.browserMs, response.providerMs);
       renderStats(provider, stats);
@@ -194,6 +204,7 @@ $('jev-key').addEventListener('input', event => {
 $('run-local').onclick = () => start(['urjev']);
 $('run-both').onclick = () => start(['urjev', 'jev']);
 $('stop').onclick = () => controllers.forEach(controller => controller.abort());
+$('record-filter').onchange=applyRecordFilter;
 $('export-results').onclick = () => {
   if (!exportData) return;
   const url = URL.createObjectURL(new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' }));
