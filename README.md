@@ -67,6 +67,8 @@ INFERENCE_TIMEOUT_MS=120000
 
 新增 [3×3 拼圖競賽操作文件](docs/puzzle-benchmark.md)：開啟 `/puzzle`，輸入 Jev key 後按開始，兩側從同一盤面逐步解題，記錄步數、實際延遲與完成狀態。15413 與 15414 的網頁服務均提供此頁。
 
+若要快速重新啟動並使用所有網頁測試，請看 [HTML 測試頁面啟動與操作手冊](docs/html-test-pages-guide.md)，其中整理 Playground、100 筆 Benchmark、拼圖競賽、人工模式、JSON 匯出與常見問題。
+
 完整的停止服務、切換、雙終端重啟、15413／15414 埠與健康檢查步驟，見 [模型切換操作紀錄](docs/qwen3-8b-evaluation.md#完整操作與驗證)。同一文件也記錄模型版本差異、情緒錯誤分析與後續驗證方案。
 
 Arc Pro B70 32 GB 可以保留目前 4B，同時另行下載 8B。下載只做一次；切換指令只改 `.env` 的 `MODEL`，不會刪除另一個模型：
