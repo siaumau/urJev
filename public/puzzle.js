@@ -1,4 +1,4 @@
-import { GOAL, goalForSize, shuffle, runPuzzle, distance } from './puzzle-core.js';
+import { GOAL, goalForSize, shuffle, runPuzzle, distance, planNextMove } from './puzzle-core.js';
 const $ = id => document.getElementById(id);
 const names = { urjev:'urJev', jev:'Jev' };
 const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',cycle_limit:'模型陷入循環',error:'請求失敗',unused:'未參賽' };
@@ -40,8 +40,9 @@ function preview(){
     $('notice').textContent=`盤面 ${$('seed').value} · 合法打亂 ${generatedSteps} 次。兩邊起始盤面相同，按開始才送出請求。`;
   }catch(e){initial=null;$('notice').textContent=e.message;}
 }
-function controls(on){running=on;for(const id of ['start','local','generate','seed','size','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
+function controls(on){running=on;for(const id of ['start','local','generate','seed','size','planner','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
 async function request(provider,payload,timeout,key,model,signal){
+  if(provider==='urjev' && $('planner')?.value==='planner'){const board=payload.state.board.flat();return {choice:planNextMove(board),model:'urJev planner',provider_ms:0,usage:null};}
   const response=await fetch(provider==='urjev'?'/v1/systemone/oneforward':'/api/benchmark/jev',{
     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(Math.max(1,Math.ceil(timeout)))]),
     body:JSON.stringify(provider==='urjev'?payload:{api_key:key,payload:{...payload,model}})

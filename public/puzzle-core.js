@@ -4,6 +4,12 @@ export const goalForSize = size => {
   if (!Number.isInteger(size) || size < 2 || size > 8) throw Error('拼圖尺寸不合法');
   return Object.freeze(Array.from({ length: size * size }, (_, i) => (i + 1) % (size * size)));
 };
+export function planNextMove(board) {
+  if (!validBoard(board)) throw Error('無效盤面');
+  const target = goalForSize(sizeOf(board)), start = board.join(','), queue=[[board,[]]], seen=new Set([start]);
+  while(queue.length){const [cur,path]=queue.shift(); if(solved(cur)) return path[0]||null; for(const m of legalMoves(cur)){const next=moveBoard(cur,m.direction), key=next.join(','); if(seen.has(key)) continue; seen.add(key); const p=[...path,m.direction]; if(solved(next)) return p[0]; if(seen.size<200000) queue.push([next,p]);}}
+  return null;
+}
 const sizeOf = board => Math.sqrt(board.length);
 export function validBoard(board) {
   const size = Array.isArray(board) ? sizeOf(board) : 0;
