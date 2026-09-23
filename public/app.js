@@ -3,7 +3,7 @@ import { parseEditor, cleanEscapes } from './json-input.js';
 const $ = id => document.getElementById(id);
 let lastResult = null;
 const titles = {main_topic:'主要問題',sentiment:'回饋情緒',refund_requested:'退款意圖',expressed_churn_intent:'停止續訂意圖',expressed_frustration:'表達的不滿程度'};
-const labels = {technical:'技術問題',content:'內容問題',pricing:'價格方案',service:'客服處理',other:'其他',positive:'正面',negative:'負面',mixed:'肯定與不滿並存',neutral:'中性',unclear:'資訊不足'};
+const labels = {technical:'技術問題',content:'內容問題',pricing:'價格方案',service:'客服處理',other:'其他',positive:'正面',negative:'負面',mixed:'肯定與不滿並存',neutral:'中性／沒有明確評價'};
 const describe = x => typeof x === 'string' ? x : x == null ? '' : JSON.stringify(x);
 function task(){return {state:parseEditor($('state').value,'State'),questions:parseEditor($('problem').value,'Problem')};}
 function el(tag,text,cls){const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;}

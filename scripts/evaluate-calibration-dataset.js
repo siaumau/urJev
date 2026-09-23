@@ -4,8 +4,8 @@ import { createEngine } from '../src/engine.js';
 import { systemOne, systemOneOneForward } from '../src/systemone.js';
 
 const datasetArgument = process.argv.find(argument => argument.startsWith('--dataset='))?.slice('--dataset='.length);
-const datasetPath = datasetArgument ? resolve(datasetArgument) : new URL('../datasets/feedback-calibration-100.jsonl', import.meta.url);
-const datasetLabel = datasetArgument ?? 'datasets/feedback-calibration-100.jsonl';
+const datasetPath = datasetArgument ? resolve(datasetArgument) : new URL('../datasets/feedback-calibration-100-v2.jsonl', import.meta.url);
+const datasetLabel = datasetArgument ?? 'datasets/feedback-calibration-100-v2.jsonl';
 const allRows = (await readFile(datasetPath, 'utf8')).trim().split(/\r?\n/).map(JSON.parse);
 const split = process.argv.find(argument => argument.startsWith('--split='))?.slice('--split='.length);
 if (split && !['calibration', 'validation', 'test'].includes(split)) throw new Error('--split must be calibration, validation, or test.');

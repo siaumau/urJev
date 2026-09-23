@@ -68,11 +68,12 @@ const output = rows.map((row, index) => {
   return {
     id: `CAL${ordinal}`,
     split: index < 60 ? 'calibration' : index < 80 ? 'validation' : 'test',
-    source: 'synthetic_seeded',
+    source: 'synthetic_seeded_v2',
     seed,
     state: { feedback: { id: `CAL${ordinal}`, date: `2026-09-${String(index % 28 + 1).padStart(2, '0')}`, product: pick(products), channel: pick(channels), text } },
     problem,
-    expected: { main_topic: row.topic, sentiment: row.sentiment, refund_requested: refund, expressed_churn_intent: churn, expressed_frustration: row.frustration }
+    ...(row.sentiment === 'unclear' ? { merged_sentiment_from: 'unclear' } : {}),
+    expected: { main_topic: row.topic, sentiment: row.sentiment === 'unclear' ? 'neutral' : row.sentiment, refund_requested: refund, expressed_churn_intent: churn, expressed_frustration: row.frustration }
   };
 });
 
@@ -80,5 +81,5 @@ if (output.length !== 100 || new Set(output.map(item => item.state.feedback.text
 const counts = field => Object.fromEntries([...new Set(output.map(item => item.expected[field]))].sort().map(value => [value, output.filter(item => item.expected[field] === value).length]));
 const splitCounts = Object.fromEntries(['calibration', 'validation', 'test'].map(split => [split, output.filter(item => item.split === split).length]));
 await mkdir(new URL('../datasets/', import.meta.url), { recursive: true });
-await writeFile(new URL('../datasets/feedback-calibration-100.jsonl', import.meta.url), output.map(item => JSON.stringify(item)).join('\n') + '\n');
+await writeFile(new URL('../datasets/feedback-calibration-100-v2.jsonl', import.meta.url), output.map(item => JSON.stringify(item)).join('\n') + '\n');
 console.log(JSON.stringify({ rows: output.length, splits: splitCounts, main_topic: counts('main_topic'), sentiment: counts('sentiment'), refund_requested: counts('refund_requested'), expressed_churn_intent: counts('expressed_churn_intent'), expressed_frustration: counts('expressed_frustration') }, null, 2));

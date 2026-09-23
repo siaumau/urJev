@@ -52,13 +52,14 @@ const problem = structuredClone(feedbackExample.questions);
 const rows = cases.map(([text, main_topic, sentiment, refund_requested, expressed_churn_intent, expressed_frustration], index) => {
   const ordinal = String(index + 1).padStart(3, '0');
   return {
-    id: `HOLD${ordinal}`, split: 'holdout', source: 'synthetic_manual_holdout_v1',
+    id: `HOLD${ordinal}`, split: 'holdout', source: 'synthetic_manual_holdout_v2',
     state: { feedback: { id: `HOLD${ordinal}`, date: `2026-09-${String(index % 28 + 1).padStart(2, '0')}`, product: '線上課程平台', channel: '獨立測試集', text } },
     problem,
-    expected: { main_topic, sentiment, refund_requested, expressed_churn_intent, expressed_frustration }
+    ...(sentiment === 'unclear' ? { merged_sentiment_from: 'unclear' } : {}),
+    expected: { main_topic, sentiment: sentiment === 'unclear' ? 'neutral' : sentiment, refund_requested, expressed_churn_intent, expressed_frustration }
   };
 });
 if (rows.length !== 40 || new Set(rows.map(row => row.state.feedback.text)).size !== 40) throw new Error('Holdout must contain 40 unique rows.');
 await mkdir(new URL('../datasets/', import.meta.url), { recursive: true });
-await writeFile(new URL('../datasets/feedback-holdout-40.jsonl', import.meta.url), rows.map(row => JSON.stringify(row)).join('\n') + '\n');
-console.log(JSON.stringify({ rows: rows.length, file: 'datasets/feedback-holdout-40.jsonl' }));
+await writeFile(new URL('../datasets/feedback-holdout-40-v2.jsonl', import.meta.url), rows.map(row => JSON.stringify(row)).join('\n') + '\n');
+console.log(JSON.stringify({ rows: rows.length, file: 'datasets/feedback-holdout-40-v2.jsonl' }));

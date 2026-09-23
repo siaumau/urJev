@@ -27,6 +27,7 @@ test('user example compiles into five isolated prompts without question IDs', ()
   const plans = prepareProblems(feedbackExample);
   assert.equal(plans.length, 5);
   assert.deepEqual(plans.map(p => p.type), ['choice', 'choice', 'noul', 'noul', 'score']);
+  assert.deepEqual(Object.keys(feedbackExample.questions.sentiment.criteria), ['positive', 'negative', 'mixed', 'neutral']);
   for (const plan of plans) {
     assert.equal(plan.prepared.messages.length, 2);
     assert.equal(plan.prepared.messages[0].content.includes('refund_requested'), false);

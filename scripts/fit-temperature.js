@@ -1,6 +1,8 @@
 import { readFile, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
-const reportUrl = new URL('../reports/calibration-dataset-evaluation.json', import.meta.url);
+const reportArgument = process.argv.find(argument => argument.startsWith('--report='))?.slice('--report='.length);
+const reportUrl = reportArgument ? resolve(reportArgument) : new URL('../reports/feedback-calibration-100-v2-evaluation.json', import.meta.url);
 const report = JSON.parse(await readFile(reportUrl, 'utf8'));
 const fields = ['main_topic', 'sentiment', 'refund_requested', 'expressed_churn_intent', 'expressed_frustration'];
 const key = value => String(value);

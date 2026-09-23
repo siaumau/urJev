@@ -40,9 +40,15 @@ urJev 新增 `/v1/systemone/oneforward`。它保留 State、Problem 與 `choice`
 
 後續邊界調整顯示，增加規則與固定混合路由都會在另一份資料上退步，因此未部署。唯一保留的是把無法單 token 化的 unclear 映射為語意相近的單 token unknown；既有 500 個判斷由 76.2% 小幅升至 76.4%，NLL 由 3.9407 改善至 3.5379。新的 40 筆 holdout 為 88.5%，但結果差距也顯示合成資料分布對準確率影響很大。詳見[分類邊界調整與獨立 Holdout](benchmarks/accuracy-boundary-tuning-2026-09-23.md)。
 
+## 情緒四分類 v2
+
+由於 unclear 與 neutral 沒有穩定的模型或業務界線，v2 將 unclear 併入 neutral，並以新檔名保留資料歷程。100 筆資料上，OneForward 整體由 76.4% 升至 78.4%，sentiment 由 54% 升至 64%；40 筆資料上整體由 88.5% 升至 90.5%，sentiment 由 72.5% 升至 82.5%，p50 維持約 115 ms。
+
+v2 temperature scaling 後，OneForward test split 的 NLL 由 3.0951 降至 0.5542，ECE 由 0.2010 降至 0.0504，accuracy 維持 79%。完整結果見[情緒四分類 v2](benchmarks/sentiment-four-class-v2.md)。
+
 ## 後續實作
 
-1. 收集真實匿名或人工獨立撰寫的資料，重點審查 sentiment 的 neutral／unclear 與 mixed 界線。
+1. 收集真實匿名或人工獨立撰寫的資料，重點審查 sentiment 的 positive／mixed 與 negative／mixed 界線。
 2. 改善 sentiment 與 frustration 後，用新 holdout 檢查準確率，不再用本次已查看的 test split 調整。
 3. 將 calibration profile 綁定 model、prompt version、Problem hash 與資料版本。任一項改變時停用舊 profile。
 4. 充分的獨立資料驗證通過後，才將 API 改為 `calibrated: true`；`confidence` 需另外定義與驗證。
