@@ -2,7 +2,7 @@
 
 本地結構化判斷引擎：輸入 **State（資料）** 與 **Problem（問題與規則）**，用收合卡片閱讀分類、是／否傾向與分數。
 
-**目前主要執行方式是 Qwen3-4B-Instruct-2507＋vLLM，在 Windows 的 Ubuntu WSL2 使用 Intel GPU。這條路徑不需要啟動 Ollama。** Ollama 是保留的替代後端，請見[獨立說明](docs/ollama-alternative.md)。
+**目前實際執行方式是 Qwen3-8B＋vLLM，在 Windows 的 Ubuntu WSL2 使用 Intel GPU。這條路徑不需要啟動 Ollama。** Ollama 是保留的替代後端，請見[獨立說明](docs/ollama-alternative.md)。完整軟硬體、連接埠、OneForward、情緒拆題與拼圖規劃請看[最終系統架構文件](docs/final-system-architecture.md)。
 
 本專案採 [MIT License](LICENSE)。模型權重與第三方套件遵循各自授權，未隨 repository 散布。這是 Jev 類型工作流程的原型，不是 Jev 原始模型或完整 SDK 複製品，也尚未做專屬資料微調。
 
@@ -10,7 +10,7 @@
 
 | 項目 | 設定 |
 |---|---|
-| 模型 | `Qwen/Qwen3-4B-Instruct-2507`，BF16 |
+| 模型 | `Qwen/Qwen3-8B`，BF16（目前 `.env`）；安裝範本仍預設 4B |
 | 推論引擎 | vLLM XPU，官方預覽版 |
 | 已驗證環境 | Intel Arc Pro B70 32 GB、Windows＋Ubuntu 26.04／WSL2 |
 | Playground | http://127.0.0.1:15413/ |
@@ -114,7 +114,7 @@ npm run model:vllm
 npm start
 ```
 
-開啟 http://127.0.0.1:15413/，模型狀態應顯示 `Qwen/Qwen3-4B-Instruct-2507` 與 `vllm`。也可檢查：
+開啟 http://127.0.0.1:15413/，目前本機模型狀態應顯示 `Qwen/Qwen3-8B` 與 `vllm`。安裝範本若尚未切換則會顯示 4B。也可檢查：
 
 ```powershell
 Invoke-RestMethod http://127.0.0.1:15413/api/health
