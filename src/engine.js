@@ -107,7 +107,7 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
     try {
       response = await fetchImpl(`${base}${backend === 'vllm' ? '/v1/chat/completions' : '/api/chat'}`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout),
-        body: JSON.stringify(backend === 'vllm' ? { model, messages, stream: false, temperature: 0, seed: 42, max_tokens: maxTokens, response_format: { type: 'json_schema', json_schema: { name: 'urjev_result', strict: true, schema } } } : { model, messages, format: schema, stream: false, keep_alive: '10m', options: { temperature: 0, seed: 42, num_ctx: 8192, num_predict: maxTokens } })
+        body: JSON.stringify(backend === 'vllm' ? { model, messages, stream: false, temperature: 0, seed: 42, max_tokens: maxTokens, chat_template_kwargs: { enable_thinking: false }, response_format: { type: 'json_schema', json_schema: { name: 'urjev_result', strict: true, schema } } } : { model, messages, format: schema, stream: false, keep_alive: '10m', options: { temperature: 0, seed: 42, num_ctx: 8192, num_predict: maxTokens } })
       });
     } catch (error) {
       if (error.name === 'TimeoutError' || error.name === 'AbortError') throw new JevError(504, 'MODEL_TIMEOUT', '模型逾時；可縮短輸入，或提高 INFERENCE_TIMEOUT_MS。');
@@ -146,6 +146,7 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(timeout),
         body: JSON.stringify({
           model, messages, stream: false, temperature: 0, seed: 42, max_tokens: 1,
+          chat_template_kwargs: { enable_thinking: false },
           // Ask vLLM for exactly the candidate IDs. This avoids alternate prefix
           // tokenizations crowding a valid label out of a natural top-k list.
           logprobs: true, top_logprobs: 0,

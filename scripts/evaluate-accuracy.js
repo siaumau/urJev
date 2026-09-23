@@ -32,7 +32,7 @@ if(process.argv.includes('--holdout')) cases.splice(0,cases.length,
  );
 const name=process.argv[2]||'accuracy';
 if(!/^[a-z0-9-]+$/.test(name))throw Error('Invalid report name');
-const engine=createEngine({backend:'vllm'}),rows=[];
+const engine=createEngine({backend:'vllm',url:process.env.VLLM_URL,model:process.env.MODEL}),rows=[];
 const run=process.argv.includes('--oneforward')?systemOneOneForward:systemOne;
 for(const [text,...expected] of cases){
  const input=structuredClone(fixture);input.state.feedback.text=text;

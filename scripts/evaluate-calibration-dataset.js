@@ -12,7 +12,7 @@ if (split && !['calibration', 'validation', 'test'].includes(split)) throw new E
 const dataset = split ? allRows.filter(row => row.split === split) : allRows;
 const fields = ['main_topic', 'sentiment', 'refund_requested', 'expressed_churn_intent', 'expressed_frustration'];
 const requested = process.argv.includes('--oneforward-only') ? ['oneforward'] : process.argv.includes('--generated-only') ? ['generated'] : ['oneforward', 'generated'];
-const engine = createEngine({ backend: 'vllm' });
+const engine = createEngine({ backend: 'vllm', url: process.env.VLLM_URL, model: process.env.MODEL });
 
 const percentile = (values, fraction) => {
   const sorted = [...values].sort((a, b) => a - b);

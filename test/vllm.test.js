@@ -9,6 +9,7 @@ test('vLLM uses constrained JSON schema and preserves unavailable timings', asyn
   const engine = createEngine({ backend: 'vllm', fetchImpl: async (url, opts) => { endpoint = url; request = JSON.parse(opts.body); return reply('{"label":"refund"}'); } });
   const result = await engine.decide(input);
   assert.equal(endpoint, 'http://127.0.0.1:18000/v1/chat/completions');
+  assert.deepEqual(request.chat_template_kwargs, { enable_thinking: false });
   assert.deepEqual(request.response_format.json_schema.schema.properties.label.enum, ['refund', 'shipping', '__unknown__']);
   assert.equal(result.result.label, 'refund');
   assert.equal(result.meta.backend, 'vllm');
@@ -49,6 +50,7 @@ test('vLLM OneForward requests one constrained label and normalizes its logprobs
   assert.equal(request.max_tokens, 1);
   assert.equal(request.logprobs, true);
   assert.equal(request.top_logprobs, 0);
+  assert.deepEqual(request.chat_template_kwargs, { enable_thinking: false });
   assert.deepEqual(request.allowed_token_ids, [32, 33]);
   assert.deepEqual(request.logprob_token_ids, [32, 33]);
   assert.ok(Math.abs(output.probabilities.A + output.probabilities.B - 1) < 1e-12);

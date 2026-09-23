@@ -63,6 +63,37 @@ INFERENCE_TIMEOUT_MS=120000
 
 `.env` 不納入 Git。**`.env.example` 是 Ollama 替代後端範本；vLLM 請使用 `.env.vllm.example`。** 程式未指定 backend 時仍保留 Ollama fallback，所以不能省略這一步。
 
+### 可選：切換 Qwen3-4B／8B
+
+Arc Pro B70 32 GB 可以保留目前 4B，同時另行下載 8B。下載只做一次；切換指令只改 `.env` 的 `MODEL`，不會刪除另一個模型：
+
+```powershell
+# 下載約 16 GB 的 Qwen3-8B BF16 權重
+npm run model:download:8b
+
+# 選擇 8B；之後重新啟動 vLLM 與 urJev
+npm run model:select:8b
+npm run model:vllm
+```
+
+切回已保留的 4B：
+
+```powershell
+npm run model:select:4b
+npm run model:vllm
+```
+
+切換前先在模型與應用服務的終端按 `Ctrl+C`。`npm run model:vllm` 會讀取 `.env` 的 `MODEL`，只允許本專案已定義的 4B 或 8B。8B 使用相同的 BF16、2 GiB KV cache、八序列上限及 XPU 最佳化設定。
+
+已在 Arc Pro B70 32 GB／WSL 實際驗證 Qwen3-8B：模型權重約占 15.27 GiB，另配置 2 GiB KV cache，可正常載入且沒有發生 OOM。相同 100 筆、共 500 個欄位的 OneForward 測試結果如下：
+
+| 模型 | 整體準確率 | 平均延遲 | P50 | P95 |
+| --- | ---: | ---: | ---: | ---: |
+| Qwen3-4B-Instruct-2507 | **78.2%** | **112 ms** | **107 ms** | **136 ms** |
+| Qwen3-8B | 76.8% | 127 ms | 125 ms | 148 ms |
+
+因此目前仍以 4B 為預設。模型較大不代表這個分類任務必然更準；8B 在流失意圖與挫折程度較好，但主題與情緒較差。原始 Qwen3-8B 還會預設進入 thinking mode，本專案已在推論請求明確設定 `enable_thinking: false`，避免它和 OneForward 的首 Token 候選限制衝突。完整結果與逐欄位比較見 [`docs/qwen3-8b-evaluation.md`](docs/qwen3-8b-evaluation.md)。
+
 ### 3. 啟動模型，再啟動 Playground
 
 在專案根目錄開兩個 Windows 終端：

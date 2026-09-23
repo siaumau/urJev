@@ -4,6 +4,7 @@ let dataset = [];
 let controllers = [];
 let running = false;
 let exportData = null;
+let localModel = null;
 const cells = new Map();
 
 const percentile = (values, fraction) => {
@@ -182,7 +183,7 @@ async function start(providers) {
       $('jev-config').open = true;
     }
   }
-  exportData = { created_at: new Date().toISOString(), dataset: 'feedback-calibration-100-v2', model: $('jev-model').value.trim() || 'jev-latest', providers: stats };
+  exportData = { created_at: new Date().toISOString(), dataset: 'feedback-calibration-100-v2', urjev_model: localModel, jev_model: $('jev-model').value.trim() || 'jev-latest', providers: stats };
   $('export-results').disabled = false;
   controls(false);
 }
@@ -204,9 +205,11 @@ $('export-results').onclick = () => {
 };
 
 try {
-  const response = await fetch('/api/benchmark/dataset');
-  const body = await response.json();
+  const [response, healthResponse] = await Promise.all([fetch('/api/benchmark/dataset'), fetch('/api/health')]);
+  const [body, health] = await Promise.all([response.json(), healthResponse.json()]);
   if (!response.ok) throw new Error(body.error?.message || '資料集載入失敗');
+  localModel = health.model || null;
+  $('urjev-model-name').textContent = localModel || '模型資訊無法取得';
   dataset = body.rows;
   $('dataset-status').textContent = body.version + ' · ' + dataset.length + ' 筆 · ' + (dataset.length * fields.length) + ' 個判斷';
   buildRows();

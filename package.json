@@ -5,16 +5,20 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",
     "test": "node --test",
-    "evaluate": "node scripts/evaluate.js",
-    "evaluate:oneforward": "node scripts/evaluate-accuracy.js oneforward-main --oneforward",
-    "evaluate:calibration-data": "node scripts/evaluate-calibration-dataset.js",
+    "evaluate": "node --env-file-if-exists=.env scripts/evaluate.js",
+    "evaluate:oneforward": "node --env-file-if-exists=.env scripts/evaluate-accuracy.js oneforward-main --oneforward",
+    "evaluate:calibration-data": "node --env-file-if-exists=.env scripts/evaluate-calibration-dataset.js",
     "calibrate:report": "node scripts/fit-temperature.js",
     "dataset:calibration": "node scripts/generate-calibration-dataset.js",
     "dataset:holdout": "node scripts/generate-feedback-holdout.js",
     "setup:local": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1",
     "model:start": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-model.ps1",
     "model:vllm": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1",
-    "model:vllm:safe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1 -Safe"
+    "model:vllm:safe": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-vllm.ps1 -Safe",
+    "model:download:4b": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/download-vllm-model.ps1 -Model 4b",
+    "model:download:8b": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/download-vllm-model.ps1 -Model 8b",
+    "model:select:4b": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/select-vllm-model.ps1 -Model 4b",
+    "model:select:8b": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/select-vllm-model.ps1 -Model 8b"
   },
   "dependencies": { "ajv": "^8.17.1" }
 }
