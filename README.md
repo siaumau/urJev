@@ -190,6 +190,8 @@ OneForward 與 Jev 對齊的是封閉候選、沒有自由文字、直接取候�
 
 目前 Playground 的 sentiment 已改為 positive、negative、mixed、neutral 四類，將 unclear 併入 neutral。v2 的 100 筆資料上，OneForward 整體為 78.4%、情緒 64%；40 筆資料上整體為 90.5%、情緒 82.5%，p50 115 ms。舊五分類資料仍保留作歷史重現；設計理由、完整比較與校準結果見[情緒四分類 v2](docs/benchmarks/sentiment-four-class-v2.md)。
 
+V2 下一輪優先處理 sentiment 的 positive／mixed 邊界、main_topic 的 other，以及 frustration 在不同資料分布下的大幅波動；noul 暫不調整。資料需求、方案順序與驗收門檻見[V2 優化路線圖](docs/v2-optimization-roadmap.md)。
+
 加入驗證器快取後，交錯測試含準備時間的中位數由 578.4 降到 500.0 ms；實際本機 HTTP 五次測量仍為 524–611 ms，尚未穩定低於 500 ms。見[驗證器快取調校](docs/validator-cache-tuning.md)。
 
 準確度調整後，16 筆案例的情緒／退款／續訂 48 項檢查，由 46/48 改善為首次 48/48、重跑 47/48；額外八筆案例由 20/24 改善為 22/24。25 項單元測試通過，但語意測試尚未全對。該輪五題推論測量約 461–563 ms，不含完整瀏覽器往返。詳見[準確度調整紀錄](docs/accuracy-tuning.md)。
