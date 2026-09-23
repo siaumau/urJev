@@ -14,7 +14,9 @@
 |---|---|
 | 模型 | `Qwen/Qwen3-8B`，BF16（目前 `.env`）；安裝範本仍預設 4B |
 | 推論引擎 | vLLM XPU，官方預覽版 |
-| 已驗證環境 | Intel Arc Pro B70 32 GB、Windows＋Ubuntu 26.04／WSL2 |
+| 系統記憶體 | 100 GB RAM |
+| 已驗證 GPU | Intel Arc Pro B70：32 GB GDDR6、256-bit、608 GB/s、256 XMX Engines、367 TOPS（INT8） |
+| 作業環境 | Windows＋Ubuntu 26.04／WSL2 |
 | Playground | http://127.0.0.1:15413/ |
 | 模型 API | http://127.0.0.1:18000/ |
 | 排程 | 非同步排程、最多八題並行、prefix cache |

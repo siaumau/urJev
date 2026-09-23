@@ -20,13 +20,16 @@ urJev 是本機的 Jev-style 結構化判斷原型。輸入由兩部分組成：
 | 層級 | 目前配置 | 用途與限制 |
 |---|---|---|
 | 主機 | Windows | 執行 Node.js、PowerShell 啟動器、瀏覽器與 Cloudflare Tunnel |
+| 系統記憶體 | 100 GB RAM | 提供 Windows、WSL2、Node.js、vLLM 輔助資料與大型拼圖搜尋使用；與 GPU 的 32 GB VRAM 分開計算 |
 | Linux 執行環境 | Ubuntu 26.04／WSL2，kernel `6.18.33.2-microsoft-standard-WSL2` | 執行 Python、PyTorch XPU 與 vLLM |
-| GPU | Intel Arc Pro B70 | 本機模型推論 |
-| 顯示記憶體 | 32 GB VRAM | Qwen3-8B BF16 實測約占 15.27 GiB，另固定 2 GiB KV cache；32 GB 提供載入與執行空間，不會自動提升模型準確率 |
+| GPU | Intel Arc Pro B70，Xe2 架構 | 32 Xe cores、256 XMX Engines、32 Ray Tracing Units；本機模型推論 |
+| GPU AI／運算 | 367 TOPS（INT8）、22.94 TFLOPS（FP32） | Intel 標稱峰值；不等於本專案的實際模型吞吐量 |
+| 顯示記憶體 | 32 GB GDDR6、256-bit、支援 ECC | Qwen3-8B BF16 實測約占 15.27 GiB，另固定 2 GiB KV cache；32 GB 提供載入與執行空間，不會自動提升模型準確率 |
 | 顯存頻寬 | 608 GB/s（Intel 標稱） | 影響逐 Token 權重與 KV cache 搬移；完整延遲仍包含提示處理、計算、排程與應用層時間 |
+| GPU 介面／功耗 | PCIe 5.0 x16、TBP 230 W | Intel 參考規格；合作夥伴卡的實際散熱與功率設定可能不同 |
 | Windows 顯示驅動 | `32.0.101.8804` | 本機已驗證版本 |
 
-CPU 型號與系統 RAM 並未固定在專案設定中，因此不列為可重現規格。主要硬體限制是 Intel XPU 相容性、可用 VRAM 回報與顯存頻寬。
+上述 GPU 數值依 [Intel Arc Pro B70 官方規格](https://www.intel.com/content/www/us/en/products/sku/245797/intel-arc-pro-b70-graphics/specifications.html)整理。CPU 型號並未固定在專案設定中，因此不列為可重現規格。主要硬體限制是 Intel XPU 相容性、可用 VRAM 回報與顯存頻寬。
 
 ## 3. 最終軟體配置
 
