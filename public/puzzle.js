@@ -35,7 +35,7 @@ function render(provider,result){
 }
 function preview(){
   if(running)return;
-  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
+  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);if(size>=5&&Number($('scramble').value)>20){$('scramble').value='20';$('notice').textContent='5×5 以上先限制為最多 20 次合法打亂，避免負載過高。';}currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
     for(const p of Object.keys(names)){results[p]={board:[...initial],status:'waiting',moves:[],requests:0,repeats:0,elapsed_ms:0};render(p,results[p]);}
     $('notice').textContent=`盤面 ${$('seed').value} · 合法打亂 ${generatedSteps} 次。兩邊起始盤面相同，按開始才送出請求。`;
   }catch(e){initial=null;$('notice').textContent=e.message;}
