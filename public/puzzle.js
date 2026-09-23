@@ -42,10 +42,10 @@ function preview(){
 }
 function controls(on){running=on;for(const id of ['start','local','generate','seed','size','planner','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
 async function request(provider,payload,timeout,key,model,signal){
-  if(provider==='urjev' && $('planner')?.value==='planner'){const board=payload.state.board.flat();return {choice:planNextMove(board),model:'urJev planner',provider_ms:0,usage:null};}
+  if(provider==='urjev' && $('planner')?.value==='planner'){const board=payload.state.board.flat(), choice=planNextMove(board); if(!choice) throw Error('本機規劃器目前只支援 3×3、4×4；大盤面請使用純模型或模型＋規劃建議。'); return {choice,model:'urJev planner',provider_ms:0,usage:null};}
   if(provider==='urjev' && $('planner')?.value==='hybrid'){
     const suggestion=planNextMove(payload.state.board.flat());
-    payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions} 本機規劃器建議下一步為「${suggestion}」，請檢查盤面後由你決定是否採用，不要盲目接受。`}}};
+    payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions}${suggestion?` 本機規劃器建議下一步為「${suggestion}」，請檢查盤面後由你決定是否採用，不要盲目接受。`:''}`}}};
   }
   const response=await fetch(provider==='urjev'?'/v1/systemone/oneforward':'/api/benchmark/jev',{
     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(Math.max(1,Math.ceil(timeout)))]),

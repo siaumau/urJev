@@ -1,7 +1,7 @@
 export const SIZE = 3;
 export const GOAL = Object.freeze(Array.from({ length: SIZE * SIZE }, (_, i) => (i + 1) % (SIZE * SIZE)));
 export const goalForSize = size => {
-  if (!Number.isInteger(size) || size < 2 || size > 8) throw Error('拼圖尺寸不合法');
+  if (!Number.isInteger(size) || size < 2 || size > 10) throw Error('拼圖尺寸不合法');
   return Object.freeze(Array.from({ length: size * size }, (_, i) => (i + 1) % (size * size)));
 };
 export function planNextMove(board) {
@@ -13,7 +13,7 @@ export function planNextMove(board) {
 const sizeOf = board => Math.sqrt(board.length);
 export function validBoard(board) {
   const size = Array.isArray(board) ? sizeOf(board) : 0;
-  return Number.isInteger(size) && size >= 2 && size <= 8 && new Set(board).size === board.length && board.every(n => Number.isInteger(n) && n >= 0 && n < board.length);
+  return Number.isInteger(size) && size >= 2 && size <= 10 && new Set(board).size === board.length && board.every(n => Number.isInteger(n) && n >= 0 && n < board.length);
 }
 export const solved = board => validBoard(board) && board.every((n, i) => n === i + 1 || (i === board.length - 1 && n === 0));
 export function legalMoves(board) {
