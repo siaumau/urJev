@@ -16,6 +16,14 @@ export function legalMoves(board) {
   return [['up',row>0,at-size],['down',row<size-1,at+size],['left',col>0,at-1],['right',col<size-1,at+1]]
     .filter(([, allowed]) => allowed).map(([direction,, to]) => ({ direction, tile: board[to], to }));
 }
+const opposite = { up:'down', down:'up', left:'right', right:'left' };
+function candidateMoves(board, history) {
+  const moves = legalMoves(board);
+  const last = history?.at(-1)?.direction;
+  if (!last || moves.length <= 1) return moves;
+  const filtered = moves.filter(m => m.direction !== opposite[last]);
+  return filtered.length ? filtered : moves;
+}
 export function moveBoard(board, direction) {
   const move = legalMoves(board).find(m => m.direction === direction);
   if (!move) throw Error('模型選擇了不合法的移動');
@@ -41,8 +49,8 @@ export function puzzlePayload(board, history = []) {
   const directions = { up:'上', down:'下', left:'左', right:'右' };
   const size=sizeOf(board), rows = b => Array.from({length:size},(_,r)=>b.slice(r*size,r*size+size));
   return {
-    state: { board:rows(board), goal:rows(goalForSize(sizeOf(board))), blank:0, recent_moves:history.slice(-8), legal_moves:legalMoves(board).map(m=>({direction:m.direction,tile:m.tile})) },
-    questions: { move: { type:'choice', instructions:`你正在解 ${size}×${size} 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 ${size*size-1}，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。避免反覆撤銷上一步或陷入循環。只依本局盤面做決策。`, criteria:Object.fromEntries(legalMoves(board).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
+    state: { board:rows(board), goal:rows(goalForSize(sizeOf(board))), blank:0, recent_moves:history.slice(-8), legal_moves:candidateMoves(board,history).map(m=>({direction:m.direction,tile:m.tile})) },
+    questions: { move: { type:'choice', instructions:`你正在解 ${size}×${size} 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 ${size*size-1}，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。若有其他合法方向，不要立刻撤銷上一個移動；避免反覆撤銷上一步或陷入循環。只依本局盤面做決策。`, criteria:Object.fromEntries(candidateMoves(board,history).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
   };
 }
 // Every accepted move must come from a provider response. No search/solver fallback.
