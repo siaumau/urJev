@@ -1,7 +1,7 @@
 import { GOAL, goalForSize, shuffle, runPuzzle, distance } from './puzzle-core.js';
 const $ = id => document.getElementById(id);
 const names = { urjev:'urJev', jev:'Jev' };
-const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',error:'請求失敗',unused:'未參賽' };
+const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',cycle_limit:'模型陷入循環',error:'請求失敗',unused:'未參賽' };
 const dirs = {up:'上',down:'下',left:'左',right:'右'};
 let initial, generatedSteps, currentGoal=GOAL, running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
 const ms = n => Number.isFinite(n) ? Math.round(n)+' ms' : '—';

@@ -79,6 +79,7 @@ export async function runPuzzle({ initial, maxSteps, maxMs, request, signal, onU
       seen.add(result.board.join(','));
       result.moves.push({ step:result.moves.length+1, direction:move.direction, tile:move.tile, before, after:[...result.board], request_ms:received-at, elapsed_ms:received-started, repeated, model:response.model ?? null, provider_ms:response.provider_ms ?? null, usage:response.usage ?? null });
       result.elapsed_ms=received-started; onUpdate(result);
+      if (result.repeats >= 3 && result.moves.slice(-3).every(m => m.repeated)) { result.status='cycle_limit'; break; }
     }
     if(solved(result.board)) result.status='solved';
   } catch(error) {
