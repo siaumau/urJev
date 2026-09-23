@@ -1,13 +1,19 @@
 export const SIZE = 3;
 export const GOAL = Object.freeze(Array.from({ length: SIZE * SIZE }, (_, i) => (i + 1) % (SIZE * SIZE)));
+export const goalForSize = size => {
+  if (!Number.isInteger(size) || size < 2 || size > 8) throw Error('拼圖尺寸不合法');
+  return Object.freeze(Array.from({ length: size * size }, (_, i) => (i + 1) % (size * size)));
+};
+const sizeOf = board => Math.sqrt(board.length);
 export function validBoard(board) {
-  return Array.isArray(board) && board.length === SIZE * SIZE && new Set(board).size === SIZE * SIZE && board.every(n => Number.isInteger(n) && n >= 0 && n < SIZE * SIZE);
+  const size = Array.isArray(board) ? sizeOf(board) : 0;
+  return Number.isInteger(size) && size >= 2 && size <= 8 && new Set(board).size === board.length && board.every(n => Number.isInteger(n) && n >= 0 && n < board.length);
 }
-export const solved = board => board.every((n, i) => n === GOAL[i]);
+export const solved = board => validBoard(board) && board.every((n, i) => n === i + 1 || (i === board.length - 1 && n === 0));
 export function legalMoves(board) {
   if (!validBoard(board)) throw Error('無效盤面');
-  const at = board.indexOf(0), row = Math.floor(at / SIZE), col = at % SIZE;
-  return [['up',row>0,at-SIZE],['down',row<SIZE-1,at+SIZE],['left',col>0,at-1],['right',col<SIZE-1,at+1]]
+  const size = sizeOf(board), at = board.indexOf(0), row = Math.floor(at / size), col = at % size;
+  return [['up',row>0,at-size],['down',row<size-1,at+size],['left',col>0,at-1],['right',col<size-1,at+1]]
     .filter(([, allowed]) => allowed).map(([direction,, to]) => ({ direction, tile: board[to], to }));
 }
 export function moveBoard(board, direction) {
@@ -17,9 +23,10 @@ export function moveBoard(board, direction) {
   [next[at], next[move.to]] = [next[move.to], next[at]];
   return next;
 }
-export function shuffle(seed, steps) {
+export function shuffle(seed, steps, size = SIZE) {
   if (!Number.isInteger(seed) || seed < 0 || seed > 4294967295 || !Number.isInteger(steps) || steps < 1 || steps > 500) throw Error('盤面編號或打亂次數不合法');
-  let random = seed >>> 0, board = [...GOAL], previous = -1;
+  const goal = goalForSize(size);
+  let random = seed >>> 0, board = [...goal], previous = -1;
   for (let i = 0; i < steps; i++) {
     const choices = legalMoves(board).filter(m => m.to !== previous);
     random = (Math.imul(random, 1664525) + 1013904223) >>> 0;
@@ -29,13 +36,13 @@ export function shuffle(seed, steps) {
   if (solved(board)) return { board: moveBoard(board, 'left'), steps: steps + 1 };
   return { board, steps };
 }
-export const distance = board => board.reduce((s,n,i) => n ? s + Math.abs(Math.floor(i/SIZE)-Math.floor((n-1)/SIZE)) + Math.abs(i%SIZE-(n-1)%SIZE) : s, 0);
+export const distance = board => { const size=sizeOf(board); return board.reduce((s,n,i) => n ? s + Math.abs(Math.floor(i/size)-Math.floor((n-1)/size)) + Math.abs(i%size-(n-1)%size) : s, 0); };
 export function puzzlePayload(board, history = []) {
   const directions = { up:'上', down:'下', left:'左', right:'右' };
-  const rows = b => Array.from({length:SIZE},(_,r)=>b.slice(r*SIZE,r*SIZE+SIZE));
+  const size=sizeOf(board), rows = b => Array.from({length:size},(_,r)=>b.slice(r*size,r*size+size));
   return {
-    state: { board:rows(board), goal:rows(GOAL), blank:0, recent_moves:history.slice(-8), legal_moves:legalMoves(board).map(m=>({direction:m.direction,tile:m.tile})) },
-    questions: { move: { type:'choice', instructions:'你正在解 3×3 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 8，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。避免反覆撤銷上一步或陷入循環。只依本局盤面做決策。', criteria:Object.fromEntries(legalMoves(board).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
+    state: { board:rows(board), goal:rows(goalForSize(sizeOf(board))), blank:0, recent_moves:history.slice(-8), legal_moves:legalMoves(board).map(m=>({direction:m.direction,tile:m.tile})) },
+    questions: { move: { type:'choice', instructions:`你正在解 ${size}×${size} 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 ${size*size-1}，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。避免反覆撤銷上一步或陷入循環。只依本局盤面做決策。`, criteria:Object.fromEntries(legalMoves(board).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
   };
 }
 // Every accepted move must come from a provider response. No search/solver fallback.

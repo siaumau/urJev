@@ -1,12 +1,12 @@
-import { GOAL, shuffle, runPuzzle, distance } from './puzzle-core.js';
+import { GOAL, goalForSize, shuffle, runPuzzle, distance } from './puzzle-core.js';
 const $ = id => document.getElementById(id);
 const names = { urjev:'urJev', jev:'Jev' };
 const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',error:'請求失敗',unused:'未參賽' };
 const dirs = {up:'上',down:'下',left:'左',right:'右'};
-let initial, generatedSteps, running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
+let initial, generatedSteps, currentGoal=GOAL, running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
 const ms = n => Number.isFinite(n) ? Math.round(n)+' ms' : '—';
 const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
-function paint(board,node){node.replaceChildren(...board.map((n,i)=>{const tile=element('div',n||'',`tile${n===0?' blank':n===GOAL[i]?' correct':''}`);tile.setAttribute('aria-label',n?'數字 '+n:'空格');return tile;}));}
+function paint(board,node){node.style.gridTemplateColumns=`repeat(${Math.sqrt(board.length)},1fr)`;node.replaceChildren(...board.map((n,i)=>{const tile=element('div',n||'',`tile${n===0?' blank':n===currentGoal[i]?' correct':''}`);tile.setAttribute('aria-label',n?'數字 '+n:'空格');return tile;}));}
 for(const provider of Object.keys(names)){
   const side=element('article',undefined,'side'), heading=element('div',undefined,'heading');
   const pill=element('span','等待開始','pill');pill.id=provider+'-status';heading.append(element('h2',names[provider]),pill);
@@ -29,18 +29,18 @@ function render(provider,result){
   $(provider+'-last').textContent=ms(result.moves.at(-1)?.request_ms);
   $(provider+'-mean').textContent=ms(result.moves.length?result.moves.reduce((s,m)=>s+m.request_ms,0)/result.moves.length:null);
   $(provider+'-repeats').textContent=result.repeats;
-  $(provider+'-progress').textContent=`已歸位 ${result.board.filter((n,i)=>n!==0&&n===GOAL[i]).length} / 8 · 格距 ${distance(result.board)}（僅供觀察，不作勝負）`;
+  $(provider+'-progress').textContent=`已歸位 ${result.board.filter((n,i)=>n!==0&&n===currentGoal[i]).length} / ${currentGoal.length-1} · 格距 ${distance(result.board)}（僅供觀察，不作勝負）`;
   $(provider+'-error').textContent=result.error||'';
   $(provider+'-log').replaceChildren(...result.moves.map(m=>element('div',`${m.step}. 空格向${dirs[m.direction]}，交換 ${m.tile} · ${ms(m.request_ms)}${m.repeated?' · 重複盤面':''}`)));
 }
 function preview(){
   if(running)return;
-  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const generated=shuffle(Number($('seed').value),Number($('scramble').value));initial=generated.board;generatedSteps=generated.steps;report=null;$('export').disabled=true;
+  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
     for(const p of Object.keys(names)){results[p]={board:[...initial],status:'waiting',moves:[],requests:0,repeats:0,elapsed_ms:0};render(p,results[p]);}
     $('notice').textContent=`盤面 ${$('seed').value} · 合法打亂 ${generatedSteps} 次。兩邊起始盤面相同，按開始才送出請求。`;
   }catch(e){initial=null;$('notice').textContent=e.message;}
 }
-function controls(on){running=on;for(const id of ['start','local','generate','seed','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
+function controls(on){running=on;for(const id of ['start','local','generate','seed','size','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
 async function request(provider,payload,timeout,key,model,signal){
   const response=await fetch(provider==='urjev'?'/v1/systemone/oneforward':'/api/benchmark/jev',{
     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(Math.max(1,Math.ceil(timeout)))]),
@@ -65,7 +65,7 @@ async function start(providers){
   $('jev-model').value=model;$('jev-model').disabled=true;
   $('jev-model-name').textContent=model;
   const maxSteps=Number($('limit').value),maxMs=Number($('seconds').value)*1000;
-  const configuration={seed:Number($('seed').value),scramble_steps:generatedSteps,max_steps:maxSteps,max_ms:maxMs,goal:[...GOAL],initial:[...initial],providers:[...providers],urjev_model:localModel,jev_model:model};
+  const configuration={size:Math.sqrt(currentGoal.length),seed:Number($('seed').value),scramble_steps:generatedSteps,max_steps:maxSteps,max_ms:maxMs,goal:[...currentGoal],initial:[...initial],providers:[...providers],urjev_model:localModel,jev_model:model};
   for(const p of Object.keys(names))if(!providers.includes(p)){results[p].status='unused';render(p,results[p]);}
   started=performance.now();
   const timer=setInterval(()=>{for(const p of providers)if(results[p]?.status==='running')$(p+'-total').textContent=((performance.now()-started)/1000).toFixed(2)+' s';},100);
@@ -80,7 +80,7 @@ async function start(providers){
 $('start').onclick=()=>start(['urjev','jev']);$('local').onclick=()=>start(['urjev']);
 $('stop').onclick=()=>{controller?.abort();$('stop').disabled=true;};
 $('generate').onclick=()=>{$('seed').value=crypto.getRandomValues(new Uint32Array(1))[0];preview();};
-$('seed').onchange=preview;$('scramble').onchange=preview;
+ $('seed').onchange=preview;$('size').onchange=preview;$('scramble').onchange=preview;
 $('export').onclick=()=>{if(!report)return;const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const a=element('a');a.href=url;a.download='urjev-puzzle-'+report.seed+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 preview();
 fetch('/api/health').then(r=>r.json()).then(h=>{localModel=h.model||'無法讀取';$('urjev-model-name').textContent=localModel+(h.ready?' · 已就緒':' · 尚未就緒');}).catch(()=>{$('urjev-model-name').textContent='模型服務未連線';});
