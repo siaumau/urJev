@@ -113,6 +113,18 @@ npm run model:vllm:safe
 
 首頁預載五題課程平台回饋範例，也可按「載入你的回饋範例」。完整資料見 [examples/feedback-systemone.json](examples/feedback-systemone.json)。支援匯出／匯入 State 與 Problem；貼上內容有 `&#x20;` 或 `\_` 造成 JSON 無效時，可按「清理貼上轉義」。
 
+### urJev vs Jev 100 筆比較頁
+
+開啟 `http://127.0.0.1:15413/benchmark`，可用同一份四分類 v2 資料並行比較本機 urJev OneForward 與 TypeSafe Jev 官方 API。頁面會即時顯示：
+
+- 已完成筆數與判斷數（100 筆、每筆 5 題，共 500 個判斷）
+- 累計正確率與逐筆正確數
+- 最近、平均、p50、p95、總經過時間
+- urJev server time 與 Jev 官方 API upstream time
+- 輸入／輸出 tokens，以及可下載的逐筆 JSON 紀錄
+
+Jev API key 只放在目前頁面的輸入欄位與每次代理請求中，不寫入檔案、localStorage、日誌或匯出結果；重新整理頁面後清除。官方請求由本機固定代理至 `https://api.typesafe.ai/v1/systemone`，用來避開瀏覽器 CORS 差異。建議從 `localhost` 開啟比較頁；若透過 Cloudflare 等公開網址使用，key 仍會經過該網址的 HTTPS 反向代理。按下比較會實際呼叫 Jev 100 次並消耗帳戶額度。模型預設為 `jev-latest`，格式依 [TypeSafe 官方 OpenAPI](https://api.typesafe.ai/docs)。
+
 | 問題型別 | 輸入規則 | 結果 |
 |---|---|---|
 | `choice` | 具名 criteria 物件 | 選項與正規化權重 |

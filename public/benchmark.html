@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>urJev vs Jev — 100 筆真實速度比較</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/benchmark.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">urJev<span> / benchmark lab</span></a>
+    <a class="back-link" href="/">返回 Playground ↗</a>
+  </header>
+  <main class="benchmark-main">
+    <section class="benchmark-hero">
+      <div>
+        <p class="eyebrow">LIVE SIDE-BY-SIDE BENCHMARK</p>
+        <h1>同一批資料，<span>直接比較。</span></h1>
+        <p class="sub">100 筆 State、每筆 5 題，共 500 個判斷。兩側同時逐筆執行，記錄瀏覽器端到端時間與實際答案。</p>
+      </div>
+      <div class="benchmark-config">
+        <label for="jev-key">Jev API key <small>只保留在本頁記憶體，重新整理即清除</small></label>
+        <input id="jev-key" type="password" autocomplete="off" spellcheck="false" placeholder="輸入 TypeSafe API key">
+        <label for="jev-model">Jev model</label>
+        <input id="jev-model" value="jev-latest" autocomplete="off" spellcheck="false">
+        <p class="key-note">按下雙邊測試後會產生 100 次 Jev API 呼叫並消耗帳戶額度。API key 不會寫入檔案、localStorage 或匯出結果。建議從 localhost 執行；若透過公開網址開啟，key 會經過該網址的 HTTPS 反向代理。</p>
+      </div>
+    </section>
+
+    <div class="benchmark-actions">
+      <span id="dataset-status">載入 100 筆資料中…</span>
+      <div>
+        <button id="run-local" disabled>只跑 urJev</button>
+        <button id="run-both" class="primary" disabled>開始 100 筆比較 ↗</button>
+        <button id="stop" disabled>停止</button>
+        <button id="export-results" disabled>匯出結果 ↓</button>
+      </div>
+    </div>
+    <p id="benchmark-error" class="benchmark-error" hidden></p>
+
+    <section class="duel">
+      <article class="model-board local-board">
+        <div class="board-heading"><div><span class="eyebrow">LOCAL / ONEFORWARD</span><h2>urJev</h2></div><strong id="urjev-state" class="state-pill">等待</strong></div>
+        <div class="big-progress"><strong id="urjev-progress">0 / 100</strong><span>已處理筆數</span><progress id="urjev-bar" max="100" value="0"></progress></div>
+        <div class="metric-grid">
+          <div><span>已完成判斷</span><strong id="urjev-decisions">0 / 500</strong></div>
+          <div><span>目前正確率</span><strong id="urjev-accuracy">—</strong></div>
+          <div><span>最近回應</span><strong id="urjev-last">—</strong></div>
+          <div><span>平均回應</span><strong id="urjev-mean">—</strong></div>
+          <div><span>p50 / p95</span><strong id="urjev-percentiles">—</strong></div>
+          <div><span>總經過時間</span><strong id="urjev-total">—</strong></div>
+          <div><span>伺服器平均</span><strong id="urjev-provider">—</strong></div>
+          <div><span>輸入 / 輸出 tokens</span><strong id="urjev-tokens">—</strong></div>
+        </div>
+      </article>
+
+      <article class="model-board jev-board">
+        <div class="board-heading"><div><span class="eyebrow">TYPESAFE / OFFICIAL API</span><h2>Jev</h2></div><strong id="jev-state" class="state-pill">等待</strong></div>
+        <div class="big-progress"><strong id="jev-progress">0 / 100</strong><span>已處理筆數</span><progress id="jev-bar" max="100" value="0"></progress></div>
+        <div class="metric-grid">
+          <div><span>已完成判斷</span><strong id="jev-decisions">0 / 500</strong></div>
+          <div><span>目前正確率</span><strong id="jev-accuracy">—</strong></div>
+          <div><span>最近回應</span><strong id="jev-last">—</strong></div>
+          <div><span>平均回應</span><strong id="jev-mean">—</strong></div>
+          <div><span>p50 / p95</span><strong id="jev-percentiles">—</strong></div>
+          <div><span>總經過時間</span><strong id="jev-total">—</strong></div>
+          <div><span>官方 API 平均</span><strong id="jev-provider">—</strong></div>
+          <div><span>輸入 / 輸出 tokens</span><strong id="jev-tokens">—</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="records">
+      <div class="records-heading"><div><p class="eyebrow">REQUEST LOG</p><h2>逐筆紀錄</h2></div><span>正確數以資料標註答案計算；score 使用最高機率等級。</span></div>
+      <div class="records-scroll">
+        <table>
+          <thead><tr><th>#</th><th>ID</th><th>urJev 結果</th><th>urJev 回應</th><th>Jev 結果</th><th>Jev 回應</th></tr></thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <p class="benchmark-footnote">瀏覽器端到端時間包含本頁到服務的傳輸、伺服器處理與 JSON 解析。urJev「伺服器平均」取本機 server_ms；Jev「官方 API 平均」由本機代理測量呼叫 api.typesafe.ai 的完整等待時間。兩者硬體、網路與服務位置不同。</p>
+  </main>
+  <script type="module" src="/benchmark.js"></script>
+</body>
+</html>

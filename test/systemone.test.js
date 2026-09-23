@@ -157,3 +157,28 @@ test('OneForward HTTP route returns the same public answer shape', async t => {
   assert.equal(body.answers.yes.noul, .9);
   assert.equal(body.meta.output_format, 'single_label_logprobs');
 });
+
+test('benchmark serves v2 data and proxies Jev without persisting the API key', async t => {
+  let forwarded;
+  const server = createApp({}, { jevFetch: async (url, options) => {
+    forwarded = { url, authorization: options.headers.Authorization, body: JSON.parse(options.body) };
+    return new Response(JSON.stringify({ model: 'jev-test', answers: { yes: { type: 'noul', noul: .9 } }, usage: { input_tokens: 4, output_tokens: 1 } }));
+  } });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const datasetResponse = await fetch(base + '/api/benchmark/dataset');
+  const dataset = await datasetResponse.json();
+  assert.equal(datasetResponse.status, 200);
+  assert.equal(dataset.version, 'feedback-calibration-100-v2');
+  assert.equal(dataset.rows.length, 100);
+  const payload = { model: 'jev-latest', state: 'test', questions: { yes: { type: 'noul', instructions: 'Is this true?' } } };
+  const response = await fetch(base + '/api/benchmark/jev', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ api_key: 'secret-test-key', payload }) });
+  const body = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(forwarded.url, 'https://api.typesafe.ai/v1/systemone');
+  assert.equal(forwarded.authorization, 'Bearer secret-test-key');
+  assert.deepEqual(forwarded.body, payload);
+  assert.equal(body.result.answers.yes.noul, .9);
+  assert.equal(JSON.stringify(body).includes('secret-test-key'), false);
+});
