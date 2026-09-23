@@ -6,10 +6,16 @@ export const goalForSize = size => {
 };
 export function planNextMove(board) {
   if (!validBoard(board)) throw Error('無效盤面');
-  // Large boards use a bounded one-step heuristic instead of exhaustive search.
+  // Large boards use a bounded beam search instead of exhaustive search.
   if (sizeOf(board) > 4) {
-    const moves=legalMoves(board), size=sizeOf(board), score=m=>{const next=moveBoard(board,m.direction);return next.reduce((s,n,i)=>n?s+Math.abs(Math.floor(i/size)-Math.floor((n-1)/size))+Math.abs(i%size-(n-1)%size):s,0);};
-    return moves.sort((a,b)=>score(a)-score(b))[0]?.direction ?? null;
+    const size=sizeOf(board), score=b=>b.reduce((s,n,i)=>n?s+Math.abs(Math.floor(i/size)-Math.floor((n-1)/size))+Math.abs(i%size-(n-1)%size):s,0);
+    let beam=[{board:[...board],path:[],seen:new Set([board.join(',')])}];
+    for(let depth=0;depth<6;depth++){
+      const next=[];
+      for(const item of beam) for(const m of legalMoves(item.board)){const b=moveBoard(item.board,m.direction),key=b.join(',');if(item.seen.has(key))continue;const path=[...item.path,m.direction];if(solved(b))return path[0];next.push({board:b,path,seen:new Set([...item.seen,key])});}
+      next.sort((a,b)=>score(a.board)-score(b.board)); beam=next.slice(0,128); if(!beam.length)break;
+    }
+    return beam[0]?.path[0] ?? legalMoves(board)[0]?.direction ?? null;
   }
   const target = goalForSize(sizeOf(board)), start = board.join(','), queue=[[board,[]]], seen=new Set([start]);
   while(queue.length){const [cur,path]=queue.shift(); if(solved(cur)) return path[0]||null; for(const m of legalMoves(cur)){const next=moveBoard(cur,m.direction), key=next.join(','); if(seen.has(key)) continue; seen.add(key); const p=[...path,m.direction]; if(solved(next)) return p[0]; if(seen.size<200000) queue.push([next,p]);}}
