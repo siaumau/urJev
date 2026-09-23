@@ -8,7 +8,7 @@ export function planNextMove(board, blocked = new Set()) {
   if (!validBoard(board)) throw Error('無效盤面');
   // Large boards use a bounded beam search instead of exhaustive search.
   if (sizeOf(board) > 4) {
-    const size=sizeOf(board), score=b=>b.reduce((s,n,i)=>n?s+Math.abs(Math.floor(i/size)-Math.floor((n-1)/size))+Math.abs(i%size-(n-1)%size):s,0);
+    const size=sizeOf(board), score=b=>{let prefix=0;while(prefix<b.length-1&&b[prefix]===prefix+1)prefix++;const distance=b.reduce((s,n,i)=>n?s+Math.abs(Math.floor(i/size)-Math.floor((n-1)/size))+Math.abs(i%size-(n-1)%size):s,0);return distance+(b.length-1-prefix)*2;};
     let beam=[{board:[...board],path:[],seen:new Set([board.join(','),...blocked])}];
     for(let depth=0;depth<20;depth++){
       const next=[];
