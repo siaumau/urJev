@@ -176,6 +176,7 @@ async function start(providers) {
   }
   controls(true);
   $('export-results').disabled = true;
+  $('copy-results').disabled = true;
   const fresh = {
     urjev: resetProvider('urjev'),
     jev: resetProvider('jev')
@@ -193,8 +194,9 @@ async function start(providers) {
       $('jev-config').open = true;
     }
   }
-  exportData = { created_at: new Date().toISOString(), dataset: 'feedback-calibration-100-v2', urjev_model: localModel, jev_model: $('jev-model').value.trim() || 'jev-latest', providers: stats };
+  exportData = { created_at: new Date().toISOString(), dataset: 'feedback-calibration-100-v2', urjev_model: localModel, jev_model: $('jev-model').value.trim() || 'jev-latest', items: dataset.map((row,index)=>({id:row.id,state:row.state,problem:row.problem,expected:row.expected,urjev:stats.urjev?.rows[index]??null,jev:stats.jev?.rows[index]??null})), providers: stats };
   $('export-results').disabled = false;
+  $('copy-results').disabled = false;
   controls(false);
 }
 
@@ -205,6 +207,7 @@ $('run-local').onclick = () => start(['urjev']);
 $('run-both').onclick = () => start(['urjev', 'jev']);
 $('stop').onclick = () => controllers.forEach(controller => controller.abort());
 $('record-filter').onchange=applyRecordFilter;
+$('copy-results').onclick=async()=>{if(!exportData)return;try{await navigator.clipboard.writeText(JSON.stringify(exportData,null,2));const old=$('copy-results').textContent;$('copy-results').textContent='已複製 ✓';setTimeout(()=>$('copy-results').textContent=old,1600);}catch{$('benchmark-error').textContent='無法存取剪貼簿，請改用下載 JSON。';$('benchmark-error').hidden=false;}};
 $('export-results').onclick = () => {
   if (!exportData) return;
   const url = URL.createObjectURL(new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' }));
