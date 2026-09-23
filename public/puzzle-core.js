@@ -64,7 +64,7 @@ export function puzzlePayload(board, history = [], seenBoards = new Set()) {
 }
 // Every accepted move must come from a provider response. No search/solver fallback.
 export async function runPuzzle({ initial, maxSteps, maxMs, request, signal, onUpdate = () => {}, now = () => performance.now(), started = now() }) {
-  if (!validBoard(initial) || !Number.isInteger(maxSteps) || maxSteps < 1 || maxSteps > 500 || !Number.isFinite(maxMs) || maxMs < 1) throw Error('無效比賽設定');
+  if (!validBoard(initial) || !Number.isInteger(maxSteps) || maxSteps < 1 || maxSteps > 10000 || !Number.isFinite(maxMs) || maxMs < 1) throw Error('無效比賽設定');
   const result = { initial:[...initial], board:[...initial], status:'running', moves:[], requests:0, repeats:0, elapsed_ms:0, error:null };
   const seen = new Set([initial.join(',')]);
   try {
