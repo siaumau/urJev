@@ -17,14 +17,15 @@ export function legalMoves(board) {
     .filter(([, allowed]) => allowed).map(([direction,, to]) => ({ direction, tile: board[to], to }));
 }
 const opposite = { up:'down', down:'up', left:'right', right:'left' };
-function candidateMoves(board, history) {
+function candidateMoves(board, history, seenBoards = new Set()) {
   const moves = legalMoves(board);
   const last = history?.at(-1)?.direction;
-  if (!last || moves.length <= 1) return moves;
-  const filtered = moves.filter(m => m.direction !== opposite[last]);
-  // The structured choice schema needs at least two alternatives; keep the
-  // reverse move only when filtering would leave a single option.
-  return filtered.length >= 2 ? filtered : moves;
+  let filtered = moves.filter(m => !seenBoards.has(moveBoard(board, m.direction).join(',')));
+  if (last && moves.length > 1) filtered = filtered.filter(m => m.direction !== opposite[last]);
+  // The structured choice schema needs at least two alternatives. Prefer
+  // unseen/non-reversing moves, but never leave the model with one option.
+  return filtered.length >= 2 ? filtered : (moves.filter(m => !last || m.direction !== opposite[last]).length >= 2
+    ? moves.filter(m => !last || m.direction !== opposite[last]) : moves);
 }
 export function moveBoard(board, direction) {
   const move = legalMoves(board).find(m => m.direction === direction);
@@ -47,12 +48,12 @@ export function shuffle(seed, steps, size = SIZE) {
   return { board, steps };
 }
 export const distance = board => { const size=sizeOf(board); return board.reduce((s,n,i) => n ? s + Math.abs(Math.floor(i/size)-Math.floor((n-1)/size)) + Math.abs(i%size-(n-1)%size) : s, 0); };
-export function puzzlePayload(board, history = []) {
+export function puzzlePayload(board, history = [], seenBoards = new Set()) {
   const directions = { up:'上', down:'下', left:'左', right:'右' };
   const size=sizeOf(board), rows = b => Array.from({length:size},(_,r)=>b.slice(r*size,r*size+size));
   return {
-    state: { board:rows(board), goal:rows(goalForSize(sizeOf(board))), blank:0, recent_moves:history.slice(-8), legal_moves:candidateMoves(board,history).map(m=>({direction:m.direction,tile:m.tile})) },
-    questions: { move: { type:'choice', instructions:`你正在解 ${size}×${size} 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 ${size*size-1}，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。若有其他合法方向，不要立刻撤銷上一個移動；避免反覆撤銷上一步或陷入循環。只依本局盤面做決策。`, criteria:Object.fromEntries(candidateMoves(board,history).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
+    state: { board:rows(board), goal:rows(goalForSize(sizeOf(board))), blank:0, recent_moves:history.slice(-8), legal_moves:candidateMoves(board,history,seenBoards).map(m=>({direction:m.direction,tile:m.tile})) },
+    questions: { move: { type:'choice', instructions:`你正在解 ${size}×${size} 數字滑塊拼圖。0 是唯一空格，一次只能與上下左右相鄰的一格交換。目標是每列由左到右排列，再由上到下，數字 1 到 ${size*size-1}，右下角為 0。選擇有助於完成整個拼圖的下一步，必要時可暫時移開已歸位數字。方向指「空格」移動方向，不是數字移動方向。若有其他合法方向，不要立刻撤銷上一個移動；優先選擇尚未出現過的盤面，避免陷入循環。只依本局盤面做決策。`, criteria:Object.fromEntries(candidateMoves(board,history,seenBoards).map(m=>[m.direction,`空格向${directions[m.direction]}移動，與數字 ${m.tile} 交換。`])) } }
   };
 }
 // Every accepted move must come from a provider response. No search/solver fallback.
@@ -65,7 +66,7 @@ export async function runPuzzle({ initial, maxSteps, maxMs, request, signal, onU
       if (signal?.aborted) { result.status='stopped'; break; }
       if (now()-started >= maxMs) { result.status='time_limit'; break; }
       if (result.moves.length >= maxSteps) { result.status='step_limit'; break; }
-      const payload = puzzlePayload(result.board, result.moves.map(m=>({direction:m.direction,tile:m.tile})));
+      const payload = puzzlePayload(result.board, result.moves.map(m=>({direction:m.direction,tile:m.tile})), seen);
       const before = [...result.board], at = now(); result.requests++; onUpdate(result);
       const response = await request(payload, Math.min(30000, maxMs-(now()-started)));
       const received = now();
