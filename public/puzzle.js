@@ -47,13 +47,15 @@ async function request(provider,payload,timeout,key,model,signal){
     const suggestion=planNextMove(payload.state.board.flat());
     payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions}${suggestion?` 本機規劃器建議下一步為「${suggestion}」，請檢查盤面後由你決定是否採用，不要盲目接受。`:''}`}}};
   }
+  const forced=provider==='urjev'&&$('planner')?.value==='guided' ? planNextMove(payload.state.board.flat()) : null;
+  if(forced) payload={...payload,questions:{...payload.questions,move:{...payload.questions.move,instructions:`${payload.questions.move.instructions} 規劃器指定「${forced}」為本步路徑，請只驗證此方向是否合法，不要改選其他方向。`}}};
   const response=await fetch(provider==='urjev'?'/v1/systemone/oneforward':'/api/benchmark/jev',{
     method:'POST',headers:{'Content-Type':'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(Math.max(1,Math.ceil(timeout)))]),
     body:JSON.stringify(provider==='urjev'?payload:{api_key:key,payload:{...payload,model}})
   });
   if(!response.ok)throw Error(`${names[provider]} HTTP ${response.status}；請檢查模型、API key 或額度`);
   const body=await response.json(),result=provider==='urjev'?body:body.result;
-  return {choice:result?.answers?.move?.choice,model:result?.meta?.model??result?.model,provider_ms:provider==='urjev'?result?.meta?.server_ms:body.upstream_ms,usage:result?.usage};
+  return {choice:forced||result?.answers?.move?.choice,model:result?.meta?.model??result?.model,provider_ms:provider==='urjev'?result?.meta?.server_ms:body.upstream_ms,usage:result?.usage};
 }
 function outcome(providers){
   if(providers.length===1){$('notice').textContent=results.urjev.status==='solved'?'urJev 已完成。本次只跑單邊，不判定勝負。':running?'urJev 單邊測試中，不判定勝負。':'單邊測試已結束；尚未完成拼圖。';return;}
