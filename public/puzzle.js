@@ -1,12 +1,12 @@
-import { GOAL, goalForSize, shuffle, runPuzzle, distance, planNextMove, moveBoard } from './puzzle-core.js';
+import { GOAL, goalForSize, shuffle, runPuzzle, distance, planNextMove, moveBoard, legalMoves, solved } from './puzzle-core.js';
 const $ = id => document.getElementById(id);
 const names = { urjev:'urJev', jev:'Jev' };
 const statuses = { waiting:'等待開始',running:'解題中',solved:'完成！',stopped:'已停止',step_limit:'達步數上限',time_limit:'達時間上限',cycle_limit:'模型陷入循環',error:'請求失敗',unused:'未參賽' };
 const dirs = {up:'上',down:'下',left:'左',right:'右'};
-let initial, generatedSteps, currentGoal=GOAL, plannerSeen=new Set(), running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
+let initial, generatedSteps, currentGoal=GOAL, plannerSeen=new Set(), manualSeen=new Set(), manualActive=false, manualStarted=0, manualLast=0, running=false, controller, results={}, report=null, localModel='讀取模型中…', started=0;
 const ms = n => Number.isFinite(n) ? Math.round(n)+' ms' : '—';
 const element=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
-function paint(board,node){node.style.gridTemplateColumns=`repeat(${Math.sqrt(board.length)},1fr)`;node.replaceChildren(...board.map((n,i)=>{const tile=element('div',n||'',`tile${n===0?' blank':n===currentGoal[i]?' correct':''}`);tile.setAttribute('aria-label',n?'數字 '+n:'空格');return tile;}));}
+function paint(board,node){node.style.gridTemplateColumns=`repeat(${Math.sqrt(board.length)},1fr)`;node.replaceChildren(...board.map((n,i)=>{const tile=element('div',n||'',`tile${n===0?' blank':n===currentGoal[i]?' correct':''}`);tile.dataset.index=i;tile.setAttribute('aria-label',n?'數字 '+n:'空格');return tile;}));}
 for(const provider of Object.keys(names)){
   const side=element('article',undefined,'side'), heading=element('div',undefined,'heading');
   const pill=element('span','等待開始','pill');pill.id=provider+'-status';heading.append(element('h2',names[provider]),pill);
@@ -35,12 +35,12 @@ function render(provider,result){
 }
 function preview(){
   if(running)return;
-  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);plannerSeen=new Set();currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;plannerSeen.add(initial.join(','));generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
+  try{if(!$('seed').value.trim())throw Error('請輸入盤面編號');const size=Number($('size').value);plannerSeen=new Set();manualActive=false;$('manual').disabled=true;currentGoal=goalForSize(size);const generated=shuffle(Number($('seed').value),Number($('scramble').value),size);initial=generated.board;plannerSeen.add(initial.join(','));generatedSteps=generated.steps;report=null;$('export').disabled=true;paint(currentGoal,$('goal'));
     for(const p of Object.keys(names)){results[p]={board:[...initial],status:'waiting',moves:[],requests:0,repeats:0,elapsed_ms:0};render(p,results[p]);}
     $('notice').textContent=`盤面 ${$('seed').value} · 合法打亂 ${generatedSteps} 次。兩邊起始盤面相同，按開始才送出請求。`;
   }catch(e){initial=null;$('notice').textContent=e.message;}
 }
-function controls(on){running=on;for(const id of ['start','local','generate','seed','size','planner','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('stop').disabled=!on;$('export').disabled=on||!report;}
+function controls(on){running=on;for(const id of ['start','local','generate','seed','size','planner','scramble','limit','seconds','key','jev-model'])$(id).disabled=on;$('manual').disabled=on||!results.urjev||results.urjev.status==='waiting';$('stop').disabled=!on;$('export').disabled=on||!report;}
 async function request(provider,payload,timeout,key,model,signal){
   if(provider==='urjev' && $('planner')?.value==='planner'){const board=payload.state.board.flat(), choice=planNextMove(board); if(!choice) throw Error('本機規劃器目前只支援 3×3、4×4；大盤面請使用純模型或模型＋規劃建議。'); return {choice,model:'urJev planner',provider_ms:0,usage:null};}
   if(provider==='urjev' && $('planner')?.value==='hybrid'){
@@ -85,8 +85,27 @@ async function start(providers){
     report={version:1,created_at:new Date().toISOString(),mode:'model_decides_each_move',...configuration,results:Object.fromEntries(providers.map(p=>[p,results[p]]))};
   }finally{clearInterval(timer);controls(false);$('config-status').textContent='本局已結束';outcome(providers);}
 }
+function startManual(){
+  if(running||!initial)return;
+  controls(true);manualActive=true;manualStarted=manualLast=performance.now();started=manualStarted;manualSeen=new Set([initial.join(',')]);
+  results.jev={board:[...initial],status:'running',moves:[],requests:0,repeats:0,elapsed_ms:0,error:null};
+  $('jev-model-name').textContent='人工操作';$('manual').textContent='人工操作中';$('manual').disabled=true;render('jev',results.jev);
+  $('notice').textContent='右側已回到相同起始盤面；請點擊空格旁邊的數字移動。';
+}
+function manualMove(index){
+  if(!manualActive)return;
+  const result=results.jev, move=legalMoves(result.board).find(m=>m.to===index);if(!move)return;
+  const now=performance.now(), before=[...result.board];result.board=moveBoard(result.board,move.direction);
+  const repeated=manualSeen.has(result.board.join(','));if(repeated)result.repeats++;manualSeen.add(result.board.join(','));
+  result.moves.push({step:result.moves.length+1,direction:move.direction,tile:move.tile,before,after:[...result.board],request_ms:now-manualLast,elapsed_ms:now-manualStarted,repeated,model:'human'});
+  manualLast=now;result.elapsed_ms=now-manualStarted;if(solved(result.board)){result.status='solved';manualActive=false;controls(false);$('manual').textContent='再玩一次';$('manual').disabled=false;$('notice').textContent=`人工完成！${result.moves.length} 步 · ${(result.elapsed_ms/1000).toFixed(2)} 秒。`;}
+  render('jev',result);
+  report={...(report||{}),manual:{initial:[...initial],result}};$('export').disabled=false;
+}
 $('start').onclick=()=>start(['urjev','jev']);$('local').onclick=()=>start(['urjev']);
-$('stop').onclick=()=>{controller?.abort();$('stop').disabled=true;};
+$('manual').onclick=startManual;
+$('jev-board').onclick=event=>{const tile=event.target.closest('.tile');if(tile)manualMove(Number(tile.dataset.index));};
+$('stop').onclick=()=>{if(manualActive){manualActive=false;results.jev.status='stopped';results.jev.elapsed_ms=performance.now()-manualStarted;render('jev',results.jev);controls(false);$('manual').textContent='再玩一次';$('notice').textContent='人工操作已停止。';}else controller?.abort();$('stop').disabled=true;};
 $('generate').onclick=()=>{$('seed').value=crypto.getRandomValues(new Uint32Array(1))[0];preview();};
  $('seed').onchange=preview;$('size').onchange=preview;$('scramble').onchange=preview;
 $('export').onclick=()=>{if(!report)return;const url=URL.createObjectURL(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}));const a=element('a');a.href=url;a.download='urjev-puzzle-'+report.seed+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
