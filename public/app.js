@@ -17,6 +17,8 @@ function render(data,questions){
   summary.append(el('span',titles[id]||id,'answer-title'),el('strong',value,'answer-inline'));
   card.append(summary);
   const body=el('div',undefined,'answer-body');body.append(el('p',describe(q.instructions),'question-caption'));
+  const decision=data.meta.profile?.per_question?.find(item=>item.question_id===id);
+  if(decision?.decision_method==='sentiment_binary_factors')body.append(el('p','分別檢查明確肯定與明確不滿，再合併判斷。下方比例是組合估計，尚未校準。','question-caption'));
   if(a.type==='choice'){
    body.append(el('p',describe(q.criteria?.[a.choice]),'answer-description'));
    for(const [k,v] of Object.entries(a.probabilities))body.append(bar(v,labels[k]||k));
@@ -63,7 +65,8 @@ function renderProfile(data,totalMs,requestBytes){
  for(const q of p.per_question||[]){const row=el('tr');for(const value of [titles[q.question_id]||q.question_id,fmt(q.load_ms,''),fmt(q.prompt_ms,''),fmt(q.generation_ms,''),fmt(q.model_ms,''),q.input_tokens??'—',q.cached_input_tokens??'—',q.output_tokens??'—',fmt(q.output_tokens_per_second,'')])row.append(el('td',String(value)));table.append(row);}scroll.append(table);$('profile-content').append(scroll);$('profile').hidden=false;
  if(data.meta.backend==='vllm'){
   $('profile-content').append(el('p','vLLM 階段計時如下；首 token 時間包含輸入處理，與 Ollama 的 Prefill 定義不同。模型在服務啟動時載入，API 未提供逐題載入時間或記憶體配置量。','note'));
-  for(const q of p.per_question||[]){const m=q.vllm_metrics||{};$('profile-content').append(el('h3',titles[q.question_id]||q.question_id),tableRows([['排隊',fmt(m.queue_time_ms)],['排程至首 token',fmt(m.time_to_first_token_ms)],['首至末 token 生成',fmt(m.generation_time_ms)],['平均 token 間隔',fmt(m.mean_itl_ms)],['含輸入處理的輸出吞吐',fmt(m.tokens_per_second,' tokens/s')]]));}
+  const timingQuestions=(p.per_question||[]).flatMap(q=>q.subrequests?q.subrequests.map(s=>({...s,question_id:(titles[q.question_id]||q.question_id)+' · '+(s.factor==='positive'?'肯定判斷':'不滿判斷')})):[q]);
+  for(const q of timingQuestions){const m=q.vllm_metrics||{};$('profile-content').append(el('h3',titles[q.question_id]||q.question_id),tableRows([['排隊',fmt(m.queue_time_ms)],['排程至首 token',fmt(m.time_to_first_token_ms)],['首至末 token 生成',fmt(m.generation_time_ms)],['平均 token 間隔',fmt(m.mean_itl_ms)],['含輸入處理的輸出吞吐',fmt(m.tokens_per_second,' tokens/s')]]));}
  }
  $('runtime-content').textContent='讀取推論後快照…';
  fetch('/api/runtime').then(r=>{if(!r.ok)throw new Error();return r.json();}).then(r=>{if(lastResult!==data)return;lastResult.meta.runtime_snapshot=r;$('result').textContent=JSON.stringify(lastResult,null,2);$('runtime-content').replaceChildren(tableRows([['快照時間',r.sampled_at||'未提供'],['模型',r.model],['模型記憶體配置量',fmt(r.memory_bytes==null?null:r.memory_bytes/1073741824,' GiB')],['其中 GPU VRAM 配置',fmt(r.vram_bytes==null?null:r.vram_bytes/1073741824,' GiB')],['Context 容量',r.context_length??'未提供'],['模型參數量',r.parameters??'未提供'],['量化',r.quantization??'未提供'],['實際記憶體頻寬','未提供（不是容量，也不能從 tokens/s 直接換算）']]));}).catch(()=>{if(lastResult===data)$('runtime-content').textContent='無法讀取記憶體快照；推論結果不受影響。';});

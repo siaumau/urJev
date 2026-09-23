@@ -1,0 +1,937 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "profile": "optimized",
+  "dataset": "feedback-calibration-100-v2",
+  "created_at": "2026-09-23T04:30:33.850Z",
+  "scope": "sentiment only; sequential requests; not five-question latency",
+  "variants": {
+    "evidence": {
+      "correct": 73,
+      "total": 100,
+      "accuracy": 0.73,
+      "mean_ms": 784.9700690000001,
+      "confusion": {
+        "neutral": {
+          "neutral": 26,
+          "mixed": 2,
+          "negative": 2
+        },
+        "mixed": {
+          "mixed": 20
+        },
+        "negative": {
+          "negative": 21,
+          "mixed": 3,
+          "neutral": 1
+        },
+        "positive": {
+          "neutral": 3,
+          "mixed": 16,
+          "positive": 6
+        }
+      },
+      "rows": [
+        {
+          "id": "CAL001",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 848.1735
+        },
+        {
+          "id": "CAL002",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（字幕功能很方便），不滿（手機播放每天都會中斷）。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": true,
+          "ms": 937.6390000000001
+        },
+        {
+          "id": "CAL003",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定「登入很方便」，不滿「電子發票資訊一直錯誤」。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": true,
+          "ms": 935.2253999999998
+        },
+        {
+          "id": "CAL004",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 626.9130999999998
+        },
+        {
+          "id": "CAL005",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 853.2674000000002
+        },
+        {
+          "id": "CAL006",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": false,
+          "ms": 602.8288000000002
+        },
+        {
+          "id": "CAL007",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定「客服說明很有耐心」，不滿「承諾的回電沒有發生」。  \nANSWER: mixed",
+          "tokens": 35,
+          "correct": true,
+          "ms": 1016.6699000000008
+        },
+        {
+          "id": "CAL008",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 600.0208000000002
+        },
+        {
+          "id": "CAL009",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（「客服很快就解決問題，想留下正面回饋」）、不滿（「想申請退費」）。  \nANSWER: mixed",
+          "tokens": 41,
+          "correct": false,
+          "ms": 1189.0531
+        },
+        {
+          "id": "CAL010",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 825.1902999999993
+        },
+        {
+          "id": "CAL011",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「老師講解生動」；明確的不滿：「講義有不少錯字」、「我已決定下期不再續訂」、「希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 50,
+          "correct": true,
+          "ms": 1431.1459999999988
+        },
+        {
+          "id": "CAL012",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 604.9311999999991
+        },
+        {
+          "id": "CAL013",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 824.9814999999999
+        },
+        {
+          "id": "CAL014",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 616.5745999999999
+        },
+        {
+          "id": "CAL015",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「播放器操作很流暢」；不滿原文：「希望能記住上次的播放速度」。  \nANSWER: mixed",
+          "tokens": 34,
+          "correct": false,
+          "ms": 1003.0037999999986
+        },
+        {
+          "id": "CAL016",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「登入流程很方便」；不滿原文：「我已決定下期不再續訂。 希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 41,
+          "correct": false,
+          "ms": 1181.6288999999997
+        },
+        {
+          "id": "CAL017",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "State 中明確的肯定與不滿原文：不滿（「同一問題已聯絡三次，客服仍沒有回覆」）與不滿（「我想申請退費」）。  \nANSWER: negative",
+          "tokens": 45,
+          "correct": true,
+          "ms": 1294.7991999999995
+        },
+        {
+          "id": "CAL018",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：年繳折扣不錯；不滿原文：升級費用超出預算。  \nANSWER: mixed",
+          "tokens": 27,
+          "correct": true,
+          "ms": 792.5634000000009
+        },
+        {
+          "id": "CAL019",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有。  \nANSWER: negative",
+          "tokens": 21,
+          "correct": true,
+          "ms": 628.8597000000009
+        },
+        {
+          "id": "CAL020",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 599.9850000000006
+        },
+        {
+          "id": "CAL021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「回覆速度很快」；不滿原文：「提供的處理方式無效」、「我想申請退費」、「我已決定下期不再續訂」。  \nANSWER: mixed",
+          "tokens": 46,
+          "correct": true,
+          "ms": 1335.2142999999996
+        },
+        {
+          "id": "CAL022",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 604.8340000000026
+        },
+        {
+          "id": "CAL023",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：人員態度很好；明確的不滿：案件被重複轉接很多次。  \nANSWER: mixed",
+          "tokens": 30,
+          "correct": true,
+          "ms": 875.8712999999989
+        },
+        {
+          "id": "CAL024",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：方案功能完整；不滿原文：不同裝置還要另外付費。  \nANSWER: mixed",
+          "tokens": 27,
+          "correct": true,
+          "ms": 793.7727000000014
+        },
+        {
+          "id": "CAL025",
+          "expected": "neutral",
+          "predicted": "mixed",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: mixed",
+          "tokens": 20,
+          "correct": false,
+          "ms": 599.1283000000003
+        },
+        {
+          "id": "CAL026",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "State 中明確的肯定與不滿原文：肯定「平台設計很清楚」，不滿「希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 34,
+          "correct": false,
+          "ms": 991.9827000000005
+        },
+        {
+          "id": "CAL027",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（課程很多也很實用）與不滿（月費偏高）。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": true,
+          "ms": 950.8780000000006
+        },
+        {
+          "id": "CAL028",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：內容深入又容易理解；不滿原文：無  \nANSWER: positive",
+          "tokens": 22,
+          "correct": true,
+          "ms": 658.5142000000014
+        },
+        {
+          "id": "CAL029",
+          "expected": "neutral",
+          "predicted": "mixed",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: mixed",
+          "tokens": 20,
+          "correct": false,
+          "ms": 600.2741999999998
+        },
+        {
+          "id": "CAL030",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「處理人員說明得很清楚」；不滿原文：無。  \nANSWER: positive",
+          "tokens": 25,
+          "correct": true,
+          "ms": 743.2734000000019
+        },
+        {
+          "id": "CAL031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：字幕切換很方便；明確的不滿：我已決定下期不再續訂。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": false,
+          "ms": 937.8587000000007
+        },
+        {
+          "id": "CAL032",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 602.1941000000006
+        },
+        {
+          "id": "CAL033",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: mixed",
+          "tokens": 20,
+          "correct": false,
+          "ms": 604.5724000000009
+        },
+        {
+          "id": "CAL034",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 627.0393999999978
+        },
+        {
+          "id": "CAL035",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「年繳方案很划算」；不滿原文：無。  \nANSWER: positive",
+          "tokens": 25,
+          "correct": true,
+          "ms": 742.2281999999977
+        },
+        {
+          "id": "CAL036",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 611.9320000000007
+        },
+        {
+          "id": "CAL037",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：首頁整理得很清楚；明確的不滿：帳號資料無法修改。  \nANSWER: mixed",
+          "tokens": 28,
+          "correct": true,
+          "ms": 827.7188000000024
+        },
+        {
+          "id": "CAL038",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 602.0123000000021
+        },
+        {
+          "id": "CAL039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「客服態度很親切」；不滿原文：「問題到現在仍未解決」。  \nANSWER: mixed",
+          "tokens": 31,
+          "correct": true,
+          "ms": 907.6299999999974
+        },
+        {
+          "id": "CAL040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 615.0504000000001
+        },
+        {
+          "id": "CAL041",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 606.7343000000001
+        },
+        {
+          "id": "CAL042",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "State 中明確的肯定與不滿原文：不滿（部分教材說明不夠清楚，希望補充範例）；無肯定。  \nANSWER: negative",
+          "tokens": 37,
+          "correct": true,
+          "ms": 1081.6080000000002
+        },
+        {
+          "id": "CAL043",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「試用體驗很好」；不滿原文：「正式方案的價格太高」。  \nANSWER: mixed",
+          "tokens": 30,
+          "correct": true,
+          "ms": 916.9872000000032
+        },
+        {
+          "id": "CAL044",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「通知整理得很好」；不滿原文：「希望能自訂寄送時間」。  \nANSWER: mixed",
+          "tokens": 30,
+          "correct": false,
+          "ms": 877.4062999999951
+        },
+        {
+          "id": "CAL045",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 822.5195999999996
+        },
+        {
+          "id": "CAL046",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「折扣很實用」；不滿原文：「我已決定下期不再續訂」。  \nANSWER: mixed",
+          "tokens": 33,
+          "correct": false,
+          "ms": 964.3116999999984
+        },
+        {
+          "id": "CAL047",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：整體使用體驗很好；不滿原文：無  \nANSWER: positive",
+          "tokens": 22,
+          "correct": true,
+          "ms": 660.0233000000007
+        },
+        {
+          "id": "CAL048",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 302.1933999999965
+        },
+        {
+          "id": "CAL049",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.4890000000014
+        },
+        {
+          "id": "CAL050",
+          "expected": "negative",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": false,
+          "ms": 603.7359999999971
+        },
+        {
+          "id": "CAL051",
+          "expected": "neutral",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": false,
+          "ms": 602.5915000000023
+        },
+        {
+          "id": "CAL052",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「手機與電腦同步得很好」；不滿原文：無。  \nANSWER: positive",
+          "tokens": 25,
+          "correct": true,
+          "ms": 804.8674000000028
+        },
+        {
+          "id": "CAL053",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（客服回覆很親切，希望表揚）；不滿（我想申請退費）。  \nANSWER: mixed",
+          "tokens": 37,
+          "correct": false,
+          "ms": 1072.0838000000003
+        },
+        {
+          "id": "CAL054",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 822.3974999999991
+        },
+        {
+          "id": "CAL055",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 608.3007999999973
+        },
+        {
+          "id": "CAL056",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 617.082699999999
+        },
+        {
+          "id": "CAL057",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "State 中明確的肯定與不滿原文：肯定「課程內容很實用」，不滿「影片播放經常卡住」；「我想申請退費」屬於不滿。  \nANSWER: mixed",
+          "tokens": 46,
+          "correct": true,
+          "ms": 1327.993100000007
+        },
+        {
+          "id": "CAL058",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.7563999999984
+        },
+        {
+          "id": "CAL059",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 603.3847999999998
+        },
+        {
+          "id": "CAL060",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 298.2270999999964
+        },
+        {
+          "id": "CAL061",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 606.5180000000037
+        },
+        {
+          "id": "CAL062",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "State 中明確的肯定與不滿原文：肯定「網站介面很好看」，不滿「通知設定很難找到」。  \nANSWER: mixed",
+          "tokens": 36,
+          "correct": true,
+          "ms": 1044.8594000000012
+        },
+        {
+          "id": "CAL063",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 600.6748999999982
+        },
+        {
+          "id": "CAL064",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：課程內容很實用；不滿原文：希望增加資料分析的進階章節。  \nANSWER: mixed",
+          "tokens": 31,
+          "correct": false,
+          "ms": 909.9633000000031
+        },
+        {
+          "id": "CAL065",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（課程架構很好）與不滿（部分內容已經過時、想申請退費）。  \nANSWER: mixed",
+          "tokens": 37,
+          "correct": true,
+          "ms": 1079.894699999997
+        },
+        {
+          "id": "CAL066",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「這次服務很有耐心」；不滿原文：「希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 30,
+          "correct": false,
+          "ms": 880.3096000000005
+        },
+        {
+          "id": "CAL067",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「入門內容很清楚」；不滿原文：「進階章節過於簡略」。  \nANSWER: mixed",
+          "tokens": 33,
+          "correct": true,
+          "ms": 965.7708999999959
+        },
+        {
+          "id": "CAL068",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 623.75
+        },
+        {
+          "id": "CAL069",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 607.1410000000033
+        },
+        {
+          "id": "CAL070",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 635.7918999999965
+        },
+        {
+          "id": "CAL071",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 617.5282000000007
+        },
+        {
+          "id": "CAL072",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定「搜尋功能很好用」，不滿「通知信重複寄送」。  \nANSWER: mixed",
+          "tokens": 35,
+          "correct": true,
+          "ms": 1018.9282999999996
+        },
+        {
+          "id": "CAL073",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.933100000002
+        },
+        {
+          "id": "CAL074",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：教材整理得很好；不滿原文：希望可以盡快處理。  \nANSWER: mixed",
+          "tokens": 25,
+          "correct": false,
+          "ms": 766.5172999999995
+        },
+        {
+          "id": "CAL075",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定（「影片播放很順暢，倍速切換也很好用」）；不滿（「希望新增離線播放功能」）。  \nANSWER: mixed",
+          "tokens": 46,
+          "correct": false,
+          "ms": 1365.0810000000056
+        },
+        {
+          "id": "CAL076",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 600.1855999999971
+        },
+        {
+          "id": "CAL077",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：平台介面清楚；不滿原文：影片畫質一直自動下降。  \nANSWER: mixed",
+          "tokens": 27,
+          "correct": true,
+          "ms": 819.3075000000026
+        },
+        {
+          "id": "CAL078",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 826.953300000001
+        },
+        {
+          "id": "CAL079",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 307.9354000000021
+        },
+        {
+          "id": "CAL080",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": false,
+          "ms": 612.9375
+        },
+        {
+          "id": "CAL081",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「目前播放功能很穩定」；不滿原文：「我想申請退費。 我已決定下期不再續訂。 請協助確認。」  \nANSWER: mixed",
+          "tokens": 46,
+          "correct": false,
+          "ms": 1325.2584999999963
+        },
+        {
+          "id": "CAL082",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「實作題很有幫助」；不滿原文：「答案說明常常缺漏」。  \nANSWER: mixed",
+          "tokens": 31,
+          "correct": true,
+          "ms": 904.4435999999987
+        },
+        {
+          "id": "CAL083",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 615.0994000000064
+        },
+        {
+          "id": "CAL084",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 615.9005999999936
+        },
+        {
+          "id": "CAL085",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「客服追蹤很完整」；不滿原文：「想詢問如何給予評價」、「想申請退費」、「希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 47,
+          "correct": false,
+          "ms": 1409.2245999999868
+        },
+        {
+          "id": "CAL086",
+          "expected": "neutral",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有。  \nANSWER: negative",
+          "tokens": 21,
+          "correct": false,
+          "ms": 629.4343999999983
+        },
+        {
+          "id": "CAL087",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定原文：「老師的範例很清楚」；不滿原文：「希望可以盡快處理」。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": false,
+          "ms": 940.9156999999977
+        },
+        {
+          "id": "CAL088",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 311.96639999999024
+        },
+        {
+          "id": "CAL089",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: mixed",
+          "tokens": 20,
+          "correct": false,
+          "ms": 599.3920000000071
+        },
+        {
+          "id": "CAL090",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 614.6396999999997
+        },
+        {
+          "id": "CAL091",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.6956000000064
+        },
+        {
+          "id": "CAL092",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「老師講解得很好」；明確的不滿：「播放器切換章節很慢」。  \nANSWER: mixed",
+          "tokens": 35,
+          "correct": true,
+          "ms": 1022.6578000000009
+        },
+        {
+          "id": "CAL093",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: mixed",
+          "tokens": 20,
+          "correct": false,
+          "ms": 640.7157000000007
+        },
+        {
+          "id": "CAL094",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": false,
+          "ms": 609.3642000000109
+        },
+        {
+          "id": "CAL095",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 824.0750999999873
+        },
+        {
+          "id": "CAL096",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 613.0439000000042
+        },
+        {
+          "id": "CAL097",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 602.4573999999993
+        },
+        {
+          "id": "CAL098",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": true,
+          "ms": 822.7793000000092
+        },
+        {
+          "id": "CAL099",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「目前價格合理」；不滿原文：無。  \nANSWER: positive",
+          "tokens": 23,
+          "correct": true,
+          "ms": 691.4107999999978
+        },
+        {
+          "id": "CAL100",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「講義很完整」；不滿原文：「希望增加英文版教材。 希望可以盡快處理。」  \nANSWER: mixed",
+          "tokens": 39,
+          "correct": false,
+          "ms": 1169.4233999999997
+        }
+      ]
+    }
+  }
+}

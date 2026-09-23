@@ -1,0 +1,936 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "profile": "safe",
+  "dataset": "feedback-calibration-100-v2",
+  "created_at": "2026-09-23T04:33:01.475Z",
+  "scope": "sentiment only; sequential requests; not five-question latency",
+  "variants": {
+    "original": {
+      "correct": 52,
+      "total": 100,
+      "accuracy": 0.52,
+      "mean_ms": 100.48559999999998,
+      "confusion": {
+        "neutral": {
+          "neutral": 28,
+          "mixed": 1,
+          "negative": 1
+        },
+        "mixed": {
+          "mixed": 20
+        },
+        "negative": {
+          "negative": 4,
+          "mixed": 19,
+          "neutral": 2
+        },
+        "positive": {
+          "mixed": 21,
+          "neutral": 4
+        }
+      },
+      "rows": [
+        {
+          "id": "CAL001",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 630.307
+        },
+        {
+          "id": "CAL002",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.76920000000007
+        },
+        {
+          "id": "CAL003",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.99339999999995
+        },
+        {
+          "id": "CAL004",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.49169999999992
+        },
+        {
+          "id": "CAL005",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.54700000000003
+        },
+        {
+          "id": "CAL006",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.02960000000007
+        },
+        {
+          "id": "CAL007",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.42489999999998
+        },
+        {
+          "id": "CAL008",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.47259999999983
+        },
+        {
+          "id": "CAL009",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.18399999999997
+        },
+        {
+          "id": "CAL010",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.40830000000005
+        },
+        {
+          "id": "CAL011",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.34919999999988
+        },
+        {
+          "id": "CAL012",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.56449999999995
+        },
+        {
+          "id": "CAL013",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.49710000000005
+        },
+        {
+          "id": "CAL014",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.57960000000003
+        },
+        {
+          "id": "CAL015",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.30710000000022
+        },
+        {
+          "id": "CAL016",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 97.0974000000001
+        },
+        {
+          "id": "CAL017",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.28909999999996
+        },
+        {
+          "id": "CAL018",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.2204999999999
+        },
+        {
+          "id": "CAL019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.11439999999993
+        },
+        {
+          "id": "CAL020",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.01659999999993
+        },
+        {
+          "id": "CAL021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.89890000000014
+        },
+        {
+          "id": "CAL022",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 95.45170000000007
+        },
+        {
+          "id": "CAL023",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.52590000000009
+        },
+        {
+          "id": "CAL024",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 96.41490000000022
+        },
+        {
+          "id": "CAL025",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 96.39949999999999
+        },
+        {
+          "id": "CAL026",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.9052999999999
+        },
+        {
+          "id": "CAL027",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.06929999999966
+        },
+        {
+          "id": "CAL028",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.67560000000003
+        },
+        {
+          "id": "CAL029",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.9331000000002
+        },
+        {
+          "id": "CAL030",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.34130000000005
+        },
+        {
+          "id": "CAL031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.88920000000007
+        },
+        {
+          "id": "CAL032",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.42579999999998
+        },
+        {
+          "id": "CAL033",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.22659999999996
+        },
+        {
+          "id": "CAL034",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 97.26639999999998
+        },
+        {
+          "id": "CAL035",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.88519999999971
+        },
+        {
+          "id": "CAL036",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.4647
+        },
+        {
+          "id": "CAL037",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.98829999999998
+        },
+        {
+          "id": "CAL038",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.78619999999955
+        },
+        {
+          "id": "CAL039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 96.53819999999996
+        },
+        {
+          "id": "CAL040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.61079999999947
+        },
+        {
+          "id": "CAL041",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.1257999999998
+        },
+        {
+          "id": "CAL042",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.76490000000013
+        },
+        {
+          "id": "CAL043",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.58580000000075
+        },
+        {
+          "id": "CAL044",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.84299999999985
+        },
+        {
+          "id": "CAL045",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.69329999999991
+        },
+        {
+          "id": "CAL046",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.78179999999975
+        },
+        {
+          "id": "CAL047",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.1270999999997
+        },
+        {
+          "id": "CAL048",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.45989999999983
+        },
+        {
+          "id": "CAL049",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.61849999999959
+        },
+        {
+          "id": "CAL050",
+          "expected": "negative",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.80100000000039
+        },
+        {
+          "id": "CAL051",
+          "expected": "neutral",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 100.89720000000034
+        },
+        {
+          "id": "CAL052",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 95.8744999999999
+        },
+        {
+          "id": "CAL053",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.07340000000022
+        },
+        {
+          "id": "CAL054",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.77990000000045
+        },
+        {
+          "id": "CAL055",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.32560000000012
+        },
+        {
+          "id": "CAL056",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 95.62970000000041
+        },
+        {
+          "id": "CAL057",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.77039999999943
+        },
+        {
+          "id": "CAL058",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.71889999999985
+        },
+        {
+          "id": "CAL059",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 96.1253999999999
+        },
+        {
+          "id": "CAL060",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 96.02889999999934
+        },
+        {
+          "id": "CAL061",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.01950000000033
+        },
+        {
+          "id": "CAL062",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.20409999999993
+        },
+        {
+          "id": "CAL063",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.33269999999993
+        },
+        {
+          "id": "CAL064",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.66640000000007
+        },
+        {
+          "id": "CAL065",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.28700000000026
+        },
+        {
+          "id": "CAL066",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.4411
+        },
+        {
+          "id": "CAL067",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 97.07269999999971
+        },
+        {
+          "id": "CAL068",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.68459999999959
+        },
+        {
+          "id": "CAL069",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 98.24060000000009
+        },
+        {
+          "id": "CAL070",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 97.29329999999936
+        },
+        {
+          "id": "CAL071",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.03369999999995
+        },
+        {
+          "id": "CAL072",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.17309999999998
+        },
+        {
+          "id": "CAL073",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.45100000000002
+        },
+        {
+          "id": "CAL074",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.08610000000044
+        },
+        {
+          "id": "CAL075",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.41789999999946
+        },
+        {
+          "id": "CAL076",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.82620000000043
+        },
+        {
+          "id": "CAL077",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 95.51879999999983
+        },
+        {
+          "id": "CAL078",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 123.4376000000002
+        },
+        {
+          "id": "CAL079",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 108.52589999999964
+        },
+        {
+          "id": "CAL080",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 110.29590000000007
+        },
+        {
+          "id": "CAL081",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.21430000000146
+        },
+        {
+          "id": "CAL082",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.88630000000012
+        },
+        {
+          "id": "CAL083",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.77490000000034
+        },
+        {
+          "id": "CAL084",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 93.33470000000125
+        },
+        {
+          "id": "CAL085",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.65780000000086
+        },
+        {
+          "id": "CAL086",
+          "expected": "neutral",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.58020000000033
+        },
+        {
+          "id": "CAL087",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 92.6916999999994
+        },
+        {
+          "id": "CAL088",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.95879999999852
+        },
+        {
+          "id": "CAL089",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.91769999999997
+        },
+        {
+          "id": "CAL090",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.77720000000045
+        },
+        {
+          "id": "CAL091",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 97.84239999999954
+        },
+        {
+          "id": "CAL092",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 92.6849000000002
+        },
+        {
+          "id": "CAL093",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.38400000000001
+        },
+        {
+          "id": "CAL094",
+          "expected": "positive",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 93.21049999999923
+        },
+        {
+          "id": "CAL095",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 91.9948000000004
+        },
+        {
+          "id": "CAL096",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 91.73649999999907
+        },
+        {
+          "id": "CAL097",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 94.60599999999977
+        },
+        {
+          "id": "CAL098",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 94.91059999999925
+        },
+        {
+          "id": "CAL099",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 96.86110000000008
+        },
+        {
+          "id": "CAL100",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 95.14229999999952
+        }
+      ]
+    }
+  }
+}

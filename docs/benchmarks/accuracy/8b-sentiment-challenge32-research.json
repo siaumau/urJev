@@ -1,0 +1,789 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "dataName": "challenge32",
+  "created_at": "2026-09-23T04:43:24.326Z",
+  "variants": {
+    "baseline": {
+      "correct": 22,
+      "total": 32,
+      "mean_ms": 63.31643437500003,
+      "rows": [
+        {
+          "id": "SC01",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999989347377,
+            "negative": 2.9400777361525186e-11,
+            "mixed": 9.736200302637957e-10,
+            "neutral": 6.224144616277436e-11
+          },
+          "ms": 100.90119999999999
+        },
+        {
+          "id": "SC02",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.1724399345658513e-10,
+            "negative": 1.1399918527750707e-12,
+            "mixed": 0.9999999997637836,
+            "neutral": 1.7832472903934065e-11
+          },
+          "ms": 61.56110000000001
+        },
+        {
+          "id": "SC03",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.713908431542004e-15,
+            "negative": 4.030726291347603e-17,
+            "mixed": 0.9999999999999947,
+            "neutral": 3.628344178047025e-15
+          },
+          "ms": 60.85149999999999
+        },
+        {
+          "id": "SC04",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 5.564246011263928e-16,
+            "negative": 4.248354255291582e-18,
+            "mixed": 0.9999999999999984,
+            "neutral": 8.095930175212588e-16
+          },
+          "ms": 62.400499999999965
+        },
+        {
+          "id": "SC05",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999985595361812,
+            "negative": 6.82559028959733e-8,
+            "mixed": 1.2501504694671523e-9,
+            "neutral": 0.0000013709577652891697
+          },
+          "ms": 65.07379999999995
+        },
+        {
+          "id": "SC06",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.287724095816774e-14,
+            "negative": 9.173890754175526e-16,
+            "mixed": 0.9999999999995997,
+            "neutral": 3.266131342786139e-13
+          },
+          "ms": 60.004999999999995
+        },
+        {
+          "id": "SC07",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.14804273784573244,
+            "negative": 4.773178302142559e-9,
+            "mixed": 0.8519271353702669,
+            "neutral": 0.000030122010822517823
+          },
+          "ms": 54.24449999999996
+        },
+        {
+          "id": "SC08",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.0009092975576118875,
+            "negative": 7.17374379657999e-9,
+            "mixed": 0.997165712324074,
+            "neutral": 0.0019249829445702304
+          },
+          "ms": 52.2038
+        },
+        {
+          "id": "SC09",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 1.6893569715984705e-10,
+            "negative": 0.9984988165911483,
+            "mixed": 0.001501181991640633,
+            "neutral": 1.2482753434260689e-9
+          },
+          "ms": 53.89880000000005
+        },
+        {
+          "id": "SC10",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 7.194132714198542e-9,
+            "negative": 0.9999994792207777,
+            "mixed": 5.043476404056856e-7,
+            "neutral": 9.237449256055695e-9
+          },
+          "ms": 54.16520000000003
+        },
+        {
+          "id": "SC11",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 6.431393941435946e-14,
+            "negative": 1.8426252147189627e-14,
+            "mixed": 0.9999999999975038,
+            "neutral": 2.4133627718271897e-12
+          },
+          "ms": 53.86810000000003
+        },
+        {
+          "id": "SC12",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 4.3632040018583485e-9,
+            "negative": 0.9999416512129315,
+            "mixed": 0.000058291269157774785,
+            "neutral": 5.315470640195656e-8
+          },
+          "ms": 62.60080000000005
+        },
+        {
+          "id": "SC13",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 8.095930175212581e-16,
+            "negative": 4.0307262913476145e-17,
+            "mixed": 0.9999999999999976,
+            "neutral": 1.5125188821494448e-15
+          },
+          "ms": 97.4951000000001
+        },
+        {
+          "id": "SC14",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 7.991959882320693e-11,
+            "negative": 0.9999999986695081,
+            "mixed": 4.193795652799733e-13,
+            "neutral": 1.2501528647234242e-9
+          },
+          "ms": 96.01549999999997
+        },
+        {
+          "id": "SC15",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.6473840611653914e-9,
+            "negative": 0.37754066803741415,
+            "mixed": 0.6224593299476208,
+            "neutral": 3.6758106939380446e-10
+          },
+          "ms": 91.53780000000006
+        },
+        {
+          "id": "SC16",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0956650033262347e-16,
+            "negative": 1.1548224173015766e-17,
+            "mixed": 0.9999999999999982,
+            "neutral": 1.5125188821494458e-15
+          },
+          "ms": 68.95370000000003
+        },
+        {
+          "id": "SC17",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.0956650033262357e-16,
+            "negative": 4.248354255291585e-18,
+            "mixed": 0.9999999999999991,
+            "neutral": 7.144633303166274e-16
+          },
+          "ms": 62.75940000000014
+        },
+        {
+          "id": "SC18",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 7.530388099325972e-17,
+            "negative": 2.9198483321679133e-18,
+            "mixed": 0.9999999999999998,
+            "neutral": 2.0469717131642038e-16
+          },
+          "ms": 63.050199999999904
+        },
+        {
+          "id": "SC19",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 2.628363706943685e-16,
+            "negative": 7.936970663188483e-18,
+            "mixed": 0.9999999999999991,
+            "neutral": 5.564246011263932e-16
+          },
+          "ms": 73.20990000000006
+        },
+        {
+          "id": "SC20",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 9.66920971705744e-17,
+            "negative": 3.7491594713769114e-18,
+            "mixed": 0.9999999999999996,
+            "neutral": 4.910429870159112e-16
+          },
+          "ms": 59.4367000000002
+        },
+        {
+          "id": "SC21",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 3.374885804015298e-16,
+            "negative": 1.3085852357321739e-17,
+            "mixed": 0.9999999999999978,
+            "neutral": 1.7139084315420093e-15
+          },
+          "ms": 58.47750000000019
+        },
+        {
+          "id": "SC22",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 4.0307262913476225e-17,
+            "negative": 1.562882189334988e-18,
+            "mixed": 0.9999999999999996,
+            "neutral": 4.910429870159112e-16
+          },
+          "ms": 54.6241
+        },
+        {
+          "id": "SC23",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 6.645544172915068e-17,
+            "negative": 2.57675710915498e-18,
+            "mixed": 0.9999999999999996,
+            "neutral": 3.824246628097134e-16
+          },
+          "ms": 53.76170000000002
+        },
+        {
+          "id": "SC24",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 6.305116760146979e-16,
+            "negative": 1.6802567025824323e-17,
+            "mixed": 0.9999999999999984,
+            "neutral": 8.095930175212588e-16
+          },
+          "ms": 54.02870000000007
+        },
+        {
+          "id": "SC25",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.978326268620165e-16,
+            "negative": 2.087967911645889e-14,
+            "mixed": 7.530388099325813e-17,
+            "neutral": 0.9999999999999787
+          },
+          "ms": 55.058700000000044
+        },
+        {
+          "id": "SC26",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.5986496065537852e-9,
+            "negative": 0.004070025219406441,
+            "mixed": 0.00002742362728990318,
+            "neutral": 0.995902549554654
+          },
+          "ms": 55.106700000000046
+        },
+        {
+          "id": "SC27",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.4637785077365175e-12,
+            "negative": 4.363462233897194e-9,
+            "mixed": 7.287724064008785e-14,
+            "neutral": 0.9999999956350012
+          },
+          "ms": 59.45739999999978
+        },
+        {
+          "id": "SC28",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.86467214858662e-17,
+            "negative": 5.9821282237671e-15,
+            "mixed": 3.1391327920480105e-17,
+            "neutral": 0.999999999999994
+          },
+          "ms": 55.19450000000006
+        },
+        {
+          "id": "SC29",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.0953808781204707e-16,
+            "negative": 8.701688120650532e-15,
+            "mixed": 0.00026119031018132394,
+            "neutral": 0.9997388096898099
+          },
+          "ms": 52.19830000000002
+        },
+        {
+          "id": "SC30",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.4512243320640786e-12,
+            "negative": 2.765544056578192e-10,
+            "mixed": 0.008577485252929689,
+            "neutral": 0.9914225144690646
+          },
+          "ms": 55.965200000000095
+        },
+        {
+          "id": "SC31",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.3887943864700152e-11,
+            "negative": 5.1090890279662525e-12,
+            "mixed": 2.8257572870619224e-15,
+            "neutral": 0.9999999999810001
+          },
+          "ms": 54.82430000000022
+        },
+        {
+          "id": "SC32",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.384940217738027e-13,
+            "negative": 2.4133627718260394e-12,
+            "mixed": 2.0879679116397265e-14,
+            "neutral": 0.9999999999970273
+          },
+          "ms": 63.19619999999986
+        }
+      ]
+    },
+    "fewshot": {
+      "correct": 30,
+      "total": 32,
+      "mean_ms": 113.03321875000003,
+      "rows": [
+        {
+          "id": "SC01",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999998973812,
+            "negative": 7.991959892315218e-11
+          },
+          "ms": 108.46369999999979
+        },
+        {
+          "id": "SC02",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999997617630333,
+            "negative": 8.315279285380715e-7
+          },
+          "ms": 108.78870000000006
+        },
+        {
+          "id": "SC03",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999989322970027,
+            "negative": 0.18242551491653522
+          },
+          "ms": 117.08789999999999
+        },
+        {
+          "id": "SC04",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999317439627,
+            "negative": 3.9278634073828336e-7
+          },
+          "ms": 105.09949999999981
+        },
+        {
+          "id": "SC05",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 2.1724399346070676e-10
+          },
+          "ms": 99.32199999999966
+        },
+        {
+          "id": "SC06",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999038976078541,
+            "negative": 1.125351754703302e-7
+          },
+          "ms": 104.3134
+        },
+        {
+          "id": "SC07",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 5.60279640614594e-9
+          },
+          "ms": 109.89049999999997
+        },
+        {
+          "id": "SC08",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9990889486412496,
+            "negative": 8.764248496102857e-8
+          },
+          "ms": 103.45399999999972
+        },
+        {
+          "id": "SC09",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000003726638839912802,
+            "negative": 0.9999999994094697
+          },
+          "ms": 134.81889999999976
+        },
+        {
+          "id": "SC10",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 3.059023363247549e-7,
+            "negative": 0.99999998813888
+          },
+          "ms": 135.76249999999982
+        },
+        {
+          "id": "SC11",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000006144177531850823,
+            "negative": 0.9999994956523514
+          },
+          "ms": 103.30880000000025
+        },
+        {
+          "id": "SC12",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000016701429809483402,
+            "negative": 0.9999999123575151
+          },
+          "ms": 104.41060000000016
+        },
+        {
+          "id": "SC13",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 0.9999999586006244
+          },
+          "ms": 101.14519999999993
+        },
+        {
+          "id": "SC14",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 0.9999999994094697
+          },
+          "ms": 101.05529999999999
+        },
+        {
+          "id": "SC15",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 6.825603724121504e-8,
+            "negative": 0.9999999990263799
+          },
+          "ms": 112.529
+        },
+        {
+          "id": "SC16",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.997527377056997,
+            "negative": 0.999999998394772
+          },
+          "ms": 104.30790000000025
+        },
+        {
+          "id": "SC17",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998555019791,
+            "negative": 0.9999999979388463
+          },
+          "ms": 102.60600000000022
+        },
+        {
+          "id": "SC18",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999921107355331,
+            "negative": 0.99999998813888
+          },
+          "ms": 107.26120000000037
+        },
+        {
+          "id": "SC19",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.32082130731838393,
+            "negative": 0.9999999468421502
+          },
+          "ms": 113.74059999999963
+        },
+        {
+          "id": "SC20",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999996940976638,
+            "negative": 0.9999999907625504
+          },
+          "ms": 109.96560000000045
+        },
+        {
+          "id": "SC21",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999785550413585,
+            "negative": 0.9999997617630333
+          },
+          "ms": 118.09789999999975
+        },
+        {
+          "id": "SC22",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9997388096898188,
+            "negative": 0.9999999468421502
+          },
+          "ms": 106.45269999999982
+        },
+        {
+          "id": "SC23",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998555019791,
+            "negative": 0.999999998394772
+          },
+          "ms": 101.10949999999957
+        },
+        {
+          "id": "SC24",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9988304896995872,
+            "negative": 0.9999999997210531
+          },
+          "ms": 102.11639999999989
+        },
+        {
+          "id": "SC25",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.522997951276035e-8,
+            "negative": 2.646573631904765e-9
+          },
+          "ms": 108.47950000000037
+        },
+        {
+          "id": "SC26",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0007096703049020563,
+            "negative": 1.8553914607279394e-7
+          },
+          "ms": 100.45589999999993
+        },
+        {
+          "id": "SC27",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.3157849718487075e-8,
+            "negative": 4.363462233903899e-9
+          },
+          "ms": 105.05799999999999
+        },
+        {
+          "id": "SC28",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 1.1861120010657661e-8
+          },
+          "ms": 204.04150000000027
+        },
+        {
+          "id": "SC29",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 1.955568070542584e-8
+          },
+          "ms": 140.07330000000002
+        },
+        {
+          "id": "SC30",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.022977372418942873,
+            "negative": 1.125351754703302e-7
+          },
+          "ms": 124.97690000000057
+        },
+        {
+          "id": "SC31",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.125351754703302e-7,
+            "negative": 2.0611536181902033e-9
+          },
+          "ms": 109.75530000000072
+        },
+        {
+          "id": "SC32",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.3157849718487075e-8,
+            "negative": 1.6052280526088547e-9
+          },
+          "ms": 109.11480000000029
+        }
+      ]
+    }
+  }
+}

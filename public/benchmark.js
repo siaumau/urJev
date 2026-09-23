@@ -121,7 +121,7 @@ async function runProvider(provider, stats, controller) {
       if (Number.isFinite(response.providerMs)) stats.providerLatencies.push(response.providerMs);
       stats.inputTokens += response.result.usage?.input_tokens || 0;
       stats.outputTokens += response.result.usage?.output_tokens || 0;
-      stats.rows.push({ id: row.id, browser_ms: response.browserMs, provider_ms: response.providerMs, correct: check.correct, total: check.total, checks: check.checks, answers: response.result.answers });
+      stats.rows.push({ id: row.id, browser_ms: response.browserMs, provider_ms: response.providerMs, correct: check.correct, total: check.total, checks: check.checks, answers: response.result.answers, model: response.result.meta?.model, probability_method: response.result.meta?.probability_method, inference_requests: response.result.meta?.inference_requests });
       renderCell(index, provider, check.correct + ' / ' + check.total + ' 正確', check.correct === check.total ? 'cell-pass' : 'cell-partial');
       renderLatencyCell(index, provider, response.browserMs, response.providerMs);
       renderStats(provider, stats);

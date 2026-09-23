@@ -1,0 +1,3728 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "dataName": "development100",
+  "created_at": "2026-09-23T04:41:27.443Z",
+  "variants": {
+    "baseline": {
+      "correct": 52,
+      "total": 100,
+      "mean_ms": 61.55312499999997,
+      "rows": [
+        {
+          "id": "CAL001",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.5125188821492399e-15,
+            "negative": 3.037975385442709e-14,
+            "mixed": 1.0603575991522385e-13,
+            "neutral": 0.9999999999998621
+          },
+          "ms": 88.4272
+        },
+        {
+          "id": "CAL002",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 5.675685232630948e-14,
+            "negative": 1.3347932285971858e-15,
+            "mixed": 0.9999999999996874,
+            "neutral": 2.5436656473761276e-13
+          },
+          "ms": 55.974999999999994
+        },
+        {
+          "id": "CAL003",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 2.825757287115584e-15,
+            "negative": 6.645544172915005e-17,
+            "mixed": 0.9999999999999902,
+            "neutral": 6.7786393428090644e-15
+          },
+          "ms": 55.17050000000003
+        },
+        {
+          "id": "CAL004",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.59840579761092e-9,
+            "negative": 0.9992155841179232,
+            "mixed": 0.00007479310080938389,
+            "neutral": 0.0007096171828615672
+          },
+          "ms": 56.89190000000002
+        },
+        {
+          "id": "CAL005",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.581727487216052e-10,
+            "negative": 8.764198196907664e-8,
+            "mixed": 0.000004785094644169456,
+            "neutral": 0.9999951269052011
+          },
+          "ms": 67.59410000000003
+        },
+        {
+          "id": "CAL006",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.186111937892855e-8,
+            "negative": 1.186111937892855e-8,
+            "mixed": 0.9999999348783866,
+            "neutral": 4.1399374491857433e-8
+          },
+          "ms": 54.89119999999997
+        },
+        {
+          "id": "CAL007",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 3.0379753854428385e-14,
+            "negative": 5.564246011263407e-16,
+            "mixed": 0.9999999999999047,
+            "neutral": 6.431393941451388e-14
+          },
+          "ms": 52.940399999999954
+        },
+        {
+          "id": "CAL008",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.4424771084637454e-14,
+            "negative": 8.878265478443587e-13,
+            "mixed": 8.878265478443587e-13,
+            "neutral": 0.9999999999981899
+          },
+          "ms": 53.87990000000002
+        },
+        {
+          "id": "CAL009",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.1399918530409053e-12,
+            "negative": 6.7786393427886156e-15,
+            "mixed": 0.9999999999969735,
+            "neutral": 1.8795288165333948e-12
+          },
+          "ms": 56.705799999999954
+        },
+        {
+          "id": "CAL010",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.9008376101465793e-14,
+            "negative": 2.8823507934191645e-13,
+            "mixed": 8.423463754394936e-12,
+            "neutral": 0.9999999999912492
+          },
+          "ms": 59.61670000000004
+        },
+        {
+          "id": "CAL011",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.2664165549093808e-14,
+            "negative": 2.319522830243502e-16,
+            "mixed": 0.9999999999999709,
+            "neutral": 1.6261110446177715e-14
+          },
+          "ms": 123.55290000000002
+        },
+        {
+          "id": "CAL012",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.879528816412742e-12,
+            "negative": 3.0988191385135235e-12,
+            "mixed": 6.224144622489397e-11,
+            "neutral": 0.9999999999327802
+          },
+          "ms": 68.42959999999994
+        },
+        {
+          "id": "CAL013",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.305116760146325e-16,
+            "negative": 1.1176086870892973e-14,
+            "mixed": 9.357622968839188e-14,
+            "neutral": 0.9999999999998945
+          },
+          "ms": 57.85649999999998
+        },
+        {
+          "id": "CAL014",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.1724399344834618e-10,
+            "negative": 4.8473687049413926e-11,
+            "mixed": 0.9999999997258588,
+            "neutral": 8.423463752159429e-12
+          },
+          "ms": 68.03690000000006
+        },
+        {
+          "id": "CAL015",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0815941556644244e-11,
+            "negative": 1.626111044521381e-14,
+            "mixed": 0.9999999999406941,
+            "neutral": 4.847368705982778e-11
+          },
+          "ms": 61.119800000000055
+        },
+        {
+          "id": "CAL016",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.2661313427852935e-13,
+            "negative": 5.982128223763192e-15,
+            "mixed": 0.9999999999993407,
+            "neutral": 3.2661313427852935e-13
+          },
+          "ms": 64.35680000000002
+        },
+        {
+          "id": "CAL017",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.581713665143743e-10,
+            "negative": 0.000010129987027393397,
+            "mixed": 0.9999898374132424,
+            "neutral": 3.224155892761176e-8
+          },
+          "ms": 74.89660000000003
+        },
+        {
+          "id": "CAL018",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 4.111452592547891e-15,
+            "negative": 2.0469717131641333e-16,
+            "mixed": 0.9999999999999654,
+            "neutral": 3.037975385443023e-14
+          },
+          "ms": 73.52120000000014
+        },
+        {
+          "id": "CAL019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 9.234702300645938e-9,
+            "negative": 0.00003534701868879072,
+            "mixed": 0.0002611811040214247,
+            "neutral": 0.9997034626425875
+          },
+          "ms": 67.14900000000011
+        },
+        {
+          "id": "CAL020",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.626111044617047e-14,
+            "negative": 4.193795658377554e-13,
+            "mixed": 3.900837610178863e-14,
+            "neutral": 0.9999999999995253
+          },
+          "ms": 61.1237000000001
+        },
+        {
+          "id": "CAL021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 3.03797538544299e-14,
+            "negative": 8.095930175212232e-16,
+            "mixed": 0.9999999999999545,
+            "neutral": 1.4350379601337606e-14
+          },
+          "ms": 57.54060000000004
+        },
+        {
+          "id": "CAL022",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.605200559172522e-9,
+            "negative": 0.00001670141470617053,
+            "mixed": 0.9999832287252286,
+            "neutral": 6.825486460312145e-8
+          },
+          "ms": 57.46519999999987
+        },
+        {
+          "id": "CAL023",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 3.442477108469807e-14,
+            "negative": 3.3748858040151393e-16,
+            "mixed": 0.9999999999999507,
+            "neutral": 1.4350379601337553e-14
+          },
+          "ms": 54.21199999999999
+        },
+        {
+          "id": "CAL024",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 5.982128223767003e-15,
+            "negative": 9.669209717057229e-17,
+            "mixed": 0.9999999999999778,
+            "neutral": 1.626111044617783e-14
+          },
+          "ms": 56.56709999999998
+        },
+        {
+          "id": "CAL025",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.6918914033609137e-10,
+            "negative": 0.0000029023092253725544,
+            "mixed": 8.315255150408194e-7,
+            "neutral": 0.9999962659960704
+          },
+          "ms": 56.71350000000007
+        },
+        {
+          "id": "CAL026",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 4.847368705628598e-11,
+            "negative": 3.978962535310535e-12,
+            "mixed": 0.9999999998676277,
+            "neutral": 7.991959891896017e-11
+          },
+          "ms": 55.11699999999996
+        },
+        {
+          "id": "CAL027",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.4350379601337707e-14,
+            "negative": 2.9783262686201143e-16,
+            "mixed": 0.9999999999999616,
+            "neutral": 2.3659776091346707e-14
+          },
+          "ms": 54.66359999999986
+        },
+        {
+          "id": "CAL028",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.022977317667488572,
+            "negative": 7.028821496595693e-9,
+            "mixed": 0.0000022083879609617986,
+            "neutral": 0.977020466915729
+          },
+          "ms": 60.94549999999981
+        },
+        {
+          "id": "CAL029",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.4637785177488227e-12,
+            "negative": 4.5990553900351734e-10,
+            "mixed": 8.315279281544301e-7,
+            "neutral": 0.9999991680107027
+          },
+          "ms": 77.66090000000008
+        },
+        {
+          "id": "CAL030",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.0005850971336950557,
+            "negative": 5.62346253210532e-8,
+            "mixed": 0.49970742331583984,
+            "neutral": 0.49970742331583984
+          },
+          "ms": 81.08870000000002
+        },
+        {
+          "id": "CAL031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.098819138655295e-12,
+            "negative": 5.384940217638422e-13,
+            "mixed": 0.9999999999785303,
+            "neutral": 1.783247290776353e-11
+          },
+          "ms": 62.88709999999969
+        },
+        {
+          "id": "CAL032",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 9.237115249640826e-9,
+            "negative": 0.000035356254563477385,
+            "mixed": 0.9999646332582136,
+            "neutral": 1.2501076085993758e-9
+          },
+          "ms": 64.59870000000001
+        },
+        {
+          "id": "CAL033",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.578367594589559e-10,
+            "negative": 0.0005527785380216974,
+            "mixed": 0.9994470762860181,
+            "neutral": 1.444181233508736e-7
+          },
+          "ms": 72.93809999999985
+        },
+        {
+          "id": "CAL034",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.0087746377518354e-14,
+            "negative": 4.1937956583027895e-13,
+            "mixed": 1.7832472907820018e-11,
+            "neutral": 0.999999999981698
+          },
+          "ms": 75.56860000000006
+        },
+        {
+          "id": "CAL035",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.1861119869963295e-8,
+            "negative": 6.914399942910366e-13,
+            "mixed": 0.9999999762770689,
+            "neutral": 1.1861119869963295e-8
+          },
+          "ms": 75.42789999999968
+        },
+        {
+          "id": "CAL036",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 4.8473594725612296e-11,
+            "negative": 1.4449774935793777e-7,
+            "mixed": 0.000001760342958888321,
+            "neutral": 0.9999980951108183
+          },
+          "ms": 66.4041000000002
+        },
+        {
+          "id": "CAL037",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 8.25807328555409e-14,
+            "negative": 2.825757287114985e-15,
+            "mixed": 0.9999999999997784,
+            "neutral": 1.361526108089352e-13
+          },
+          "ms": 74.70190000000002
+        },
+        {
+          "id": "CAL038",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.691897918791874e-10,
+            "negative": 2.940077732640649e-11,
+            "mixed": 0.9999999977402558,
+            "neutral": 2.061153617780878e-9
+          },
+          "ms": 55.61709999999994
+        },
+        {
+          "id": "CAL039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 7.681204685201909e-15,
+            "negative": 2.3195228302435134e-16,
+            "mixed": 0.9999999999999758,
+            "neutral": 1.6261110446177794e-14
+          },
+          "ms": 54.85400000000027
+        },
+        {
+          "id": "CAL040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.4350379601326676e-14,
+            "negative": 2.5436656473748694e-13,
+            "mixed": 5.38494021774969e-13,
+            "neutral": 0.9999999999991929
+          },
+          "ms": 53.82659999999987
+        },
+        {
+          "id": "CAL041",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.7832472907084237e-11,
+            "negative": 3.77513454405424e-11,
+            "mixed": 0.9999999999404372,
+            "neutral": 3.978962535600242e-12
+          },
+          "ms": 56.454899999999725
+        },
+        {
+          "id": "CAL042",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 4.846906306086202e-11,
+            "negative": 1.3175257336077678e-10,
+            "mixed": 0.9999038974276498,
+            "neutral": 0.00009610239212848394
+          },
+          "ms": 54.843999999999596
+        },
+        {
+          "id": "CAL043",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 4.658886145103348e-15,
+            "negative": 6.645544172915e-17,
+            "mixed": 0.9999999999999893,
+            "neutral": 5.9821282237670715e-15
+          },
+          "ms": 60.00160000000005
+        },
+        {
+          "id": "CAL044",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.991959892172535e-11,
+            "negative": 2.0879679114417868e-14,
+            "mixed": 0.9999999999022271,
+            "neutral": 1.7832472906402857e-11
+          },
+          "ms": 57.25139999999965
+        },
+        {
+          "id": "CAL045",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.7139084315416864e-15,
+            "negative": 3.442477108469321e-14,
+            "mixed": 1.5428112031915942e-13,
+            "neutral": 0.9999999999998095
+          },
+          "ms": 60.95560000000023
+        },
+        {
+          "id": "CAL046",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.99195988855323e-11,
+            "negative": 1.0815941551329991e-11,
+            "mixed": 0.9999999994493589,
+            "neutral": 4.5990553761198877e-10
+          },
+          "ms": 66.61009999999987
+        },
+        {
+          "id": "CAL047",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.0009096848452093717,
+            "negative": 1.2471401096027998e-9,
+            "mixed": 0.9975904971537203,
+            "neutral": 0.0014998167539302446
+          },
+          "ms": 64.99209999999994
+        },
+        {
+          "id": "CAL048",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.6810038677787536e-14,
+            "negative": 4.193795658374774e-13,
+            "mixed": 6.914400106932338e-13,
+            "neutral": 0.9999999999988625
+          },
+          "ms": 59.62870000000021
+        },
+        {
+          "id": "CAL049",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.3887943468850052e-11,
+            "negative": 3.3982677225691786e-9,
+            "mixed": 2.510999084124896e-8,
+            "neutral": 0.9999999714778535
+          },
+          "ms": 57.88929999999982
+        },
+        {
+          "id": "CAL050",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 9.73575532383689e-10,
+            "negative": 1.855306562689837e-7,
+            "mixed": 0.000045397854776706514,
+            "neutral": 0.9999544156409915
+          },
+          "ms": 53.74299999999994
+        },
+        {
+          "id": "CAL051",
+          "expected": "neutral",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.581747916033668e-10,
+            "negative": 9.736200274275373e-10,
+            "mixed": 0.9999999960216315,
+            "neutral": 2.646573628380072e-9
+          },
+          "ms": 53.19609999999966
+        },
+        {
+          "id": "CAL052",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0815941557113394e-11,
+            "negative": 5.279209628254286e-15,
+            "mixed": 0.9999999999840699,
+            "neutral": 5.109089027981937e-12
+          },
+          "ms": 53.13000000000011
+        },
+        {
+          "id": "CAL053",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 4.1937956583774327e-13,
+            "negative": 1.5125188821486869e-15,
+            "mixed": 0.9999999999994964,
+            "neutral": 8.258073285551761e-14
+          },
+          "ms": 54.75889999999981
+        },
+        {
+          "id": "CAL054",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.1779508898281462e-15,
+            "negative": 2.6810038677815067e-14,
+            "mixed": 8.258073285555008e-14,
+            "neutral": 0.9999999999998894
+          },
+          "ms": 51.70460000000003
+        },
+        {
+          "id": "CAL055",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 7.287724095814005e-14,
+            "negative": 2.8823507934421376e-13,
+            "mixed": 4.1937956583762715e-13,
+            "neutral": 0.9999999999992195
+          },
+          "ms": 53.51500000000033
+        },
+        {
+          "id": "CAL056",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.3176513936144949e-10,
+            "negative": 2.510999092104278e-8,
+            "mixed": 0.9999999746556252,
+            "neutral": 1.0261879371620967e-10
+          },
+          "ms": 56.161099999999806
+        },
+        {
+          "id": "CAL057",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 2.365977609134632e-14,
+            "negative": 8.095930175212157e-16,
+            "mixed": 0.9999999999999452,
+            "neutral": 3.0379753854429616e-14
+          },
+          "ms": 53.02330000000029
+        },
+        {
+          "id": "CAL058",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.91440010159651e-13,
+            "negative": 1.3887943854230928e-11,
+            "mixed": 7.582560422051836e-10,
+            "neutral": 0.9999999992271646
+          },
+          "ms": 53.920500000000175
+        },
+        {
+          "id": "CAL059",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.279209628336908e-15,
+            "negative": 2.244777055020346e-13,
+            "mixed": 5.0087746378421044e-14,
+            "neutral": 0.9999999999997202
+          },
+          "ms": 57.020500000000084
+        },
+        {
+          "id": "CAL060",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.2020024986364223e-15,
+            "negative": 9.357622968837416e-14,
+            "mixed": 1.9810087980483955e-13,
+            "neutral": 0.9999999999997051
+          },
+          "ms": 61.240499999999884
+        },
+        {
+          "id": "CAL061",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.9400551641503786e-11,
+            "negative": 5.043433089982418e-7,
+            "mixed": 0.000007889256725912866,
+            "neutral": 0.9999916063705645
+          },
+          "ms": 59.55809999999974
+        },
+        {
+          "id": "CAL062",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.6261110446175964e-14,
+            "negative": 4.333439150773703e-16,
+            "mixed": 0.9999999999998632,
+            "neutral": 1.2015425731770143e-13
+          },
+          "ms": 61.057500000000346
+        },
+        {
+          "id": "CAL063",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.0608901426580528e-9,
+            "negative": 0.9998718194049441,
+            "mixed": 0.00000478450570473878,
+            "neutral": 0.0001233940284609625
+          },
+          "ms": 63.276800000000094
+        },
+        {
+          "id": "CAL064",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.289734845592534e-11,
+            "negative": 3.202002498563224e-15,
+            "mixed": 0.999999999976845,
+            "neutral": 2.543665647318024e-13
+          },
+          "ms": 57.26330000000007
+        },
+        {
+          "id": "CAL065",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 3.900837610180426e-14,
+            "negative": 8.095930175212e-16,
+            "mixed": 0.9999999999999258,
+            "neutral": 3.442477108469721e-14
+          },
+          "ms": 58.35510000000022
+        },
+        {
+          "id": "CAL066",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.775134543948061e-11,
+            "negative": 1.463778513997552e-12,
+            "mixed": 0.9999999999123113,
+            "neutral": 4.847368705845196e-11
+          },
+          "ms": 62.024600000000646
+        },
+        {
+          "id": "CAL067",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.435037960133741e-14,
+            "negative": 4.3334391507740396e-16,
+            "mixed": 0.9999999999999409,
+            "neutral": 4.4202281036409115e-14
+          },
+          "ms": 60.26499999999942
+        },
+        {
+          "id": "CAL068",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 5.893927511115957e-10,
+            "negative": 3.9202928311043906e-7,
+            "mixed": 0.9980728731574701,
+            "neutral": 0.0019267342238542464
+          },
+          "ms": 58.269900000000234
+        },
+        {
+          "id": "CAL069",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.2447770526045539e-13,
+            "negative": 1.0261879620655353e-10,
+            "mixed": 9.736200302528901e-10,
+            "neutral": 0.9999999989235366
+          },
+          "ms": 59.263199999999415
+        },
+        {
+          "id": "CAL070",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 6.224144620601183e-11,
+            "negative": 2.9400777381949116e-11,
+            "mixed": 0.9999999996294109,
+            "neutral": 2.789468091835178e-10
+          },
+          "ms": 53.2478000000001
+        },
+        {
+          "id": "CAL071",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.388794386464652e-11,
+            "negative": 2.4133627717780403e-12,
+            "mixed": 0.9999999999771383,
+            "neutral": 6.560200168003801e-12
+          },
+          "ms": 55.72620000000006
+        },
+        {
+          "id": "CAL072",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.4350379601337613e-14,
+            "negative": 2.319522830243465e-16,
+            "mixed": 0.9999999999999549,
+            "neutral": 3.037975385442991e-14
+          },
+          "ms": 59.82849999999962
+        },
+        {
+          "id": "CAL073",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.560199876863738e-12,
+            "negative": 9.237449251803678e-9,
+            "mixed": 3.9278633710736276e-7,
+            "neutral": 0.9999995979696534
+          },
+          "ms": 66.82729999999992
+        },
+        {
+          "id": "CAL074",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.3887943864523234e-11,
+            "negative": 1.8426252146650798e-14,
+            "mixed": 0.9999999999682612,
+            "neutral": 1.7832472907580407e-11
+          },
+          "ms": 54.498099999999795
+        },
+        {
+          "id": "CAL075",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.037975385442814e-14,
+            "negative": 2.3195228302433295e-16,
+            "mixed": 0.9999999999998965,
+            "neutral": 7.287724095818939e-14
+          },
+          "ms": 58.53089999999975
+        },
+        {
+          "id": "CAL076",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 6.750996387406772e-9,
+            "negative": 0.730828443149944,
+            "mixed": 0.26885675124564096,
+            "neutral": 0.0003147988534186932
+          },
+          "ms": 56.54579999999987
+        },
+        {
+          "id": "CAL077",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 9.35762296883185e-14,
+            "negative": 1.2664165549082907e-14,
+            "mixed": 0.9999999999991103,
+            "neutral": 7.835041785057418e-13
+          },
+          "ms": 58.5632999999998
+        },
+        {
+          "id": "CAL078",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.905292993726642e-10,
+            "negative": 1.522995136188287e-8,
+            "mixed": 0.0000013709578388898278,
+            "neutral": 0.9999986132216805
+          },
+          "ms": 57.27459999999974
+        },
+        {
+          "id": "CAL079",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.8257572871150368e-15,
+            "negative": 6.431393941450692e-14,
+            "mixed": 1.3615261080893768e-13,
+            "neutral": 0.9999999999997966
+          },
+          "ms": 65.39040000000023
+        },
+        {
+          "id": "CAL080",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.00007484604570362946,
+            "negative": 7.581967253920699e-10,
+            "mixed": 0.000002902096131495093,
+            "neutral": 0.999922251099968
+          },
+          "ms": 80.5056999999997
+        },
+        {
+          "id": "CAL081",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.1399918530419865e-12,
+            "negative": 1.5428112031886823e-13,
+            "mixed": 0.9999999999979221,
+            "neutral": 7.835041785048109e-13
+          },
+          "ms": 72.92950000000019
+        },
+        {
+          "id": "CAL082",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 5.982128223766865e-15,
+            "negative": 1.5941831731372252e-16,
+            "mixed": 0.9999999999999547,
+            "neutral": 3.900837610180538e-14
+          },
+          "ms": 78.36419999999998
+        },
+        {
+          "id": "CAL083",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 4.599055171117293e-10,
+            "negative": 2.5109990424336982e-8,
+            "mixed": 0.9999999548744238,
+            "neutral": 1.9555680205389122e-8
+          },
+          "ms": 76.89509999999973
+        },
+        {
+          "id": "CAL084",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 1.5224606111255772e-8,
+            "negative": 0.9996479443660276,
+            "mixed": 0.000016695823807986395,
+            "neutral": 0.00033534458555834645
+          },
+          "ms": 77.47350000000006
+        },
+        {
+          "id": "CAL085",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.2897348608226163e-11,
+            "negative": 2.2897348608226163e-11,
+            "mixed": 0.9999998874190299,
+            "neutral": 1.125351754651767e-7
+          },
+          "ms": 61.09229999999934
+        },
+        {
+          "id": "CAL086",
+          "expected": "neutral",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 3.5471485842158113e-7,
+            "negative": 0.9030731038477431,
+            "mixed": 0.0017433415333615058,
+            "neutral": 0.09518319990403726
+          },
+          "ms": 63.80479999999989
+        },
+        {
+          "id": "CAL087",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 6.560200168055256e-12,
+            "negative": 3.442477108418277e-14,
+            "mixed": 0.9999999999849818,
+            "neutral": 8.423463754342142e-12
+          },
+          "ms": 54.3166999999994
+        },
+        {
+          "id": "CAL088",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.6261110446174588e-14,
+            "negative": 1.7482341282706696e-13,
+            "mixed": 3.0379753854424554e-14,
+            "neutral": 0.9999999999997786
+          },
+          "ms": 53.57560000000012
+        },
+        {
+          "id": "CAL089",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.2897348454097758e-11,
+            "negative": 1.7832472906310154e-11,
+            "mixed": 0.9999999998970286,
+            "neutral": 6.224144622266874e-11
+          },
+          "ms": 56.02230000000054
+        },
+        {
+          "id": "CAL090",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.582546166845894e-10,
+            "negative": 0.0000017603430013464235,
+            "mixed": 0.9999982384388393,
+            "neutral": 4.59904672887854e-10
+          },
+          "ms": 55.38500000000022
+        },
+        {
+          "id": "CAL091",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 7.551701969495428e-10,
+            "negative": 0.004070137719039927,
+            "mixed": 0.995929846357791,
+            "neutral": 1.5167998874120945e-8
+          },
+          "ms": 57.505599999999504
+        },
+        {
+          "id": "CAL092",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 7.681204685201925e-15,
+            "negative": 1.0956650033262124e-16,
+            "mixed": 0.9999999999999778,
+            "neutral": 1.435037960133794e-14
+          },
+          "ms": 53.973799999999756
+        },
+        {
+          "id": "CAL093",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 5.905303785118643e-10,
+            "negative": 3.927863403256866e-7,
+            "mixed": 0.9999996061632238,
+            "neutral": 4.599055212124931e-10
+          },
+          "ms": 58.40650000000005
+        },
+        {
+          "id": "CAL094",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 6.223919362450226e-11,
+            "negative": 1.3887441240944322e-11,
+            "mixed": 0.00003535625493157476,
+            "neutral": 0.9999646436689419
+          },
+          "ms": 54.80000000000018
+        },
+        {
+          "id": "CAL095",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.0087746377269314e-14,
+            "negative": 3.266131342711431e-13,
+            "mixed": 2.2897348455922615e-11,
+            "neutral": 0.999999999976726
+          },
+          "ms": 55.77220000000034
+        },
+        {
+          "id": "CAL096",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.7832472907269862e-11,
+            "negative": 2.2897348455330047e-11,
+            "mixed": 0.9999999999508467,
+            "neutral": 8.423463754054606e-12
+          },
+          "ms": 58.522899999999936
+        },
+        {
+          "id": "CAL097",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.2501504279826406e-9,
+            "negative": 0.000002902311979856992,
+            "mixed": 0.9999970958473405,
+            "neutral": 5.905292480738641e-10
+          },
+          "ms": 61.047199999999975
+        },
+        {
+          "id": "CAL098",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.0879679116162904e-14,
+            "negative": 2.8823507934034665e-13,
+            "mixed": 1.3887943864766853e-11,
+            "neutral": 0.9999999999858029
+          },
+          "ms": 56.23250000000007
+        },
+        {
+          "id": "CAL099",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.061153508623349e-9,
+            "negative": 1.748234031735005e-13,
+            "mixed": 0.999999944780822,
+            "neutral": 5.31578496089113e-8
+          },
+          "ms": 54.237700000000586
+        },
+        {
+          "id": "CAL100",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0815941557166253e-11,
+            "negative": 2.493722053307838e-15,
+            "mixed": 0.9999999999889571,
+            "neutral": 2.2447770549961853e-13
+          },
+          "ms": 57.70789999999943
+        }
+      ]
+    },
+    "polarity": {
+      "correct": 75,
+      "total": 100,
+      "mean_ms": 106.91120100000008,
+      "rows": [
+        {
+          "id": "CAL001",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 104.30409999999938
+        },
+        {
+          "id": "CAL002",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9706877672877219,
+            "negative": 0.9999999804443168
+          },
+          "ms": 101.56760000000031
+        },
+        {
+          "id": "CAL003",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999962733611601,
+            "negative": 0.9999999979388459
+          },
+          "ms": 99.40320000000065
+        },
+        {
+          "id": "CAL004",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 0.99999998813888
+          },
+          "ms": 117.28849999999966
+        },
+        {
+          "id": "CAL005",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.000010129987357628251
+          },
+          "ms": 111.34679999999935
+        },
+        {
+          "id": "CAL006",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.0002034270465799932,
+            "negative": 0.9770226302990508
+          },
+          "ms": 101.20589999999993
+        },
+        {
+          "id": "CAL007",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.99979657295342,
+            "negative": 0.9999977396746244
+          },
+          "ms": 112.03350000000046
+        },
+        {
+          "id": "CAL008",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 8.764248496102857e-8
+          },
+          "ms": 66.22510000000057
+        },
+        {
+          "id": "CAL009",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.9914225147446858,
+            "negative": 0.880797071719777
+          },
+          "ms": 104.54710000000068
+        },
+        {
+          "id": "CAL010",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.475945666070601e-7,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 135.6913000000004
+        },
+        {
+          "id": "CAL011",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.8519528019683106,
+            "negative": 0.999999990762546
+          },
+          "ms": 137.66899999999987
+        },
+        {
+          "id": "CAL012",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000006144177531850823,
+            "negative": 3.059023363247549e-7
+          },
+          "ms": 116.64320000000043
+        },
+        {
+          "id": "CAL013",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 6.825603724121504e-8
+          },
+          "ms": 100.45440000000053
+        },
+        {
+          "id": "CAL014",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000007889264466933239,
+            "negative": 0.9999999997210531
+          },
+          "ms": 102.4348
+        },
+        {
+          "id": "CAL015",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9998766053808289,
+            "negative": 0.000007889264466933239
+          },
+          "ms": 124.46299999999974
+        },
+        {
+          "id": "CAL016",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.9997388096898188,
+            "negative": 0.9999998874647842
+          },
+          "ms": 117.09239999999954
+        },
+        {
+          "id": "CAL017",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.9999996072136126
+          },
+          "ms": 103.78499999999985
+        },
+        {
+          "id": "CAL018",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.18242551491653522,
+            "negative": 0.9947798737478556
+          },
+          "ms": 99.45669999999882
+        },
+        {
+          "id": "CAL019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.0002611903101813263
+          },
+          "ms": 102.41940000000068
+        },
+        {
+          "id": "CAL020",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.9278634073828336e-7,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 100.62279999999919
+        },
+        {
+          "id": "CAL021",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.18242551491653522,
+            "negative": 0.9999999956365357
+          },
+          "ms": 102.07599999999911
+        },
+        {
+          "id": "CAL022",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0000013709578605790399,
+            "negative": 0.9999999966017317
+          },
+          "ms": 102.01220000000103
+        },
+        {
+          "id": "CAL023",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.047425873514159125,
+            "negative": 0.9999999317439545
+          },
+          "ms": 105.69049999999879
+        },
+        {
+          "id": "CAL024",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9968273169307178,
+            "negative": 0.9999938558224681
+          },
+          "ms": 121.39509999999973
+        },
+        {
+          "id": "CAL025",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.475945666070601e-7,
+            "negative": 0.0293122327122782
+          },
+          "ms": 108.36150000000089
+        },
+        {
+          "id": "CAL026",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.005220125635523485,
+            "negative": 0.999983298584127
+          },
+          "ms": 109.64429999999993
+        },
+        {
+          "id": "CAL027",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999994956523514,
+            "negative": 0.99979657295342
+          },
+          "ms": 106.8701000000001
+        },
+        {
+          "id": "CAL028",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999952149055051,
+            "negative": 1.1861120010657661e-8
+          },
+          "ms": 114.25820000000022
+        },
+        {
+          "id": "CAL029",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.9278634073828336e-7,
+            "negative": 0.18242551491653522
+          },
+          "ms": 105.45110000000022
+        },
+        {
+          "id": "CAL030",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.001926734293943221,
+            "negative": 6.475945666070601e-7
+          },
+          "ms": 98.30279999999948
+        },
+        {
+          "id": "CAL031",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.09534946232842247,
+            "negative": 0.9999993524051246
+          },
+          "ms": 99.60519999999997
+        },
+        {
+          "id": "CAL032",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.9999999998308102
+          },
+          "ms": 98.41409999999996
+        },
+        {
+          "id": "CAL033",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0000029023119851992182,
+            "negative": 0.9999977396746244
+          },
+          "ms": 64.29030000000057
+        },
+        {
+          "id": "CAL034",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 115.44170000000122
+        },
+        {
+          "id": "CAL035",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999977396748937,
+            "negative": 1.8553914607279394e-7
+          },
+          "ms": 148.27580000000125
+        },
+        {
+          "id": "CAL036",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.00002144495864149143
+          },
+          "ms": 104.47290000000066
+        },
+        {
+          "id": "CAL037",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.7310585727705126,
+            "negative": 0.9999999123574942
+          },
+          "ms": 100.09590000000026
+        },
+        {
+          "id": "CAL038",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000003726638839912802,
+            "negative": 0.9999999943972029
+          },
+          "ms": 105.99330000000009
+        },
+        {
+          "id": "CAL039",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.002472622943003016,
+            "negative": 0.9999999468421376
+          },
+          "ms": 100.78139999999985
+        },
+        {
+          "id": "CAL040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.9278634073828336e-7,
+            "negative": 8.764248496102857e-8
+          },
+          "ms": 100.61050000000068
+        },
+        {
+          "id": "CAL041",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000002260325106251199,
+            "negative": 0.9999996072136592
+          },
+          "ms": 99.02959999999985
+        },
+        {
+          "id": "CAL042",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.000013007123813725573,
+            "negative": 0.001926734293943221
+          },
+          "ms": 107.78880000000026
+        },
+        {
+          "id": "CAL043",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999468421502,
+            "negative": 0.9999996940976638
+          },
+          "ms": 115.36440000000039
+        },
+        {
+          "id": "CAL044",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999986290421393,
+            "negative": 0.000013007123813725573
+          },
+          "ms": 67.34389999999985
+        },
+        {
+          "id": "CAL045",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 108.41719999999987
+        },
+        {
+          "id": "CAL046",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.9706877672877219,
+            "negative": 0.998073265248468
+          },
+          "ms": 104.67740000000049
+        },
+        {
+          "id": "CAL047",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999907625504,
+            "negative": 5.3157849718487075e-8
+          },
+          "ms": 112.77169999999933
+        },
+        {
+          "id": "CAL048",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.9278634073828336e-7,
+            "negative": 1.522997951276035e-8
+          },
+          "ms": 104.92219999999907
+        },
+        {
+          "id": "CAL049",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.059023363247549e-7,
+            "negative": 0.000006144177531850823
+          },
+          "ms": 102.06800000000112
+        },
+        {
+          "id": "CAL050",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 0.2689414213699951
+          },
+          "ms": 101.16029999999955
+        },
+        {
+          "id": "CAL051",
+          "expected": "neutral",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.0004305570927227883,
+            "negative": 0.9999989322968754
+          },
+          "ms": 120.1961999999985
+        },
+        {
+          "id": "CAL052",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999993524054333,
+            "negative": 0.000001760343003490802
+          },
+          "ms": 103.81000000000131
+        },
+        {
+          "id": "CAL053",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.9999251537370123,
+            "negative": 0.9626731149315425
+          },
+          "ms": 101.17039999999906
+        },
+        {
+          "id": "CAL054",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 6.475945666070601e-7,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 120.42879999999968
+        },
+        {
+          "id": "CAL055",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000007889264466933239,
+            "negative": 8.764248496102857e-8
+          },
+          "ms": 111.67540000000008
+        },
+        {
+          "id": "CAL056",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000016701429809483402,
+            "negative": 0.9999999992417437
+          },
+          "ms": 122.72049999999945
+        },
+        {
+          "id": "CAL057",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999869928761863,
+            "negative": 0.9999999983947712
+          },
+          "ms": 119.88760000000002
+        },
+        {
+          "id": "CAL058",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.3823696679343506e-7,
+            "negative": 8.764248496102857e-8
+          },
+          "ms": 101.99880000000121
+        },
+        {
+          "id": "CAL059",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 6.825603724121504e-8
+          },
+          "ms": 103.66439999999966
+        },
+        {
+          "id": "CAL060",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000013709578605790399,
+            "negative": 6.825603724121504e-8
+          },
+          "ms": 100.15740000000005
+        },
+        {
+          "id": "CAL061",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 0.2689414213699951
+          },
+          "ms": 103.95199999999932
+        },
+        {
+          "id": "CAL062",
+          "expected": "mixed",
+          "predicted": "positive",
+          "correct": false,
+          "details": {
+            "positive": 0.9999921107355331,
+            "negative": 0.000035356254934266316
+          },
+          "ms": 103.78699999999844
+        },
+        {
+          "id": "CAL063",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.3823696679343506e-7,
+            "negative": 0.999999992805866
+          },
+          "ms": 129.4373999999989
+        },
+        {
+          "id": "CAL064",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 0.000003726638839912802
+          },
+          "ms": 100.4362000000001
+        },
+        {
+          "id": "CAL065",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999417087274893,
+            "negative": 0.9999999586006146
+          },
+          "ms": 100.31940000000031
+        },
+        {
+          "id": "CAL066",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.002472622943003016,
+            "negative": 0.9241418116217418
+          },
+          "ms": 98.71060000000034
+        },
+        {
+          "id": "CAL067",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999546021475793,
+            "negative": 0.9999646437408513
+          },
+          "ms": 99.54470000000038
+        },
+        {
+          "id": "CAL068",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.9999991684720715
+          },
+          "ms": 99.36520000000019
+        },
+        {
+          "id": "CAL069",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.059023363247549e-7,
+            "negative": 0.0000013709578605790399
+          },
+          "ms": 101.35489999999845
+        },
+        {
+          "id": "CAL070",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 0.9999999677581336
+          },
+          "ms": 107.67740000000049
+        },
+        {
+          "id": "CAL071",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000004785094494835718,
+            "negative": 0.9999986290432835
+          },
+          "ms": 100.5632999999998
+        },
+        {
+          "id": "CAL072",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 0.9999996940976271
+          },
+          "ms": 102.16030000000137
+        },
+        {
+          "id": "CAL073",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 0.000058291272510566984
+          },
+          "ms": 108.8719000000001
+        },
+        {
+          "id": "CAL074",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999038976078541,
+            "negative": 0.0004305570927227883
+          },
+          "ms": 103.64179999999942
+        },
+        {
+          "id": "CAL075",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 0.000007889264466933239
+          },
+          "ms": 111.3101999999999
+        },
+        {
+          "id": "CAL076",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 0.9999938558275954
+          },
+          "ms": 113.12199999999939
+        },
+        {
+          "id": "CAL077",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.8175744850834649,
+            "negative": 0.9999999586006195
+          },
+          "ms": 103.08009999999922
+        },
+        {
+          "id": "CAL078",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 0.000002260325106251199
+          },
+          "ms": 105.04099999999926
+        },
+        {
+          "id": "CAL079",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000013709578605790399,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 101.87890000000152
+        },
+        {
+          "id": "CAL080",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.004070137783849419,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 98.68589999999858
+        },
+        {
+          "id": "CAL081",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.060086650384398026,
+            "negative": 0.9999989322968754
+          },
+          "ms": 100.6903999999995
+        },
+        {
+          "id": "CAL082",
+          "expected": "mixed",
+          "predicted": "positive",
+          "correct": false,
+          "details": {
+            "positive": 0.9999921107355331,
+            "negative": 0.010986942853232415
+          },
+          "ms": 104.6911
+        },
+        {
+          "id": "CAL083",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000016701429809483402,
+            "negative": 0.9999038976078541
+          },
+          "ms": 140.27300000000105
+        },
+        {
+          "id": "CAL084",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.9999999997210531
+          },
+          "ms": 156.65810000000056
+        },
+        {
+          "id": "CAL085",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.000004785094494835718,
+            "negative": 0.5621765008857981
+          },
+          "ms": 122.10920000000078
+        },
+        {
+          "id": "CAL086",
+          "expected": "neutral",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.0000013709578605790399,
+            "negative": 0.9706877707325846
+          },
+          "ms": 107.33619999999974
+        },
+        {
+          "id": "CAL087",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999986290421393,
+            "negative": 0.004070137783849419
+          },
+          "ms": 99.35419999999976
+        },
+        {
+          "id": "CAL088",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 1.1861120010657661e-8
+          },
+          "ms": 101.16860000000088
+        },
+        {
+          "id": "CAL089",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000058291272510566984,
+            "negative": 0.9999993524053562
+          },
+          "ms": 105.73150000000169
+        },
+        {
+          "id": "CAL090",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00002753568782174604,
+            "negative": 0.9999999995400943
+          },
+          "ms": 124.60580000000118
+        },
+        {
+          "id": "CAL091",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000002260325106251199,
+            "negative": 0.999999984770017
+          },
+          "ms": 116.97559999999976
+        },
+        {
+          "id": "CAL092",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998555019791,
+            "negative": 0.9999991684719722
+          },
+          "ms": 105.07539999999972
+        },
+        {
+          "id": "CAL093",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 0.9999999804443168
+          },
+          "ms": 102.53549999999996
+        },
+        {
+          "id": "CAL094",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0004305570927227883,
+            "negative": 5.3157849718487075e-8
+          },
+          "ms": 101.97199999999975
+        },
+        {
+          "id": "CAL095",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0000010677029973235123,
+            "negative": 1.4449802095675028e-7
+          },
+          "ms": 98.14309999999932
+        },
+        {
+          "id": "CAL096",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.9999999979388454
+          },
+          "ms": 101.77230000000054
+        },
+        {
+          "id": "CAL097",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000007889264466933239,
+            "negative": 0.9999982396569966
+          },
+          "ms": 101.01220000000103
+        },
+        {
+          "id": "CAL098",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 2.3823696679343506e-7
+          },
+          "ms": 105.77640000000247
+        },
+        {
+          "id": "CAL099",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.37754066879814546,
+            "negative": 1.125351754703302e-7
+          },
+          "ms": 101.07800000000134
+        },
+        {
+          "id": "CAL100",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999970976880148,
+            "negative": 0.00012339461917113592
+          },
+          "ms": 101.27160000000003
+        }
+      ]
+    },
+    "entailment": {
+      "correct": 62,
+      "total": 100,
+      "mean_ms": 112.6278609999998,
+      "rows": [
+        {
+          "id": "CAL001",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0011695103004128338,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.000006144177531850823,
+            "neutral": 0.9999417087274893
+          },
+          "ms": 132.1866000000009
+        },
+        {
+          "id": "CAL002",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.8175744850834649,
+            "mixed": 0.9933071487351836,
+            "neutral": 0.8175744850834649
+          },
+          "ms": 145.1323999999986
+        },
+        {
+          "id": "CAL003",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.4378234991142019,
+            "negative": 0.9999898700126424,
+            "mixed": 0.9999989322970027,
+            "neutral": 0.9046505376715775
+          },
+          "ms": 125.82050000000163
+        },
+        {
+          "id": "CAL004",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0009110513587503458,
+            "negative": 0.9914225147446858,
+            "mixed": 0.000010129987357628251,
+            "neutral": 0.9947798743644765
+          },
+          "ms": 107.65049999999974
+        },
+        {
+          "id": "CAL005",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.000035356254934266316,
+            "negative": 0.0002034270465799932,
+            "mixed": 0.0000010677029973235123,
+            "neutral": 0.9997388096898188
+          },
+          "ms": 109.55630000000019
+        },
+        {
+          "id": "CAL006",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.4378234991142019,
+            "mixed": 0.014063626423394072,
+            "neutral": 0.37754066879814546
+          },
+          "ms": 103.90180000000328
+        },
+        {
+          "id": "CAL007",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.006692851264816554,
+            "negative": 0.9859363735766059,
+            "mixed": 0.9999832985701904,
+            "neutral": 0.8807970826714613
+          },
+          "ms": 109.62610000000132
+        },
+        {
+          "id": "CAL008",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0011695103004128338,
+            "negative": 0.0002034270465799932,
+            "mixed": 0.000003726638839912802,
+            "neutral": 0.9999417087274893
+          },
+          "ms": 130.36799999999857
+        },
+        {
+          "id": "CAL009",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.14804719803168948,
+            "negative": 0.8175744850834649,
+            "mixed": 0.8519528019683106,
+            "neutral": 0.9706877672877219
+          },
+          "ms": 109.9310000000005
+        },
+        {
+          "id": "CAL010",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00009610239214580366,
+            "negative": 0.00002144495864149143,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9947798743644765
+          },
+          "ms": 106.31169999999838
+        },
+        {
+          "id": "CAL011",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.0003353500316799018,
+            "negative": 0.9999921107355331,
+            "mixed": 0.9999724643121783,
+            "neutral": 0.01798621187025419
+          },
+          "ms": 108.01490000000194
+        },
+        {
+          "id": "CAL012",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0005527785524441058,
+            "negative": 0.000058291272510566984,
+            "mixed": 0.000006144177531850823,
+            "neutral": 0.999447221447556
+          },
+          "ms": 105.40459999999803
+        },
+        {
+          "id": "CAL013",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0007096703049020563,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.000004785094494835718,
+            "neutral": 0.9999646437450659
+          },
+          "ms": 104.59100000000035
+        },
+        {
+          "id": "CAL014",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000045397852420729034,
+            "negative": 0.9999869928761863,
+            "mixed": 0.0031726830692822717,
+            "neutral": 0.07585817323116976
+          },
+          "ms": 106.29680000000008
+        },
+        {
+          "id": "CAL015",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.22270013882530884,
+            "negative": 0.004070137783849419,
+            "mixed": 0.0011695103004128338,
+            "neutral": 0.997527377056997
+          },
+          "ms": 105.0557000000008
+        },
+        {
+          "id": "CAL016",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.002472622943003016,
+            "negative": 0.99966464996832,
+            "mixed": 0.99966464996832,
+            "neutral": 0.2689414272294874
+          },
+          "ms": 113.62709999999788
+        },
+        {
+          "id": "CAL017",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000010129987357628251,
+            "negative": 0.9995694429072773,
+            "mixed": 0.00002144495864149143,
+            "neutral": 0.9399133496156019
+          },
+          "ms": 116.50139999999737
+        },
+        {
+          "id": "CAL018",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.00002144495864149143,
+            "negative": 0.0293122327122782,
+            "mixed": 0.8807970826714613,
+            "neutral": 0.37754066879814546
+          },
+          "ms": 119.2023999999983
+        },
+        {
+          "id": "CAL019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0002611903101813263,
+            "negative": 0.060086650384398026,
+            "mixed": 0.000035356254934266316,
+            "neutral": 0.9997388096898188
+          },
+          "ms": 116.47440000000279
+        },
+        {
+          "id": "CAL020",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00015843623599953396,
+            "negative": 0.000016701429809483402,
+            "mixed": 0.0000010677029973235123,
+            "neutral": 0.9998766053808289
+          },
+          "ms": 155.49649999999747
+        },
+        {
+          "id": "CAL021",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.000013007123813725573,
+            "negative": 0.9990889486412496,
+            "mixed": 0.9990889486412496,
+            "neutral": 0.014063626423394072
+          },
+          "ms": 118.3148000000001
+        },
+        {
+          "id": "CAL022",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00009610239214580366,
+            "negative": 0.9968273169307178,
+            "mixed": 0.0007096703049020563,
+            "neutral": 0.6224593312018546
+          },
+          "ms": 108.33289999999761
+        },
+        {
+          "id": "CAL023",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.006692851264816554,
+            "negative": 0.999447221447556,
+            "mixed": 0.9999546021475793,
+            "neutral": 0.9914225147446858
+          },
+          "ms": 107.41319999999905
+        },
+        {
+          "id": "CAL024",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.11920291732853862,
+            "negative": 0.999447221447556,
+            "mixed": 0.99966464996832,
+            "neutral": 0.9988304896995872
+          },
+          "ms": 107.95210000000225
+        },
+        {
+          "id": "CAL025",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.006692851264816554,
+            "negative": 0.9770226275810572,
+            "mixed": 0.0002611903101813263,
+            "neutral": 0.9998766053808289
+          },
+          "ms": 108.21860000000015
+        },
+        {
+          "id": "CAL026",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.000013007123813725573,
+            "negative": 0.37754066879814546,
+            "mixed": 0.4378234991142019,
+            "neutral": 0.09534946232842247
+          },
+          "ms": 137.20449999999983
+        },
+        {
+          "id": "CAL027",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.0031726830692822717,
+            "negative": 0.4378234991142019,
+            "mixed": 0.9999832985701904,
+            "neutral": 0.18242551491653522
+          },
+          "ms": 124.64020000000164
+        },
+        {
+          "id": "CAL028",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.8807970826714613,
+            "negative": 0.000010129987357628251,
+            "mixed": 0.000006144177531850823,
+            "neutral": 0.9914225147446858
+          },
+          "ms": 119.27380000000267
+        },
+        {
+          "id": "CAL029",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0002034270465799932,
+            "negative": 0.32082130731838393,
+            "mixed": 0.000045397852420729034,
+            "neutral": 0.99966464996832
+          },
+          "ms": 109.68730000000141
+        },
+        {
+          "id": "CAL030",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.022977372418942873,
+            "negative": 0.00002753568782174604,
+            "mixed": 0.000003726638839912802,
+            "neutral": 0.9984988180062319
+          },
+          "ms": 103.66059999999925
+        },
+        {
+          "id": "CAL031",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.014063626423394072,
+            "negative": 0.9997388096898188,
+            "mixed": 0.99966464996832,
+            "neutral": 0.6791786926816161
+          },
+          "ms": 101.79069999999774
+        },
+        {
+          "id": "CAL032",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0031726830692822717,
+            "negative": 0.9999785550413585,
+            "mixed": 0.002472622943003016,
+            "neutral": 0.2689414272294874
+          },
+          "ms": 102.78749999999854
+        },
+        {
+          "id": "CAL033",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.006692851264816554,
+            "negative": 0.99979657295342,
+            "mixed": 0.014063626423394072,
+            "neutral": 0.9984988180062319
+          },
+          "ms": 108.5036
+        },
+        {
+          "id": "CAL034",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0015011819937681247,
+            "negative": 0.000045397852420729034,
+            "mixed": 0.0000029023119851992182,
+            "neutral": 0.9980732657060568
+          },
+          "ms": 109.46329999999944
+        },
+        {
+          "id": "CAL035",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.01798621187025419,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.0003353500316799018,
+            "neutral": 0.9947798743644765
+          },
+          "ms": 106.21229999999923
+        },
+        {
+          "id": "CAL036",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0002611903101813263,
+            "negative": 0.09534946232842247,
+            "mixed": 0.000016701429809483402,
+            "neutral": 0.9706877672877219
+          },
+          "ms": 114.39240000000063
+        },
+        {
+          "id": "CAL037",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.002472622943003016,
+            "negative": 0.9998766053808289,
+            "mixed": 0.99979657295342,
+            "neutral": 0.9914225147446858
+          },
+          "ms": 112.33699999999953
+        },
+        {
+          "id": "CAL038",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.00009610239214580366,
+            "negative": 0.9399133496156019,
+            "mixed": 0.0003353500316799018,
+            "neutral": 0.9968273169307178
+          },
+          "ms": 148.12810000000172
+        },
+        {
+          "id": "CAL039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.004070137783849419,
+            "negative": 0.999447221447556,
+            "mixed": 0.9999921107355331,
+            "neutral": 0.7772998611746911
+          },
+          "ms": 110.2544999999991
+        },
+        {
+          "id": "CAL040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0007096703049020563,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.000002260325106251199,
+            "neutral": 0.9999646437450659
+          },
+          "ms": 101.54569999999876
+        },
+        {
+          "id": "CAL041",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0002611903101813263,
+            "negative": 0.9999898700126424,
+            "mixed": 0.00857748525531428,
+            "neutral": 0.6224593312018546
+          },
+          "ms": 103.64949999999953
+        },
+        {
+          "id": "CAL042",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0009110513587503458,
+            "negative": 0.09534946232842247,
+            "mixed": 0.0003353500316799018,
+            "neutral": 0.9999038976078541
+          },
+          "ms": 103.49110000000292
+        },
+        {
+          "id": "CAL043",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.6791786926816161,
+            "negative": 0.9999646437450659,
+            "mixed": 0.999999814460854,
+            "neutral": 0.7310585727705126
+          },
+          "ms": 107.83090000000084
+        },
+        {
+          "id": "CAL044",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9959298622161507,
+            "negative": 0.09534946232842247,
+            "mixed": 0.004070137783849419,
+            "neutral": 0.9959298622161507
+          },
+          "ms": 132.9274000000005
+        },
+        {
+          "id": "CAL045",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0011695103004128338,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.000007889264466933239,
+            "neutral": 0.9999546021475793
+          },
+          "ms": 119.78839999999764
+        },
+        {
+          "id": "CAL046",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0007096703049020563,
+            "negative": 0.7772998611746911,
+            "mixed": 0.7310585727705126,
+            "neutral": 0.8175744850834649
+          },
+          "ms": 118.32740000000194
+        },
+        {
+          "id": "CAL047",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.9706877672877219,
+            "negative": 0.000003726638839912802,
+            "mixed": 0.000058291272510566984,
+            "neutral": 0.99966464996832
+          },
+          "ms": 120.85239999999976
+        },
+        {
+          "id": "CAL048",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0005527785524441058,
+            "negative": 0.00009610239214580366,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9999898700126424
+          },
+          "ms": 108.48949999999968
+        },
+        {
+          "id": "CAL049",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0002611903101813263,
+            "negative": 0.0031726830692822717,
+            "mixed": 0.000007889264466933239,
+            "neutral": 0.9990889486412496
+          },
+          "ms": 104.077699999998
+        },
+        {
+          "id": "CAL050",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.0031726830692822717,
+            "mixed": 0.000016701429809483402,
+            "neutral": 0.9995694429072773
+          },
+          "ms": 103.9897000000019
+        },
+        {
+          "id": "CAL051",
+          "expected": "neutral",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.002472622943003016,
+            "negative": 0.9995694429072773,
+            "mixed": 0.09534946232842247,
+            "neutral": 0.9626731105140616
+          },
+          "ms": 108.03030000000217
+        },
+        {
+          "id": "CAL052",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.5621765008857981,
+            "negative": 0.0005527785524441058,
+            "mixed": 0.03732688948593843,
+            "neutral": 0.9706877672877219
+          },
+          "ms": 109.74029999999766
+        },
+        {
+          "id": "CAL053",
+          "expected": "positive",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.09534946232842247,
+            "negative": 0.989013058421883,
+            "mixed": 0.9859363735766059,
+            "neutral": 0.9626731105140616
+          },
+          "ms": 109.85579999999754
+        },
+        {
+          "id": "CAL054",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0004305570927227883,
+            "negative": 0.000035356254934266316,
+            "mixed": 0.000003726638839912802,
+            "neutral": 0.9999251537370123
+          },
+          "ms": 106.59009999999762
+        },
+        {
+          "id": "CAL055",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.022977372418942873,
+            "negative": 0.0005527785524441058,
+            "mixed": 0.000006144177531850823,
+            "neutral": 0.9999724643121783
+          },
+          "ms": 107.22799999999916
+        },
+        {
+          "id": "CAL056",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.22270013882530884,
+            "negative": 0.9999996940976638,
+            "mixed": 0.37754066879814546,
+            "neutral": 0.2689414272294874
+          },
+          "ms": 102.6778000000013
+        },
+        {
+          "id": "CAL057",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.0009110513587503458,
+            "negative": 0.9995694429072773,
+            "mixed": 0.9999038976078541,
+            "neutral": 0.9241418267688303
+          },
+          "ms": 123.24029999999766
+        },
+        {
+          "id": "CAL058",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00002753568782174604,
+            "negative": 0.00002144495864149143,
+            "mixed": 0.0000010677029973235123,
+            "neutral": 0.99966464996832
+          },
+          "ms": 106.28579999999783
+        },
+        {
+          "id": "CAL059",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.001926734293943221,
+            "negative": 0.0004305570927227883,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9999417087274893
+          },
+          "ms": 102.52430000000095
+        },
+        {
+          "id": "CAL060",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.004070137783849419,
+            "negative": 0.0011695103004128338,
+            "mixed": 0.000003726638839912802,
+            "neutral": 0.9999724643121783
+          },
+          "ms": 103.61230000000069
+        },
+        {
+          "id": "CAL061",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.9706877672877219,
+            "mixed": 0.00012339461917113592,
+            "neutral": 0.9998766053808289
+          },
+          "ms": 108.87130000000252
+        },
+        {
+          "id": "CAL062",
+          "expected": "mixed",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.005220125635523485,
+            "negative": 0.002472622943003016,
+            "mixed": 0.11920291732853862,
+            "neutral": 0.99966464996832
+          },
+          "ms": 107.12309999999707
+        },
+        {
+          "id": "CAL063",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.9933071487351836,
+            "mixed": 0.000004785094494835718,
+            "neutral": 0.9626731105140616
+          },
+          "ms": 114.47619999999733
+        },
+        {
+          "id": "CAL064",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.8519528019683106,
+            "negative": 0.03732688948593843,
+            "mixed": 0.6224593312018546,
+            "neutral": 0.9947798743644765
+          },
+          "ms": 112.48410000000149
+        },
+        {
+          "id": "CAL065",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.11920291732853862,
+            "negative": 0.9999417087274893,
+            "mixed": 0.999290329695098,
+            "neutral": 0.8519528019683106
+          },
+          "ms": 137.740600000001
+        },
+        {
+          "id": "CAL066",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.14804719803168948,
+            "mixed": 0.22270013882530884,
+            "neutral": 0.18242551491653522
+          },
+          "ms": 142.64459999999963
+        },
+        {
+          "id": "CAL067",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.022977372418942873,
+            "negative": 0.9706877672877219,
+            "mixed": 0.9998766053808289,
+            "neutral": 0.37754066879814546
+          },
+          "ms": 107.65350000000035
+        },
+        {
+          "id": "CAL068",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.9241418267688303,
+            "mixed": 0.00009610239214580366,
+            "neutral": 0.99966464996832
+          },
+          "ms": 102.44180000000051
+        },
+        {
+          "id": "CAL069",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00009610239214580366,
+            "negative": 0.002472622943003016,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9959298622161507
+          },
+          "ms": 104.83709999999701
+        },
+        {
+          "id": "CAL070",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000003726638839912802,
+            "negative": 0.9988304896995872,
+            "mixed": 0.00857748525531428,
+            "neutral": 0.37754066879814546
+          },
+          "ms": 110.13969999999972
+        },
+        {
+          "id": "CAL071",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.014063626423394072,
+            "negative": 0.9999977396748937,
+            "mixed": 0.14804719803168948,
+            "neutral": 0.060086650384398026
+          },
+          "ms": 109.80289999999877
+        },
+        {
+          "id": "CAL072",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.0031726830692822717,
+            "negative": 0.07585817323116976,
+            "mixed": 0.9999921107355331,
+            "neutral": 0.6791786926816161
+          },
+          "ms": 117.3057000000008
+        },
+        {
+          "id": "CAL073",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0015011819937681247,
+            "negative": 0.8519528019683106,
+            "mixed": 0.000045397852420729034,
+            "neutral": 0.9998415637640006
+          },
+          "ms": 104.88869999999952
+        },
+        {
+          "id": "CAL074",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.001926734293943221,
+            "negative": 0.0005527785524441058,
+            "mixed": 0.014063626423394072,
+            "neutral": 0.9525741264858409
+          },
+          "ms": 104.95379999999932
+        },
+        {
+          "id": "CAL075",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.047425873514159125,
+            "negative": 0.004070137783849419,
+            "mixed": 0.9990889486412496,
+            "neutral": 0.9820137881297457
+          },
+          "ms": 107.60349999999744
+        },
+        {
+          "id": "CAL076",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0015011819937681247,
+            "negative": 0.9999646437450659,
+            "mixed": 0.00009610239214580366,
+            "neutral": 0.5
+          },
+          "ms": 125.50879999999961
+        },
+        {
+          "id": "CAL077",
+          "expected": "mixed",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 0.0007096703049020563,
+            "negative": 0.999447221447556,
+            "mixed": 0.9947798743644765,
+            "neutral": 0.9859363735766059
+          },
+          "ms": 107.70379999999932
+        },
+        {
+          "id": "CAL078",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.0002034270465799932,
+            "mixed": 0.000002260325106251199,
+            "neutral": 0.9988304896995872
+          },
+          "ms": 105.85640000000058
+        },
+        {
+          "id": "CAL079",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.014063626423394072,
+            "negative": 0.0003353500316799018,
+            "mixed": 0.000003726638839912802,
+            "neutral": 0.9999962733611601
+          },
+          "ms": 110.65999999999985
+        },
+        {
+          "id": "CAL080",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.18242551491653522,
+            "negative": 0.00012339461917113592,
+            "mixed": 0.000010129987357628251,
+            "neutral": 0.9999038976078541
+          },
+          "ms": 117.57779999999912
+        },
+        {
+          "id": "CAL081",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.0002034270465799932,
+            "negative": 0.9990889486412496,
+            "mixed": 0.9995694429072773,
+            "neutral": 0.9399133496156019
+          },
+          "ms": 112.32970000000205
+        },
+        {
+          "id": "CAL082",
+          "expected": "mixed",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.014063626423394072,
+            "negative": 0.022977372418942873,
+            "mixed": 0.37754066879814546,
+            "neutral": 0.9968273169307178
+          },
+          "ms": 113.82570000000123
+        },
+        {
+          "id": "CAL083",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.005220125635523485,
+            "negative": 0.9997388096898188,
+            "mixed": 0.00007484626298776402,
+            "neutral": 0.999447221447556
+          },
+          "ms": 113.36570000000211
+        },
+        {
+          "id": "CAL084",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0009110513587503458,
+            "negative": 0.9999869928761863,
+            "mixed": 0.000010129987357628251,
+            "neutral": 0.9399133496156019
+          },
+          "ms": 106.50879999999961
+        },
+        {
+          "id": "CAL085",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0003353500316799018,
+            "negative": 0.7310585727705126,
+            "mixed": 0.001926734293943221,
+            "neutral": 0.9914225147446858
+          },
+          "ms": 104.01269999999931
+        },
+        {
+          "id": "CAL086",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.11920291732853862,
+            "mixed": 0.000016701429809483402,
+            "neutral": 0.2689414272294874
+          },
+          "ms": 103.22420000000056
+        },
+        {
+          "id": "CAL087",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.060086650384398026,
+            "negative": 0.0003353500316799018,
+            "mixed": 0.5,
+            "neutral": 0.060086650384398026
+          },
+          "ms": 102.42319999999745
+        },
+        {
+          "id": "CAL088",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.0015011819937681247,
+            "negative": 0.00002144495864149143,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9999938558224681
+          },
+          "ms": 109.06339999999909
+        },
+        {
+          "id": "CAL089",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.010986941578116863,
+            "negative": 0.9997388096898188,
+            "mixed": 0.03732688948593843,
+            "neutral": 0.9399133496156019
+          },
+          "ms": 113.34460000000036
+        },
+        {
+          "id": "CAL090",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0002034270465799932,
+            "negative": 0.9999417087274893,
+            "mixed": 0.00857748525531428,
+            "neutral": 0.8807970826714613
+          },
+          "ms": 119.01749999999811
+        },
+        {
+          "id": "CAL091",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.005220125635523485,
+            "negative": 0.9999993524054333,
+            "mixed": 0.000058291272510566984,
+            "neutral": 0.07585817323116976
+          },
+          "ms": 112.46649999999863
+        },
+        {
+          "id": "CAL092",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.18242551491653522,
+            "negative": 0.22270013882530884,
+            "mixed": 0.9999251537370123,
+            "neutral": 0.7310585727705126
+          },
+          "ms": 119.45240000000194
+        },
+        {
+          "id": "CAL093",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.006692851264816554,
+            "negative": 0.9999962733611601,
+            "mixed": 0.0004305570927227883,
+            "neutral": 0.9984988180062319
+          },
+          "ms": 105.76949999999852
+        },
+        {
+          "id": "CAL094",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.0031726830692822717,
+            "negative": 0.000016701429809483402,
+            "mixed": 0.00002144495864149143,
+            "neutral": 0.99979657295342
+          },
+          "ms": 104.95769999999902
+        },
+        {
+          "id": "CAL095",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.00002144495864149143,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9947798743644765
+          },
+          "ms": 114.84920000000056
+        },
+        {
+          "id": "CAL096",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0009110513587503458,
+            "negative": 0.9999991684720715,
+            "mixed": 0.005220125635523485,
+            "neutral": 0.022977372418942873
+          },
+          "ms": 106.17019999999684
+        },
+        {
+          "id": "CAL097",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0005527785524441058,
+            "negative": 0.9999832985701904,
+            "mixed": 0.022977372418942873,
+            "neutral": 0.9525741264858409
+          },
+          "ms": 127.45249999999942
+        },
+        {
+          "id": "CAL098",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 0.00007484626298776402,
+            "negative": 0.00002753568782174604,
+            "mixed": 0.000001760343003490802,
+            "neutral": 0.9984988180062319
+          },
+          "ms": 107.19660000000295
+        },
+        {
+          "id": "CAL099",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.07585817323116976,
+            "negative": 0.0002034270465799932,
+            "mixed": 0.0005527785524441058,
+            "neutral": 0.9988304896995872
+          },
+          "ms": 108.92529999999897
+        },
+        {
+          "id": "CAL100",
+          "expected": "positive",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.8175744850834649,
+            "negative": 0.5621765008857981,
+            "mixed": 0.6224593312018546,
+            "neutral": 0.9820137881297457
+          },
+          "ms": 103.68549999999959
+        }
+      ]
+    }
+  }
+}

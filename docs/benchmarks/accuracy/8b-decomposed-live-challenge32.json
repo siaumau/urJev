@@ -1,0 +1,301 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "created_at": "2026-09-23T04:49:10.544Z",
+  "dataset": "sentiment-challenge-32",
+  "endpoint": "http://127.0.0.1:15414/v1/systemone/oneforward",
+  "note": "Five questions per request; only sentiment labeled; Node client, not browser. Warmup included.",
+  "correct": 30,
+  "total": 32,
+  "mean_server_ms": 126.81843125,
+  "mean_node_client_roundtrip_ms": 129.20970625000007,
+  "rows": [
+    {
+      "id": "SC01",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 350.9866000000038,
+      "node_client_roundtrip_ms": 389.783,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC02",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 125.70669999999518,
+      "node_client_roundtrip_ms": 128.61469999999997,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC03",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 121.68280000000232,
+      "node_client_roundtrip_ms": 123.39859999999999,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC04",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 123.60629999999946,
+      "node_client_roundtrip_ms": 125.4049,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC05",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 114.73859999999695,
+      "node_client_roundtrip_ms": 116.28330000000005,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC06",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 113.98740000000544,
+      "node_client_roundtrip_ms": 115.36040000000003,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC07",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 113.78420000000187,
+      "node_client_roundtrip_ms": 115.13250000000005,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC08",
+      "expected": "positive",
+      "predicted": "positive",
+      "correct": true,
+      "server_ms": 115.7705999999962,
+      "node_client_roundtrip_ms": 117.09920000000011,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC09",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 154.79060000000027,
+      "node_client_roundtrip_ms": 156.2677000000001,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC10",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 117.00200000000041,
+      "node_client_roundtrip_ms": 118.9208000000001,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC11",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 111.27790000000095,
+      "node_client_roundtrip_ms": 112.32320000000004,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC12",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 112.51239999999962,
+      "node_client_roundtrip_ms": 113.55999999999995,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC13",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 118.89990000000398,
+      "node_client_roundtrip_ms": 119.88190000000009,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC14",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 123.73600000000442,
+      "node_client_roundtrip_ms": 124.77150000000006,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC15",
+      "expected": "negative",
+      "predicted": "negative",
+      "correct": true,
+      "server_ms": 118.10080000000016,
+      "node_client_roundtrip_ms": 119.0673999999999,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC16",
+      "expected": "negative",
+      "predicted": "mixed",
+      "correct": false,
+      "server_ms": 125.03680000000168,
+      "node_client_roundtrip_ms": 126.31809999999996,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC17",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 153.99309999999969,
+      "node_client_roundtrip_ms": 155.2237,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC18",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 115.16569999999774,
+      "node_client_roundtrip_ms": 116.04640000000018,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC19",
+      "expected": "mixed",
+      "predicted": "negative",
+      "correct": false,
+      "server_ms": 112.33239999999932,
+      "node_client_roundtrip_ms": 113.42650000000003,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC20",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 116.29129999999714,
+      "node_client_roundtrip_ms": 117.26940000000013,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC21",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 112.72600000000239,
+      "node_client_roundtrip_ms": 113.66150000000016,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC22",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 127.63289999999688,
+      "node_client_roundtrip_ms": 128.74339999999984,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC23",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 115.77900000000227,
+      "node_client_roundtrip_ms": 116.76760000000013,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC24",
+      "expected": "mixed",
+      "predicted": "mixed",
+      "correct": true,
+      "server_ms": 116.79620000000432,
+      "node_client_roundtrip_ms": 117.73390000000018,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC25",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 114.9994000000006,
+      "node_client_roundtrip_ms": 115.8759,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC26",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 115.7696999999971,
+      "node_client_roundtrip_ms": 116.70589999999993,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC27",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 123.12099999999919,
+      "node_client_roundtrip_ms": 124.03850000000011,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC28",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 115.36449999999604,
+      "node_client_roundtrip_ms": 116.40750000000025,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC29",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 107.44950000000244,
+      "node_client_roundtrip_ms": 108.39420000000018,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC30",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 111.041999999994,
+      "node_client_roundtrip_ms": 112.05139999999983,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC31",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 118.761599999998,
+      "node_client_roundtrip_ms": 119.72430000000031,
+      "method": "sentiment_binary_factors"
+    },
+    {
+      "id": "SC32",
+      "expected": "neutral",
+      "predicted": "neutral",
+      "correct": true,
+      "server_ms": 119.34590000000026,
+      "node_client_roundtrip_ms": 120.45330000000013,
+      "method": "sentiment_binary_factors"
+    }
+  ]
+}

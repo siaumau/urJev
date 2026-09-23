@@ -132,7 +132,7 @@ test('OneForward maps opaque labels back to typed answers', async () => {
   assert.equal(plans[0].prepared.messages[0].content.includes('main_topic'), false);
   const rows = [
     { A: .9, B: .025, C: .025, D: .025, E: .025 },
-    { A: .02, B: .03, C: .9, D: .03, E: .02 },
+    { A: .02, B: .03, C: .9, D: .05 },
     { A: .1, B: .9 }, { A: .05, B: .95 },
     { A: .01, B: .04, C: .9, D: .05 }
   ];

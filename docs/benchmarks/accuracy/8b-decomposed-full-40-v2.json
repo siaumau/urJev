@@ -1,0 +1,2863 @@
+{
+  "created_at": "2026-09-23T04:46:22.059Z",
+  "model": "Qwen/Qwen3-8B",
+  "sentiment_strategy": "decomposed",
+  "dataset": "datasets/feedback-holdout-40-v2.jsonl",
+  "split": "all",
+  "rows": 40,
+  "note": "Synthetic-data evaluation, not a real-world accuracy guarantee. Accuracy uses argmax; NLL, Brier, and 10-bin ECE use uncalibrated scores. latency_ms is systemOne elapsed time, not browser roundtrip.",
+  "methods": {
+    "oneforward": {
+      "overall": {
+        "correct": 182,
+        "total": 200,
+        "accuracy": 0.91,
+        "nll": 0.7899224597597412,
+        "brier": 0.15298765371408096,
+        "ece_10_bin": 0.07781265349936928,
+        "confusion": {
+          "0": {
+            "0": 18
+          },
+          "1": {
+            "0": 3,
+            "1": 5,
+            "2": 3
+          },
+          "2": {
+            "2": 7
+          },
+          "3": {
+            "3": 4
+          },
+          "technical": {
+            "technical": 8
+          },
+          "content": {
+            "content": 4,
+            "technical": 3,
+            "other": 1
+          },
+          "pricing": {
+            "pricing": 8
+          },
+          "service": {
+            "service": 7,
+            "pricing": 1
+          },
+          "other": {
+            "other": 6,
+            "service": 2
+          },
+          "positive": {
+            "positive": 7
+          },
+          "negative": {
+            "mixed": 2,
+            "negative": 12,
+            "neutral": 2
+          },
+          "mixed": {
+            "mixed": 6
+          },
+          "neutral": {
+            "neutral": 11
+          },
+          "false": {
+            "false": 71
+          },
+          "true": {
+            "true": 8,
+            "false": 1
+          }
+        }
+      },
+      "by_field": {
+        "main_topic": {
+          "correct": 33,
+          "total": 40,
+          "accuracy": 0.825,
+          "nll": 1.5413239161970185,
+          "brier": 0.33102048427520925,
+          "ece_10_bin": 0.1611963592601962,
+          "confusion": {
+            "technical": {
+              "technical": 8
+            },
+            "content": {
+              "content": 4,
+              "technical": 3,
+              "other": 1
+            },
+            "pricing": {
+              "pricing": 8
+            },
+            "service": {
+              "service": 7,
+              "pricing": 1
+            },
+            "other": {
+              "other": 6,
+              "service": 2
+            }
+          }
+        },
+        "sentiment": {
+          "correct": 36,
+          "total": 40,
+          "accuracy": 0.9,
+          "nll": 0.7815659624093683,
+          "brier": 0.12786653819329294,
+          "ece_10_bin": 0.07542320626554815,
+          "confusion": {
+            "positive": {
+              "positive": 7
+            },
+            "negative": {
+              "mixed": 2,
+              "negative": 12,
+              "neutral": 2
+            },
+            "mixed": {
+              "mixed": 6
+            },
+            "neutral": {
+              "neutral": 11
+            }
+          }
+        },
+        "refund_requested": {
+          "correct": 40,
+          "total": 40,
+          "accuracy": 1,
+          "nll": 2.7390771181378547e-8,
+          "brier": 2.302454810783085e-14,
+          "ece_10_bin": 2.739076554458819e-8,
+          "confusion": {
+            "false": {
+              "false": 36
+            },
+            "true": {
+              "true": 4
+            }
+          }
+        },
+        "expressed_churn_intent": {
+          "correct": 39,
+          "total": 40,
+          "accuracy": 0.975,
+          "nll": 0.025286830952025507,
+          "brier": 0.016913944760162582,
+          "ece_10_bin": 0.018384318293185223,
+          "confusion": {
+            "false": {
+              "false": 35
+            },
+            "true": {
+              "false": 1,
+              "true": 4
+            }
+          }
+        },
+        "expressed_frustration": {
+          "correct": 34,
+          "total": 40,
+          "accuracy": 0.85,
+          "nll": 1.6014355618495173,
+          "brier": 0.28913730134171683,
+          "ece_10_bin": 0.14271922261076475,
+          "confusion": {
+            "0": {
+              "0": 18
+            },
+            "1": {
+              "0": 3,
+              "1": 5,
+              "2": 3
+            },
+            "2": {
+              "2": 7
+            },
+            "3": {
+              "3": 4
+            }
+          }
+        }
+      },
+      "by_split": {
+        "holdout": {
+          "correct": 182,
+          "total": 200,
+          "accuracy": 0.91,
+          "nll": 0.7899224597597412,
+          "brier": 0.15298765371408096,
+          "ece_10_bin": 0.07781265349936928,
+          "confusion": {
+            "0": {
+              "0": 18
+            },
+            "1": {
+              "0": 3,
+              "1": 5,
+              "2": 3
+            },
+            "2": {
+              "2": 7
+            },
+            "3": {
+              "3": 4
+            },
+            "technical": {
+              "technical": 8
+            },
+            "content": {
+              "content": 4,
+              "technical": 3,
+              "other": 1
+            },
+            "pricing": {
+              "pricing": 8
+            },
+            "service": {
+              "service": 7,
+              "pricing": 1
+            },
+            "other": {
+              "other": 6,
+              "service": 2
+            },
+            "positive": {
+              "positive": 7
+            },
+            "negative": {
+              "mixed": 2,
+              "negative": 12,
+              "neutral": 2
+            },
+            "mixed": {
+              "mixed": 6
+            },
+            "neutral": {
+              "neutral": 11
+            },
+            "false": {
+              "false": 71
+            },
+            "true": {
+              "true": 8,
+              "false": 1
+            }
+          }
+        }
+      },
+      "noul_threshold_0_6": {
+        "coverage": 0.9875,
+        "decided": 79,
+        "correct_when_decided": 79,
+        "accuracy_when_decided": 1
+      },
+      "latency_ms": {
+        "min": 115,
+        "p50": 134,
+        "p95": 180,
+        "max": 215,
+        "mean": 141.1
+      },
+      "output_tokens": 240,
+      "failures": [
+        {
+          "id": "HOLD002",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD007",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD008",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD010",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD011",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD013",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD014",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD015",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD016",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD018",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD021",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          }
+        },
+        {
+          "id": "HOLD031",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD038",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        },
+        {
+          "id": "HOLD039",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          }
+        }
+      ],
+      "rows": [
+        {
+          "id": "HOLD001",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9974592947094998,
+              "content": 0.000058146580746008116,
+              "pricing": 1.5388906103497042e-13,
+              "service": 0.000010104360634393556,
+              "other": 0.0024724543489658963
+            },
+            "sentiment": {
+              "positive": 0.9999999997281914,
+              "negative": 1.7362053847857618e-20,
+              "mixed": 1.691897922155258e-10,
+              "neutral": 1.0261880232716086e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999998973812,
+              "true": 1.0261879630648829e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999804443193,
+              "true": 1.955568070542584e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999921285,
+              "1": 7.433680672293675e-12,
+              "2": 4.193795658346533e-13,
+              "3": 1.842625214709058e-14
+            }
+          },
+          "latency_ms": 180,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD002",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999999999999987,
+              "content": 5.564246011263929e-16,
+              "pricing": 8.533047625744055e-17,
+              "service": 7.14463330316627e-16,
+              "other": 6.181318967705956e-18
+            },
+            "sentiment": {
+              "positive": 4.927054551030744e-8,
+              "negative": 0.4378234607422625,
+              "mixed": 0.5621764516152525,
+              "neutral": 3.837193942578273e-8
+            },
+            "refund_requested": {
+              "false": 0.9999999998682348,
+              "true": 1.3176514268359263e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999956365377,
+              "true": 4.363462233903899e-9
+            },
+            "expressed_frustration": {
+              "0": 0.00015804446909878107,
+              "1": 0.9973697225433724,
+              "2": 0.002472232630296286,
+              "3": 3.572325611146834e-10
+            }
+          },
+          "latency_ms": 132,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD003",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999999999999996,
+              "content": 1.2415511035985837e-16,
+              "pricing": 2.919848332167913e-18,
+              "service": 1.406861712446146e-16,
+              "other": 1.0956650033262362e-16
+            },
+            "sentiment": {
+              "positive": 2.319521093296651e-16,
+              "negative": 0.9999991681931248,
+              "mixed": 8.315279283061194e-7,
+              "neutral": 2.7894663365403513e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999998308102,
+              "true": 1.6918979223288786e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999855501979,
+              "true": 1.4449802095675028e-7
+            },
+            "expressed_frustration": {
+              "0": 4.0586523120241503e-10,
+              "1": 5.602796693679012e-9,
+              "2": 0.9999996880890036,
+              "3": 3.0590233448669116e-7
+            }
+          },
+          "latency_ms": 147,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD004",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999999999999998,
+              "content": 4.030726291347624e-17,
+              "pricing": 1.2171738729024408e-18,
+              "service": 1.8064461965456927e-16,
+              "other": 2.1574923126757807e-17
+            },
+            "sentiment": {
+              "positive": 1.8064429073378641e-16,
+              "negative": 0.9999982395543779,
+              "mixed": 0.0000017603430033101576,
+              "neutral": 1.0261862170023219e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999998682348,
+              "true": 1.3176514268359263e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999994956523514,
+              "true": 5.043476486929152e-7
+            },
+            "expressed_frustration": {
+              "0": 3.978962745702227e-12,
+              "1": 1.3176514965072855e-10,
+              "2": 1.855391460476081e-7,
+              "3": 0.99999981432511
+            }
+          },
+          "latency_ms": 142,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD005",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999999999999718,
+              "content": 3.628344178046942e-15,
+              "pricing": 2.319522830243504e-16,
+              "service": 5.9821282237669666e-15,
+              "other": 1.8426252147235104e-14
+            },
+            "sentiment": {
+              "positive": 2.789467802756466e-10,
+              "negative": 3.059023361541747e-7,
+              "mixed": 0.999999693818717,
+              "neutral": 8.533049787560688e-17
+            },
+            "refund_requested": {
+              "false": 0.9999999999622486,
+              "true": 3.775134544136581e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999468421503,
+              "true": 5.3157849718487075e-8
+            },
+            "expressed_frustration": {
+              "0": 1.2501528639799144e-9,
+              "1": 8.764248202570468e-8,
+              "2": 0.9999998788654978,
+              "3": 3.224186731049442e-8
+            }
+          },
+          "latency_ms": 131,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD006",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999087696531036,
+              "content": 1.1252490762464499e-7,
+              "pricing": 0.000010129169384226757,
+              "service": 0.000006143651788956063,
+              "other": 0.00007484500081562233
+            },
+            "sentiment": {
+              "positive": 3.224186619234319e-8,
+              "negative": 4.3634620932177336e-9,
+              "mixed": 1.4068616609475119e-16,
+              "neutral": 0.9999999633946716
+            },
+            "refund_requested": {
+              "false": 0.9999999998682348,
+              "true": 1.3176514268359263e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999317439627,
+              "true": 6.825603724121504e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999858815,
+              "1": 1.3887943864767944e-11,
+              "2": 2.2447770549892814e-13,
+              "3": 5.982128223682677e-15
+            }
+          },
+          "latency_ms": 131,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD007",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999999999999991,
+              "content": 1.594183173137296e-16,
+              "pricing": 2.1574923126757794e-17,
+              "service": 1.8064461965456914e-16,
+              "other": 4.3334391507742916e-16
+            },
+            "sentiment": {
+              "positive": 4.193763354762044e-13,
+              "negative": 0.9999920575781026,
+              "mixed": 0.000007889264047556903,
+              "neutral": 5.315743041231875e-8
+            },
+            "refund_requested": {
+              "false": 9.237449583032742e-9,
+              "true": 0.9999999907625504
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999994956523514,
+              "true": 5.043476486929152e-7
+            },
+            "expressed_frustration": {
+              "0": 8.764198595582599e-8,
+              "1": 0.0000013709526313478655,
+              "2": 0.999994814769757,
+              "3": 0.0000037266356254710155
+            }
+          },
+          "latency_ms": 188,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD008",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9999009866024852,
+              "content": 4.508308255578741e-12,
+              "pricing": 0.00009610212379263232,
+              "service": 0.0000029020326798652352,
+              "other": 9.236533884318557e-9
+            },
+            "sentiment": {
+              "positive": 0.000005694840846718532,
+              "negative": 0.43781906396769105,
+              "mixed": 0.5621708060449514,
+              "neutral": 0.000004435146510891416
+            },
+            "refund_requested": {
+              "false": 0.9999998874648245,
+              "true": 1.125351754703302e-7
+            },
+            "expressed_churn_intent": {
+              "false": 0.5621765008857982,
+              "true": 0.4378234991142019
+            },
+            "expressed_frustration": {
+              "0": 6.825564417639794e-8,
+              "1": 0.0000029023066108456775,
+              "2": 0.9999947691190837,
+              "3": 0.0000022603186612399285
+            }
+          },
+          "latency_ms": 164,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD009",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.4637673149319528e-12,
+              "content": 0.9999921107340607,
+              "pricing": 2.770253770742414e-17,
+              "service": 8.703878613884931e-15,
+              "other": 0.000007889264466921622
+            },
+            "sentiment": {
+              "positive": 0.9999999994601749,
+              "negative": 3.6755458871518096e-20,
+              "mixed": 7.991959888639672e-11,
+              "neutral": 4.5990544702211714e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999998973812,
+              "true": 1.0261879630648829e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999956365377,
+              "true": 4.363462233903899e-9
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999958795,
+              "1": 3.978962535820845e-12,
+              "2": 1.3615261080840436e-13,
+              "3": 5.279209628316632e-15
+            }
+          },
+          "latency_ms": 135,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD010",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.0000013709565049327646,
+              "content": 0.9999982362578133,
+              "pricing": 2.493722114167256e-15,
+              "service": 6.431381831440444e-14,
+              "other": 3.927856149499179e-7
+            },
+            "sentiment": {
+              "positive": 0.005220118478951212,
+              "negative": 0.000001363801288305809,
+              "mixed": 7.156572273231078e-9,
+              "neutral": 0.9947785105631882
+            },
+            "refund_requested": {
+              "false": 0.9999999999377586,
+              "true": 6.224144622520382e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999979388464,
+              "true": 2.0611536181902033e-9
+            },
+            "expressed_frustration": {
+              "0": 0.8807892126590122,
+              "1": 0.1192018646719451,
+              "2": 0.000008922477696721142,
+              "3": 1.91345994919997e-10
+            }
+          },
+          "latency_ms": 150,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD011",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9967999031427591,
+              "content": 0.0031725955379780474,
+              "pricing": 5.2987791936849966e-8,
+              "service": 1.8735158984685195e-12,
+              "other": 0.0000274483295973666
+            },
+            "sentiment": {
+              "positive": 2.9783264850658643e-16,
+              "negative": 0.9999996064554034,
+              "mixed": 3.927863404404507e-7,
+              "neutral": 7.582558267229522e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999987498471,
+              "true": 1.2501528648238603e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999997617630332,
+              "true": 2.3823696679343506e-7
+            },
+            "expressed_frustration": {
+              "0": 1.250152841776179e-9,
+              "1": 2.5109991063123435e-8,
+              "2": 0.9999998611046836,
+              "3": 1.1253517250388678e-7
+            }
+          },
+          "latency_ms": 167,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD012",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 3.9278633087540605e-7,
+              "content": 0.9999995821036377,
+              "pricing": 6.778638934269784e-15,
+              "service": 3.442476900996577e-14,
+              "other": 2.5109990044094876e-8
+            },
+            "sentiment": {
+              "positive": 4.0307270032176466e-17,
+              "negative": 0.9999998552230321,
+              "mixed": 1.44498020916443e-7,
+              "neutral": 2.789468252988744e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999979388464,
+              "true": 2.0611536181902033e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999123575151,
+              "true": 8.764248496102857e-8
+            },
+            "expressed_frustration": {
+              "0": 2.7346984304018573e-12,
+              "1": 1.9171716110716228e-10,
+              "2": 6.825603722794254e-8,
+              "3": 0.999999931549511
+            }
+          },
+          "latency_ms": 137,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD013",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.991365218324736,
+              "content": 0.008576990350944258,
+              "pricing": 4.240848402390342e-11,
+              "service": 3.0720602788824985e-12,
+              "other": 0.00005779127883929413
+            },
+            "sentiment": {
+              "positive": 0.000013007122673714194,
+              "negative": 8.764134495943726e-8,
+              "mixed": 0.9999869052348414,
+              "neutral": 1.1399766529032598e-12
+            },
+            "refund_requested": {
+              "false": 0.9999999996418252,
+              "true": 3.581747929000289e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999847700205,
+              "true": 1.522997951276035e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999994760945512,
+              "1": 5.043476388289798e-7,
+              "2": 1.955568016739313e-8,
+              "3": 2.1297850707099056e-12
+            }
+          },
+          "latency_ms": 127,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD014",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.0000013689448541472298,
+              "content": 0.000004778087030826412,
+              "pricing": 0.0009105426500156304,
+              "service": 0.0005522720342104698,
+              "other": 0.998531038283889
+            },
+            "sentiment": {
+              "positive": 3.224186622346286e-8,
+              "negative": 3.3982676983803504e-9,
+              "mixed": 1.0956649642765891e-16,
+              "neutral": 0.999999964359866
+            },
+            "refund_requested": {
+              "false": 0.9999999998308102,
+              "true": 1.6918979223288786e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999804443193,
+              "true": 1.955568070542584e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999697888,
+              "1": 2.9400777391956495e-11,
+              "2": 7.835041784827684e-13,
+              "3": 2.6810038677008072e-14
+            }
+          },
+          "latency_ms": 137,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD015",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "content",
+            "sentiment": "negative",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.0261879603489519e-10,
+              "content": 0.9999999972507598,
+              "pricing": 8.703945182797176e-15,
+              "service": 3.9008375994563756e-14,
+              "other": 2.6465736316330507e-9
+            },
+            "sentiment": {
+              "positive": 7.991715678541454e-11,
+              "negative": 0.9999695620801102,
+              "mixed": 0.000027535607904589256,
+              "neutral": 0.0000029022320680299708
+            },
+            "refund_requested": {
+              "false": 2.510999097538047e-8,
+              "true": 0.999999974890009
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999996072136592,
+              "true": 3.9278634073828336e-7
+            },
+            "expressed_frustration": {
+              "0": 3.398254883964706e-9,
+              "1": 1.8553860694888996e-7,
+              "2": 0.9999969087510093,
+              "3": 0.0000029023121288065635
+            }
+          },
+          "latency_ms": 137,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD016",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "content",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "technical",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.9953690163691408,
+              "content": 0.000007852791822410695,
+              "pricing": 0.00406784493375934,
+              "service": 0.000004762959004632732,
+              "other": 0.0005505229462729402
+            },
+            "sentiment": {
+              "positive": 6.825205853540969e-8,
+              "negative": 0.00005829126853193752,
+              "mixed": 0.9999416404754308,
+              "neutral": 3.978731268810321e-12
+            },
+            "refund_requested": {
+              "false": 0.9999999973534264,
+              "true": 2.646573631904765e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.0000078892644669315,
+              "true": 0.9999921107355331
+            },
+            "expressed_frustration": {
+              "0": 3.3982678004549884e-9,
+              "1": 5.315785224640721e-8,
+              "2": 0.9999998751878465,
+              "3": 6.82560333809184e-8
+            }
+          },
+          "latency_ms": 149,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD017",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.4569521322273837e-10,
+              "content": 9.40429342335537e-7,
+              "pricing": 0.9980721417968742,
+              "service": 1.851815172104691e-7,
+              "other": 0.0019267323465709506
+            },
+            "sentiment": {
+              "positive": 0.9999999992611478,
+              "negative": 1.282891569949485e-19,
+              "mixed": 2.78946809080792e-10,
+              "neutral": 4.5990544693058345e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999999705992,
+              "true": 2.940077739198032e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999990263799,
+              "true": 9.736200303530205e-10
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999947093,
+              "1": 5.109089028036295e-12,
+              "2": 1.7482341282618074e-13,
+              "3": 6.7786393427732675e-15
+            }
+          },
+          "latency_ms": 134,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD018",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": false,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.0060393992100693e-12,
+              "content": 6.914400931183914e-13,
+              "pricing": 0.9999999999975395,
+              "service": 2.2447773226137287e-13,
+              "other": 5.384940859675683e-13
+            },
+            "sentiment": {
+              "positive": 0.07585816469445693,
+              "negative": 1.0399846263490182e-7,
+              "mixed": 8.536712835428395e-9,
+              "neutral": 0.9241417227703677
+            },
+            "refund_requested": {
+              "false": 0.999999999241744,
+              "true": 7.582560422162384e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999977396748938,
+              "true": 0.000002260325106251199
+            },
+            "expressed_frustration": {
+              "0": 0.11920274813816575,
+              "1": 0.880795701265452,
+              "2": 0.0000015505059958853693,
+              "3": 9.03861394438526e-11
+            }
+          },
+          "latency_ms": 137,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD019",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.2159464798598226e-8,
+              "content": 3.978958051362812e-12,
+              "pricing": 0.9999997074188477,
+              "service": 4.5990501953046345e-10,
+              "other": 2.699578035330451e-7
+            },
+            "sentiment": {
+              "positive": 3.266127969431448e-13,
+              "negative": 0.9999988480581113,
+              "mixed": 6.475942399942632e-7,
+              "neutral": 5.043473220315796e-7
+            },
+            "refund_requested": {
+              "false": 0.9999999956365377,
+              "true": 4.363462233903899e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999468421503,
+              "true": 5.3157849718487075e-8
+            },
+            "expressed_frustration": {
+              "0": 1.5229979659125108e-8,
+              "1": 1.1253517408684815e-7,
+              "2": 0.9999990407069247,
+              "3": 8.315279214234476e-7
+            }
+          },
+          "latency_ms": 136,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD020",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.0206841498428127e-11,
+              "content": 7.835042718827172e-13,
+              "pricing": 0.9999999999684772,
+              "service": 3.09881950803217e-12,
+              "other": 7.433681558281651e-12
+            },
+            "sentiment": {
+              "positive": 3.442470503100893e-14,
+              "negative": 0.9999977244449487,
+              "mixed": 0.000002260325071826494,
+              "neutral": 1.5229945075059537e-8
+            },
+            "refund_requested": {
+              "false": 0.9999993524054334,
+              "true": 6.475945666070601e-7
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999989322970027,
+              "true": 0.0000010677029973235123
+            },
+            "expressed_frustration": {
+              "0": 1.3887943849930524e-11,
+              "1": 1.2501528650334703e-9,
+              "2": 2.3823696649229375e-7,
+              "3": 0.9999997604989926
+            }
+          },
+          "latency_ms": 125,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD021",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": false
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.3176517394387468e-10,
+              "content": 1.0815944121860736e-11,
+              "pricing": 0.9999999986920816,
+              "service": 1.9171719683401157e-10,
+              "other": 9.736202621566453e-10
+            },
+            "sentiment": {
+              "positive": 0.0000037266383013596446,
+              "negative": 1.4449748239007434e-7,
+              "mixed": 0.9999961288636777,
+              "neutral": 5.38491936900588e-13
+            },
+            "refund_requested": {
+              "false": 0.999999999782756,
+              "true": 2.1724399346070676e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999855501979,
+              "true": 1.4449802095675028e-7
+            },
+            "expressed_frustration": {
+              "0": 0.9953815729220999,
+              "1": 0.004067896973120166,
+              "2": 0.000550529989034577,
+              "3": 1.1574528856977017e-10
+            }
+          },
+          "latency_ms": 128,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD022",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 3.7010121196659856e-13,
+              "content": 1.2256068904733695e-11,
+              "pricing": 0.9999999999671281,
+              "service": 1.783247503335663e-11,
+              "other": 2.4133630594491437e-12
+            },
+            "sentiment": {
+              "positive": 4.1399375293298693e-8,
+              "negative": 4.363462053259288e-9,
+              "mixed": 1.8064461138775895e-16,
+              "neutral": 0.9999999542371625
+            },
+            "refund_requested": {
+              "false": 0.9999999998682348,
+              "true": 1.3176514268359263e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999998874648245,
+              "true": 1.125351754703302e-7
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999353266,
+              "1": 6.224144622505247e-11,
+              "2": 2.4133627716771336e-12,
+              "3": 1.8426252146043936e-14
+            }
+          },
+          "latency_ms": 132,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD023",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "neutral",
+            "refund_requested": true,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 5.602103606666712e-9,
+              "content": 2.3892572491488873e-13,
+              "pricing": 0.9998765879945329,
+              "service": 1.1859653428379355e-8,
+              "other": 0.00012339454347120768
+            },
+            "sentiment": {
+              "positive": 6.475936787821985e-7,
+              "negative": 0.0000013709569727541783,
+              "mixed": 8.878248615582256e-13,
+              "neutral": 0.9999979814484606
+            },
+            "refund_requested": {
+              "false": 6.82560372666785e-8,
+              "true": 0.9999999317439627
+            },
+            "expressed_churn_intent": {
+              "false": 0.9890130584218831,
+              "true": 0.010986941578116863
+            },
+            "expressed_frustration": {
+              "0": 0.9974317456596941,
+              "1": 0.00009586476990501119,
+              "2": 0.002472386180859058,
+              "3": 3.3895419159583187e-9
+            }
+          },
+          "latency_ms": 164,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD024",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.3887655921269469e-11,
+              "content": 7.433526547198909e-12,
+              "pricing": 0.9999785516372516,
+              "service": 3.3981973619960674e-9,
+              "other": 0.00002144494322978675
+            },
+            "sentiment": {
+              "positive": 0.9996643441685681,
+              "negative": 1.025843581774768e-10,
+              "mixed": 3.057997519665774e-7,
+              "neutral": 0.0003353499290955903
+            },
+            "refund_requested": {
+              "false": 0.9999999973534264,
+              "true": 2.646573631904765e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.00007484626298770447,
+              "true": 0.9999251537370123
+            },
+            "expressed_frustration": {
+              "0": 0.9999999447803053,
+              "1": 5.315784960888383e-8,
+              "2": 2.061153508622284e-9,
+              "3": 6.914399725129141e-13
+            }
+          },
+          "latency_ms": 150,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD025",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.2897349178704088e-11,
+              "content": 1.0060393110167038e-12,
+              "pricing": 4.5674114058457005e-17,
+              "service": 0.9999999123336115,
+              "other": 8.76424849589336e-8
+            },
+            "sentiment": {
+              "positive": 0.9999994952941768,
+              "negative": 1.806446146028161e-16,
+              "mixed": 3.581746122554143e-10,
+              "neutral": 5.043476484637319e-7
+            },
+            "refund_requested": {
+              "false": 0.9999999999622486,
+              "true": 3.775134544136581e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999677581337,
+              "true": 3.2241866333029355e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999887976,
+              "1": 1.0815941557164529e-11,
+              "2": 3.701011678551212e-13,
+              "3": 1.6261110445996025e-14
+            }
+          },
+          "latency_ms": 156,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD026",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.0611536181899812e-9,
+              "content": 1.334793225846245e-15,
+              "pricing": 1.0603575969667102e-13,
+              "service": 0.9999999979387384,
+              "other": 7.144633288439322e-16
+            },
+            "sentiment": {
+              "positive": 1.1239273750882663e-7,
+              "negative": 0.9987344997001789,
+              "mixed": 0.00009598999940829483,
+              "neutral": 0.0011693979076752815
+            },
+            "refund_requested": {
+              "false": 0.9999999999377586,
+              "true": 6.224144622520382e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999804443193,
+              "true": 1.955568070542584e-8
+            },
+            "expressed_frustration": {
+              "0": 0.000058291162947975074,
+              "1": 0.9999399485735584,
+              "2": 0.000001760240597672849,
+              "3": 2.2895995232016822e-11
+            }
+          },
+          "latency_ms": 132,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD027",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.8553914605796477e-7,
+              "content": 1.3347932990739701e-15,
+              "pricing": 3.6283443696216735e-15,
+              "service": 0.9999998143809292,
+              "other": 7.991960314925132e-11
+            },
+            "sentiment": {
+              "positive": 1.6261109507777e-14,
+              "negative": 0.9999994634105012,
+              "mixed": 5.043476324318057e-7,
+              "neutral": 3.2241850137831494e-8
+            },
+            "refund_requested": {
+              "false": 0.999999992805867,
+              "true": 7.194132978569833e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999982396569965,
+              "true": 0.000001760343003490802
+            },
+            "expressed_frustration": {
+              "0": 7.582546054851338e-10,
+              "1": 1.5229950875648753e-8,
+              "2": 0.9999982236688193,
+              "3": 0.0000017603429753460763
+            }
+          },
+          "latency_ms": 115,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD028",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 3
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.266416554909397e-14,
+              "content": 1.7139084315419852e-15,
+              "pricing": 1.3792386911927363e-18,
+              "service": 0.9999999999999838,
+              "other": 1.7139084315419852e-15
+            },
+            "sentiment": {
+              "positive": 2.9783262780398367e-16,
+              "negative": 0.9999997605128806,
+              "mixed": 2.3823696649560242e-7,
+              "neutral": 1.2501525722810243e-9
+            },
+            "refund_requested": {
+              "false": 0.999999999241744,
+              "true": 7.582560422162384e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999974890009,
+              "true": 2.5109990926928157e-8
+            },
+            "expressed_frustration": {
+              "0": 1.6586783560787116e-12,
+              "1": 1.0261879614159151e-10,
+              "2": 1.6052280524414656e-9,
+              "3": 0.9999999982904946
+            }
+          },
+          "latency_ms": 126,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD029",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 2
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 4.1399375471914185e-8,
+              "content": 1.0395379685830464e-15,
+              "pricing": 5.38493999455694e-13,
+              "service": 0.9999999585516112,
+              "other": 4.847368505354633e-11
+            },
+            "sentiment": {
+              "positive": 1.8550140236651483e-7,
+              "negative": 0.0002034270088363709,
+              "mixed": 0.9997963874520176,
+              "neutral": 3.7743680505330125e-11
+            },
+            "refund_requested": {
+              "false": 0.9999999994094696,
+              "true": 5.905303995456778e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999974890009,
+              "true": 2.5109990926928157e-8
+            },
+            "expressed_frustration": {
+              "0": 3.921964401674361e-7,
+              "1": 0.0015011819372808479,
+              "2": 0.998498423808221,
+              "3": 2.0580580358720616e-9
+            }
+          },
+          "latency_ms": 119,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD030",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 4.752193063565664e-13,
+              "content": 4.111452593235421e-15,
+              "pricing": 1.3887943867285923e-11,
+              "service": 0.9999997617486661,
+              "other": 2.3823696679001225e-7
+            },
+            "sentiment": {
+              "positive": 8.764248276032656e-8,
+              "negative": 2.5109988726226154e-8,
+              "mixed": 2.2007020021848647e-15,
+              "neutral": 0.9999998872475263
+            },
+            "refund_requested": {
+              "false": 0.9999999999515263,
+              "true": 4.847368706035286e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999974890009,
+              "true": 2.5109990926928157e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999508999,
+              "1": 4.847368706032249e-11,
+              "2": 6.101936677305718e-13,
+              "3": 1.6261110445379767e-14
+            }
+          },
+          "latency_ms": 127,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD031",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "pricing",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.2522039502573463e-10,
+              "content": 2.339424967948947e-10,
+              "pricing": 0.9503302117077435,
+              "service": 0.0023556330632715362,
+              "other": 0.04731415486982212
+            },
+            "sentiment": {
+              "positive": 0.9999718167354437,
+              "negative": 1.7831961821092582e-11,
+              "mixed": 6.47576734645239e-7,
+              "neutral": 0.00002753566998969412
+            },
+            "refund_requested": {
+              "false": 0.9999999804443193,
+              "true": 1.955568070542584e-8
+            },
+            "expressed_churn_intent": {
+              "false": 0.14804719803168942,
+              "true": 0.8519528019683106
+            },
+            "expressed_frustration": {
+              "0": 0.9999999441952068,
+              "1": 5.3157849577781244e-8,
+              "2": 2.6465734912176226e-9,
+              "3": 3.701011472058481e-13
+            }
+          },
+          "latency_ms": 130,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD032",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "service",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 8.875946859524378e-13,
+              "content": 6.558486927615296e-12,
+              "pricing": 6.474254762901948e-7,
+              "service": 0.9997381624883014,
+              "other": 0.00026119007877621267
+            },
+            "sentiment": {
+              "positive": 1.4449801991721232e-7,
+              "negative": 7.194131939031855e-9,
+              "mixed": 1.039537977903032e-15,
+              "neutral": 0.999999848307847
+            },
+            "refund_requested": {
+              "false": 0.9999999586006245,
+              "true": 4.1399375473943306e-8
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999804443193,
+              "true": 1.955568070542584e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999975404,
+              "1": 2.4133627718272778e-12,
+              "2": 4.420228103630301e-14,
+              "3": 1.9421126878952456e-15
+            }
+          },
+          "latency_ms": 130,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD033",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 4.1937961281462177e-13,
+              "content": 5.67568586839278e-14,
+              "pricing": 8.533048581570653e-17,
+              "service": 7.194133836173884e-9,
+              "other": 0.99999999280539
+            },
+            "sentiment": {
+              "positive": 1.4449801327554622e-7,
+              "negative": 5.315784203728299e-8,
+              "mixed": 7.681204082637728e-15,
+              "neutral": 0.999999802344137
+            },
+            "refund_requested": {
+              "false": 0.999999999782756,
+              "true": 2.1724399346070676e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999586006245,
+              "true": 4.1399375473943306e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999998960685,
+              "1": 1.0261879630635357e-10,
+              "2": 1.2917800046517392e-12,
+              "3": 2.0879679114289278e-14
+            }
+          },
+          "latency_ms": 131,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD034",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.8795288146959964e-12,
+              "content": 9.736200303462139e-10,
+              "pricing": 2.493722050890004e-15,
+              "service": 5.109089023053296e-12,
+              "other": 0.9999999990193889
+            },
+            "sentiment": {
+              "positive": 2.382369100365827e-7,
+              "negative": 2.382369100365827e-7,
+              "mixed": 5.675685234693628e-14,
+              "neutral": 0.9999995235261231
+            },
+            "refund_requested": {
+              "false": 0.9999999979388464,
+              "true": 2.0611536181902033e-9
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999921107355331,
+              "true": 0.000007889264466933239
+            },
+            "expressed_frustration": {
+              "0": 0.9999999965217063,
+              "1": 3.3982678076748975e-9,
+              "2": 7.991959865155549e-11,
+              "3": 1.0603575954641495e-13
+            }
+          },
+          "latency_ms": 127,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD035",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 1.3172092786767396e-10,
+              "content": 0.000335350060770867,
+              "pricing": 2.939091173001386e-11,
+              "service": 3.2231048359577134e-8,
+              "other": 0.9996646175470689
+            },
+            "sentiment": {
+              "positive": 1.8540747445042918e-7,
+              "negative": 0.0007096701732304339,
+              "mixed": 1.3167162236474683e-10,
+              "neutral": 0.9992901442876235
+            },
+            "refund_requested": {
+              "false": 0.999999999241744,
+              "true": 7.582560422162384e-10
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999317439627,
+              "true": 6.825603724121504e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999584686614,
+              "1": 4.1399375468480115e-8,
+              "2": 1.317651372285719e-10,
+              "3": 1.9810087157750324e-13
+            }
+          },
+          "latency_ms": 129,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD036",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.0000037262806836965005,
+              "content": 3.037674629093287e-14,
+              "pricing": 9.356696574063973e-14,
+              "service": 0.00009610204545940331,
+              "other": 0.999900171673733
+            },
+            "sentiment": {
+              "positive": 2.5109989887390214e-8,
+              "negative": 4.139937443440536e-8,
+              "mixed": 1.0395379425312084e-15,
+              "neutral": 0.9999999334906345
+            },
+            "refund_requested": {
+              "false": 0.9999999999200804,
+              "true": 7.991959892315218e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999847700205,
+              "true": 1.522997951276035e-8
+            },
+            "expressed_frustration": {
+              "0": 0.999999997339474,
+              "1": 2.646573631867839e-9,
+              "2": 1.3887943828014785e-11,
+              "3": 6.43139392434111e-14
+            }
+          },
+          "latency_ms": 125,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD037",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "positive",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.00015795738129329362,
+              "content": 0.002470869168961343,
+              "pricing": 6.892417281589428e-13,
+              "service": 0.0005513254333761622,
+              "other": 0.99681984801568
+            },
+            "sentiment": {
+              "positive": 0.9999999997364698,
+              "negative": 1.736203973387462e-20,
+              "mixed": 1.317651426662306e-10,
+              "neutral": 1.3176504330343527e-10
+            },
+            "refund_requested": {
+              "false": 0.9999999999515263,
+              "true": 4.847368706035286e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.999999974890009,
+              "true": 2.5109990926928157e-8
+            },
+            "expressed_frustration": {
+              "0": 0.9999999999913451,
+              "1": 8.423463754395744e-12,
+              "2": 2.244777055001546e-13,
+              "3": 6.778639342750462e-15
+            }
+          },
+          "latency_ms": 127,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD038",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "negative",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.05951773290479395,
+              "content": 0.0000137224006179316,
+              "pricing": 0.008054849240271353,
+              "service": 0.9310139725379359,
+              "other": 0.0013997229163807748
+            },
+            "sentiment": {
+              "positive": 0.000016306358890397723,
+              "negative": 0.9763292636350456,
+              "mixed": 0.022961066060052476,
+              "neutral": 0.0006933639460115905
+            },
+            "refund_requested": {
+              "false": 0.9999999999515263,
+              "true": 4.847368706035286e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999468421503,
+              "true": 5.3157849718487075e-8
+            },
+            "expressed_frustration": {
+              "0": 0.004070069807679118,
+              "1": 0.9959132967046753,
+              "2": 0.000016633445042577956,
+              "3": 4.2603056009636435e-11
+            }
+          },
+          "latency_ms": 137,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD039",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "predicted": {
+            "main_topic": "service",
+            "sentiment": "mixed",
+            "refund_requested": false,
+            "expressed_churn_intent": false,
+            "expressed_frustration": 1
+          },
+          "correct": {
+            "main_topic": false,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 0.3775402294306236,
+              "content": 6.646013921154538e-7,
+              "pricing": 1.1933596249454545e-10,
+              "service": 0.6224585882565637,
+              "other": 5.175920846098612e-7
+            },
+            "sentiment": {
+              "positive": 2.5109986316494188e-8,
+              "negative": 1.8553914138813388e-7,
+              "mixed": 0.9999997893508676,
+              "neutral": 4.658886282820475e-15
+            },
+            "refund_requested": {
+              "false": 0.9999999999622486,
+              "true": 3.775134544136581e-11
+            },
+            "expressed_churn_intent": {
+              "false": 0.9999999677581337,
+              "true": 3.2241866333029355e-8
+            },
+            "expressed_frustration": {
+              "0": 0.037326668969460866,
+              "1": 0.9626674161470553,
+              "2": 0.00000591483060664607,
+              "3": 5.287726202441082e-11
+            }
+          },
+          "latency_ms": 215,
+          "output_tokens": 6
+        },
+        {
+          "id": "HOLD040",
+          "split": "holdout",
+          "expected": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "predicted": {
+            "main_topic": "other",
+            "sentiment": "neutral",
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": 0
+          },
+          "correct": {
+            "main_topic": true,
+            "sentiment": true,
+            "refund_requested": true,
+            "expressed_churn_intent": true,
+            "expressed_frustration": true
+          },
+          "probabilities": {
+            "main_topic": {
+              "technical": 2.2671099703603915e-9,
+              "content": 1.9614344455513963e-11,
+              "pricing": 0.029311944151197478,
+              "service": 0.000009833064158277273,
+              "other": 0.97067822049792
+            },
+            "sentiment": {
+              "positive": 3.0590227956789664e-7,
+              "negative": 1.8553908931593568e-7,
+              "mixed": 5.675685826336763e-14,
+              "neutral": 0.9999995085585743
+            },
+            "refund_requested": {
+              "false": 1.4449802088201125e-7,
+              "true": 0.9999998555019791
+            },
+            "expressed_churn_intent": {
+              "false": 0.014063626423394093,
+              "true": 0.9859363735766059
+            },
+            "expressed_frustration": {
+              "0": 0.9999999821224409,
+              "1": 1.5229979472437766e-8,
+              "2": 2.6465735915948406e-9,
+              "3": 1.0060392612977903e-12
+            }
+          },
+          "latency_ms": 158,
+          "output_tokens": 6
+        }
+      ]
+    }
+  }
+}

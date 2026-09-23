@@ -1,0 +1,1021 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "dataName": "holdout40",
+  "created_at": "2026-09-23T04:43:17.276Z",
+  "variants": {
+    "baseline": {
+      "correct": 27,
+      "total": 40,
+      "mean_ms": 63.36397999999999,
+      "rows": [
+        {
+          "id": "HOLD001",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999982360895433,
+            "negative": 1.6918947365664188e-10,
+            "mixed": 0.0000017603429972108495,
+            "neutral": 3.3982614201451672e-9,
+            "unknown": 8.703945417585923e-15
+          },
+          "ms": 246.7352
+        },
+        {
+          "id": "HOLD002",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.2897348280943533e-11,
+            "negative": 2.789468071487186e-10,
+            "mixed": 0.9999999923348332,
+            "neutral": 7.194132975181153e-9,
+            "unknown": 1.6918979096464506e-10
+          },
+          "ms": 58.636300000000006
+        },
+        {
+          "id": "HOLD003",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.789303142217192e-10,
+            "negative": 0.9999417027438299,
+            "mixed": 0.000058291272161751525,
+            "neutral": 5.602465125296679e-9,
+            "unknown": 1.0261272812166086e-10
+          },
+          "ms": 61.33069999999998
+        },
+        {
+          "id": "HOLD004",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 3.5763687405006367e-10,
+            "negative": 0.9984988175856179,
+            "mixed": 0.0015011819931357573,
+            "neutral": 6.214796992696973e-11,
+            "unknown": 1.461580162209371e-12
+          },
+          "ms": 64.45060000000001
+        },
+        {
+          "id": "HOLD005",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.039538011670218e-15,
+            "negative": 4.030726291347609e-17,
+            "mixed": 0.9999999999999962,
+            "neutral": 2.4937220533353665e-15,
+            "unknown": 1.2415511035985796e-16
+          },
+          "ms": 61.337999999999965
+        },
+        {
+          "id": "HOLD006",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.9421126864271648e-15,
+            "negative": 5.6756852283284017e-14,
+            "mixed": 6.431393936574565e-14,
+            "neutral": 0.9999999992416209,
+            "unknown": 7.582560422161451e-10
+          },
+          "ms": 57.79729999999995
+        },
+        {
+          "id": "HOLD007",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 9.736144141730016e-10,
+            "negative": 0.9999947075256614,
+            "mixed": 0.0000047850943486629705,
+            "neutral": 5.043452338044364e-7,
+            "unknown": 2.0611417309785843e-9
+          },
+          "ms": 59.115999999999985
+        },
+        {
+          "id": "HOLD008",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0261879627604894e-10,
+            "negative": 1.0261879627604894e-10,
+            "mixed": 0.9999999996007558,
+            "neutral": 1.317651426483482e-10,
+            "unknown": 6.224144620422829e-11
+          },
+          "ms": 56.08969999999999
+        },
+        {
+          "id": "HOLD009",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999947756586,
+            "negative": 1.0261879578090328e-10,
+            "mixed": 7.582560388298022e-10,
+            "neutral": 4.363462230147485e-9,
+            "unknown": 4.111452571068402e-15
+          },
+          "ms": 58.90139999999997
+        },
+        {
+          "id": "HOLD010",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.7894574757800037e-10,
+            "negative": 0.000002260318648255925,
+            "mixed": 0.9999954786238539,
+            "neutral": 0.000002260318648255925,
+            "unknown": 4.5990378740319795e-10
+          },
+          "ms": 58.09820000000002
+        },
+        {
+          "id": "HOLD011",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.905281078491593e-10,
+            "negative": 0.9999962378824585,
+            "mixed": 0.000003726638707696002,
+            "neutral": 3.2241742231137175e-8,
+            "unknown": 2.646563366674995e-9
+          },
+          "ms": 57.888000000000034
+        },
+        {
+          "id": "HOLD012",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.060013941598487e-9,
+            "negative": 0.9994472193495091,
+            "mixed": 0.0005527785512837091,
+            "neutral": 3.7730471460075823e-11,
+            "unknown": 1.4629691419818357e-12
+          },
+          "ms": 57.783500000000004
+        },
+        {
+          "id": "HOLD013",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.3347932285975985e-15,
+            "negative": 2.7702749657841098e-17,
+            "mixed": 0.9999999999999967,
+            "neutral": 1.9421126879000162e-15,
+            "unknown": 9.669209717057412e-17
+          },
+          "ms": 55.9674
+        },
+        {
+          "id": "HOLD014",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.3347932285328427e-15,
+            "negative": 3.442477108302957e-14,
+            "mixed": 7.681204684829425e-15,
+            "neutral": 0.9999999999514828,
+            "unknown": 4.8473687060350746e-11
+          },
+          "ms": 63.38079999999991
+        },
+        {
+          "id": "HOLD015",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 1.5826518806275604e-9,
+            "negative": 0.9859363602152169,
+            "mixed": 0.014063626232804102,
+            "neutral": 1.169430353103514e-8,
+            "unknown": 2.750236584059143e-10
+          },
+          "ms": 58.37940000000003
+        },
+        {
+          "id": "HOLD016",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.1779508898282707e-15,
+            "negative": 5.864672148586628e-17,
+            "mixed": 0.9999999999999951,
+            "neutral": 2.8257572871155976e-15,
+            "unknown": 5.56424601126391e-16
+          },
+          "ms": 57.705400000000054
+        },
+        {
+          "id": "HOLD017",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999546012202167,
+            "negative": 1.69182050572369e-10,
+            "mixed": 0.000045397852378626855,
+            "neutral": 7.582213469475679e-10,
+            "unknown": 1.3347321518972346e-15
+          },
+          "ms": 54.77909999999997
+        },
+        {
+          "id": "HOLD018",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 3.775134544126705e-11,
+            "negative": 5.384940217536659e-13,
+            "mixed": 0.9999999999596325,
+            "neutral": 1.8795288164632112e-12,
+            "unknown": 1.9810087979690114e-13
+          },
+          "ms": 55.4242999999999
+        },
+        {
+          "id": "HOLD019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 4.3016832883927065e-9,
+            "negative": 0.014062284106046706,
+            "mixed": 6.384270151402786e-7,
+            "neutral": 0.9858423221950814,
+            "unknown": 0.00009475097017339725
+          },
+          "ms": 55.034400000000005
+        },
+        {
+          "id": "HOLD020",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.0610985818299743e-9,
+            "negative": 0.9999724621483251,
+            "mixed": 0.000027535687762161217,
+            "neutral": 7.991746477354292e-11,
+            "unknown": 2.289673701052531e-11
+          },
+          "ms": 54.394199999999955
+        },
+        {
+          "id": "HOLD021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.3347932285975968e-15,
+            "negative": 3.139132792048015e-17,
+            "mixed": 0.9999999999999953,
+            "neutral": 3.2020024986373516e-15,
+            "unknown": 2.628363706943675e-16
+          },
+          "ms": 55.52539999999999
+        },
+        {
+          "id": "HOLD022",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 4.11145256296814e-15,
+            "negative": 1.2015425645326667e-13,
+            "mixed": 2.543665629076491e-13,
+            "neutral": 0.9999999928054883,
+            "unknown": 7.19413297856711e-9
+          },
+          "ms": 53.981899999999996
+        },
+        {
+          "id": "HOLD023",
+          "expected": "neutral",
+          "predicted": "negative",
+          "correct": false,
+          "details": {
+            "positive": 1.8257831724209048e-7,
+            "negative": 0.984042452158008,
+            "mixed": 0.0018996490059874198,
+            "neutral": 0.01403661307351889,
+            "unknown": 0.000021103184168604918
+          },
+          "ms": 54.48199999999997
+        },
+        {
+          "id": "HOLD024",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.0395380116702168e-15,
+            "negative": 4.0307262913476047e-17,
+            "mixed": 0.9999999999999951,
+            "neutral": 3.2020024986373508e-15,
+            "unknown": 7.144633303166246e-16
+          },
+          "ms": 67.67859999999996
+        },
+        {
+          "id": "HOLD025",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998140127162,
+            "negative": 2.7894682391242265e-10,
+            "mixed": 1.8553914598964683e-7,
+            "neutral": 1.6918980113234548e-10,
+            "unknown": 1.3347932985824816e-15
+          },
+          "ms": 57.27359999999999
+        },
+        {
+          "id": "HOLD026",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 1.361526108089311e-13,
+            "negative": 1.6261110446174093e-14,
+            "mixed": 0.9999999999997482,
+            "neutral": 9.357622968837818e-14,
+            "unknown": 5.9821282237656295e-15
+          },
+          "ms": 55.32639999999992
+        },
+        {
+          "id": "HOLD027",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 4.599046534975873e-10,
+            "negative": 0.9999977194421477,
+            "mixed": 0.000002260325060518512,
+            "neutral": 1.9555643483581372e-8,
+            "unknown": 2.172435757622062e-10
+          },
+          "ms": 53.442999999999984
+        },
+        {
+          "id": "HOLD028",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.1724358022389894e-10,
+            "negative": 0.9999989320688233,
+            "mixed": 0.0000010677029970798842,
+            "neutral": 1.0815920981086792e-11,
+            "unknown": 1.201540287367955e-13
+          },
+          "ms": 53.14639999999986
+        },
+        {
+          "id": "HOLD029",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.9421126879000075e-15,
+            "negative": 7.530388099325916e-17,
+            "mixed": 0.9999999999999922,
+            "neutral": 5.2792096283383435e-15,
+            "unknown": 4.910429870159076e-16
+          },
+          "ms": 55.718599999999924
+        },
+        {
+          "id": "HOLD030",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 1.9421126867529604e-15,
+            "negative": 7.287724091515373e-14,
+            "mixed": 2.0879679104127253e-14,
+            "neutral": 0.999999999409374,
+            "unknown": 5.905303995456214e-10
+          },
+          "ms": 52.09009999999989
+        },
+        {
+          "id": "HOLD031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 2.2007019879753156e-15,
+            "negative": 7.5303880993258e-17,
+            "mixed": 0.9999999999999769,
+            "neutral": 1.6261110446177813e-14,
+            "unknown": 4.6588861451032905e-15
+          },
+          "ms": 56.573199999999815
+        },
+        {
+          "id": "HOLD032",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 9.862862039098883e-15,
+            "negative": 2.5436656454474013e-13,
+            "mixed": 3.9008376072216977e-14,
+            "neutral": 0.9999999992414406,
+            "unknown": 7.582560422160083e-10
+          },
+          "ms": 58.227300000000014
+        },
+        {
+          "id": "HOLD033",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 2.365973162142626e-14,
+            "negative": 3.2661252039041633e-13,
+            "mixed": 3.978955057146387e-12,
+            "neutral": 0.9999982396526674,
+            "unknown": 0.000001760343003483181
+          },
+          "ms": 71.14049999999997
+        },
+        {
+          "id": "HOLD034",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 1.4349722977084127e-14,
+            "negative": 2.8822189069373767e-13,
+            "mixed": 7.991594208222965e-11,
+            "neutral": 0.9999546020673645,
+            "unknown": 0.000045397852417087294
+          },
+          "ms": 63.79850000000033
+        },
+        {
+          "id": "HOLD035",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 1.388730794517483e-11,
+            "negative": 5.905033598969023e-10,
+            "mixed": 3.224039103872684e-8,
+            "neutral": 0.9999545693042887,
+            "unknown": 0.00004539785092964648
+          },
+          "ms": 62.309999999999945
+        },
+        {
+          "id": "HOLD036",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 6.914307696843426e-13,
+            "negative": 2.9400384455114455e-11,
+            "mixed": 1.3887758254322931e-11,
+            "neutral": 0.9999869928322074,
+            "unknown": 0.000013007123813153524
+          },
+          "ms": 64.7849000000001
+        },
+        {
+          "id": "HOLD037",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999977321225967,
+            "negative": 3.581741088239229e-10,
+            "mixed": 0.000002260325089180514,
+            "neutral": 7.194119287712742e-9,
+            "unknown": 2.0879639230994197e-14
+          },
+          "ms": 68.85990000000038
+        },
+        {
+          "id": "HOLD038",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.271559777627963e-8,
+            "negative": 0.9046440602474187,
+            "mixed": 0.09534877606094054,
+            "neutral": 0.000007137028664113544,
+            "unknown": 3.947379003418274e-9
+          },
+          "ms": 58.61899999999969
+        },
+        {
+          "id": "HOLD039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 1.3347932285975966e-15,
+            "negative": 3.139132792048014e-17,
+            "mixed": 0.9999999999999951,
+            "neutral": 3.6283441780470275e-15,
+            "unknown": 1.0956650033262314e-16
+          },
+          "ms": 63.47580000000016
+        },
+        {
+          "id": "HOLD040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.7894361187375617e-10,
+            "negative": 1.1253388479073523e-7,
+            "mixed": 5.043423624874496e-7,
+            "neutral": 0.9999892528576653,
+            "unknown": 0.000010129987143669365
+          },
+          "ms": 54.874199999999746
+        }
+      ]
+    },
+    "fewshot": {
+      "correct": 32,
+      "total": 40,
+      "mean_ms": 109.22107500000001,
+      "rows": [
+        {
+          "id": "HOLD001",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.999999999868235,
+            "negative": 1.6918979223288786e-10
+          },
+          "ms": 105.56759999999986
+        },
+        {
+          "id": "HOLD002",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.7310585727705126,
+            "negative": 0.9999999317439627
+          },
+          "ms": 106.20510000000013
+        },
+        {
+          "id": "HOLD003",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.0000013709578605790399,
+            "negative": 0.999999999782756
+          },
+          "ms": 103.9699999999998
+        },
+        {
+          "id": "HOLD004",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000001760343003490802,
+            "negative": 0.999999999868235
+          },
+          "ms": 103.49400000000014
+        },
+        {
+          "id": "HOLD005",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999996072136592,
+            "negative": 0.9999999996418252
+          },
+          "ms": 109.56219999999985
+        },
+        {
+          "id": "HOLD006",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 4.1399375473943306e-8,
+            "negative": 3.3982678079468468e-9
+          },
+          "ms": 108.91439999999966
+        },
+        {
+          "id": "HOLD007",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000013007123813725573,
+            "negative": 0.9999999468421502
+          },
+          "ms": 112.50550000000021
+        },
+        {
+          "id": "HOLD008",
+          "expected": "negative",
+          "predicted": "mixed",
+          "correct": false,
+          "details": {
+            "positive": 0.6224593312018546,
+            "negative": 0.9999898700126424
+          },
+          "ms": 113.66300000000001
+        },
+        {
+          "id": "HOLD009",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999996418252,
+            "negative": 6.224144622520382e-11
+          },
+          "ms": 102.21810000000005
+        },
+        {
+          "id": "HOLD010",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.00857748525531428,
+            "negative": 0.0000013709578605790399
+          },
+          "ms": 159.13279999999986
+        },
+        {
+          "id": "HOLD011",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 0.9999999987498471
+          },
+          "ms": 119.65020000000004
+        },
+        {
+          "id": "HOLD012",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 1.8553914607279394e-7,
+            "negative": 0.9999999996418252
+          },
+          "ms": 103.48370000000023
+        },
+        {
+          "id": "HOLD013",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998874648246,
+            "negative": 0.9999921107355331
+          },
+          "ms": 103.94830000000002
+        },
+        {
+          "id": "HOLD014",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 4.1399375473943306e-8,
+            "negative": 3.3982678079468468e-9
+          },
+          "ms": 124.25879999999961
+        },
+        {
+          "id": "HOLD015",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000035356254934266316,
+            "negative": 0.9999982396569966
+          },
+          "ms": 111.66989999999987
+        },
+        {
+          "id": "HOLD016",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999546021475793,
+            "negative": 0.9999999317439627
+          },
+          "ms": 117.34799999999996
+        },
+        {
+          "id": "HOLD017",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999999992417439,
+            "negative": 2.7894680920908113e-10
+          },
+          "ms": 112.69940000000042
+        },
+        {
+          "id": "HOLD018",
+          "expected": "negative",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 0.2689414272294874,
+            "negative": 1.4449802095675028e-7
+          },
+          "ms": 100.44430000000011
+        },
+        {
+          "id": "HOLD019",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.9999996072136592
+          },
+          "ms": 102.41969999999947
+        },
+        {
+          "id": "HOLD020",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.000002260325106251199,
+            "negative": 0.9999999847700205
+          },
+          "ms": 107.23700000000008
+        },
+        {
+          "id": "HOLD021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.9999998555019791,
+            "negative": 0.9999952149055051
+          },
+          "ms": 99.78870000000006
+        },
+        {
+          "id": "HOLD022",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 4.1399375473943306e-8,
+            "negative": 3.3982678079468468e-9
+          },
+          "ms": 102.33899999999994
+        },
+        {
+          "id": "HOLD023",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.315279285380715e-7,
+            "negative": 0.0000010677029973235123
+          },
+          "ms": 106.08470000000034
+        },
+        {
+          "id": "HOLD024",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9997388096898188,
+            "negative": 3.059023363247549e-7
+          },
+          "ms": 113.96309999999994
+        },
+        {
+          "id": "HOLD025",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999996072136592,
+            "negative": 3.581747929000289e-10
+          },
+          "ms": 117.96239999999943
+        },
+        {
+          "id": "HOLD026",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.00012339461917113592,
+            "negative": 0.9980732657060568
+          },
+          "ms": 114.07350000000042
+        },
+        {
+          "id": "HOLD027",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 5.043476486929152e-7,
+            "negative": 0.9999999468421502
+          },
+          "ms": 106.26280000000042
+        },
+        {
+          "id": "HOLD028",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 2.3823696679343506e-7,
+            "negative": 0.9999999987498471
+          },
+          "ms": 102.85969999999998
+        },
+        {
+          "id": "HOLD029",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.99979657295342,
+            "negative": 0.999999814460854
+          },
+          "ms": 124.93549999999959
+        },
+        {
+          "id": "HOLD030",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 8.764248496102857e-8,
+            "negative": 3.2241866333029355e-8
+          },
+          "ms": 113.39210000000003
+        },
+        {
+          "id": "HOLD031",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.9999785550413585,
+            "negative": 6.475945666070601e-7
+          },
+          "ms": 103.7497000000003
+        },
+        {
+          "id": "HOLD032",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 2.3823696679343506e-7,
+            "negative": 9.237449576640118e-9
+          },
+          "ms": 103.6247000000003
+        },
+        {
+          "id": "HOLD033",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 1.125351754703302e-7,
+            "negative": 6.825603724121504e-8
+          },
+          "ms": 102.92349999999988
+        },
+        {
+          "id": "HOLD034",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 3.059023363247549e-7,
+            "negative": 1.8553914607279394e-7
+          },
+          "ms": 101.3738000000003
+        },
+        {
+          "id": "HOLD035",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 1.4449802095675028e-7,
+            "negative": 0.0004305570927227883
+          },
+          "ms": 106.01929999999993
+        },
+        {
+          "id": "HOLD036",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "correct": false,
+          "details": {
+            "positive": 2.5109990926928157e-8,
+            "negative": 4.1399375473943306e-8
+          },
+          "ms": 101.56710000000021
+        },
+        {
+          "id": "HOLD037",
+          "expected": "positive",
+          "predicted": "positive",
+          "correct": true,
+          "details": {
+            "positive": 0.999999999782756,
+            "negative": 1.3176514268359263e-10
+          },
+          "ms": 98.86710000000039
+        },
+        {
+          "id": "HOLD038",
+          "expected": "negative",
+          "predicted": "negative",
+          "correct": true,
+          "details": {
+            "positive": 0.03732688948593843,
+            "negative": 0.9995694429072773
+          },
+          "ms": 105.00939999999991
+        },
+        {
+          "id": "HOLD039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "correct": true,
+          "details": {
+            "positive": 0.999999814460854,
+            "negative": 0.9999999804443193
+          },
+          "ms": 109.77359999999953
+        },
+        {
+          "id": "HOLD040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "correct": true,
+          "details": {
+            "positive": 3.059023363247549e-7,
+            "negative": 2.3823696679343506e-7
+          },
+          "ms": 105.88130000000001
+        }
+      ]
+    }
+  }
+}

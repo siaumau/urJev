@@ -2,6 +2,8 @@
 
 日期：2026-09-23
 
+後續更新：8B 的內建四類情緒已改為兩個單 Token 子問題；本文記錄原始方法。最新結果與機率組合限制見 [情緒準確度修正](sentiment-accuracy-improvement.md)。
+
 ## 目的
 
 原本的 `/v1/systemone` 讓五題並行，但每題仍要逐 token 生成完整權重 JSON。OneForward 路徑保留相同 State、Problem 與 typed answer 格式，把每題改為一次候選決策，減少自回歸解碼。

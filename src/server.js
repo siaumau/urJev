@@ -8,6 +8,7 @@ import { systemOne, systemOneOneForward } from './systemone.js';
 const files = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/javascript'], '/style.css': ['style.css', 'text/css'], '/benchmark': ['benchmark.html', 'text/html'], '/benchmark.html': ['benchmark.html', 'text/html'], '/benchmark.js': ['benchmark.js', 'text/javascript'], '/benchmark.css': ['benchmark.css', 'text/css'] };
 files['/feedback-example.js'] = ['feedback-example.js', 'text/javascript'];
 files['/json-input.js'] = ['json-input.js', 'text/javascript'];
+for (const [path, name, type] of [['/puzzle','puzzle.html','text/html'],['/puzzle.html','puzzle.html','text/html'],['/puzzle.js','puzzle.js','text/javascript'],['/puzzle-core.js','puzzle-core.js','text/javascript'],['/puzzle.css','puzzle.css','text/css']]) files[path] = [name, type];
 export function createApp(engine = createEngine({ backend: process.env.INFERENCE_BACKEND, url: process.env.INFERENCE_BACKEND === 'vllm' ? process.env.VLLM_URL : process.env.OLLAMA_URL, model: process.env.MODEL, timeout: Number(process.env.INFERENCE_TIMEOUT_MS || 120000) }), { jevFetch = fetch } = {}) {
   const publicOrigin = process.env.PUBLIC_ORIGIN ? new URL(process.env.PUBLIC_ORIGIN).origin : null;
   const publicHost = publicOrigin ? new URL(publicOrigin).host : null;

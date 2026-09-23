@@ -65,6 +65,10 @@ INFERENCE_TIMEOUT_MS=120000
 
 ### 可選：切換 Qwen3-4B／8B
 
+新增 [3×3 拼圖競賽操作文件](docs/puzzle-benchmark.md)：開啟 `/puzzle`，輸入 Jev key 後按開始，兩側從同一盤面逐步解題，記錄步數、實際延遲與完成狀態。15413 與 15414 的網頁服務均提供此頁。
+
+完整的停止服務、切換、雙終端重啟、15413／15414 埠與健康檢查步驟，見 [模型切換操作紀錄](docs/qwen3-8b-evaluation.md#完整操作與驗證)。同一文件也記錄模型版本差異、情緒錯誤分析與後續驗證方案。
+
 Arc Pro B70 32 GB 可以保留目前 4B，同時另行下載 8B。下載只做一次；切換指令只改 `.env` 的 `MODEL`，不會刪除另一個模型：
 
 ```powershell
@@ -92,7 +96,7 @@ npm run model:vllm
 | Qwen3-4B-Instruct-2507 | **78.2%** | **112 ms** | **107 ms** | **136 ms** |
 | Qwen3-8B | 76.8% | 127 ms | 125 ms | 148 ms |
 
-因此目前仍以 4B 為預設。模型較大不代表這個分類任務必然更準；8B 在流失意圖與挫折程度較好，但主題與情緒較差。原始 Qwen3-8B 還會預設進入 thinking mode，本專案已在推論請求明確設定 `enable_thinking: false`，避免它和 OneForward 的首 Token 候選限制衝突。完整結果與逐欄位比較見 [`docs/qwen3-8b-evaluation.md`](docs/qwen3-8b-evaluation.md)。
+以上為情緒修正前的基準，安裝範本仍預設 4B。後續 8B 的四類情緒改為正負分開判斷後，同批資料整體準確率提升至 83.2%，詳見 [情緒準確度修正](docs/sentiment-accuracy-improvement.md)。原始 Qwen3-8B 預設進入 thinking mode，本專案已在推論請求明確設定 `enable_thinking: false`，避免它和 OneForward 的首 Token 候選限制衝突。原始模型比較與逐欄位結果見 [`docs/qwen3-8b-evaluation.md`](docs/qwen3-8b-evaluation.md)。
 
 ### 3. 啟動模型，再啟動 Playground
 
@@ -168,9 +172,11 @@ Jev API key 只放在目前頁面的輸入欄位與每次代理請求中，不�
 
 `POST /v1/systemone` 接受 `{state, problem}` 或 `{state, questions}`，兩種問題欄位不可並存。回傳 `answers`、`usage`、`meta`。可選 `model` 欄位僅接受 `urjev`；實際模型由伺服器 `.env` 決定。
 
-`POST /v1/systemone/oneforward` 接受相同輸入並回傳相同 answer 型別。它把每個選項轉成唯一的單 token 語意標籤；不能安全單 token 化時才使用 A–J。vLLM 只輸出一個 label 並回傳候選 logprobs，因此每題只需一個解碼步。此實驗端點每題最多 10 個選項。
+`POST /v1/systemone/oneforward` 接受相同輸入並回傳相同 answer 型別。一般問題把每個選項轉成唯一的單 token 語意標籤；不能安全單 token 化時才使用 A–J，每個模型請求只輸出一個 label 並回傳候選 logprobs。此實驗端點每題最多 10 個選項。
 
-單次最多 16 題，choice 最多 32 選項、score 最多 10 等級；每題提示上限 7,000 UTF-8 bytes。vLLM 最多八題並行，回應保持原問題順序。任一題失敗會等待在途工作結束再回錯誤，不回傳部分成功。
+**8B 情緒準確度修正（2026-09-23）：** Qwen3-8B 搭配內建四類情緒的完整指令與定義時，預設分別判斷「有沒有肯定」與「有沒有不滿」，再組合答案。因此範例的五題會送出六個單 Token 請求。自訂定義、五類情緒、其他模型以及加入範例後提示過長的情況，仍走一般路徑。`SENTIMENT_STRATEGY=direct` 可還原原路徑，修改後只需重啟網頁/API 程序，不需重載模型。方法、準確率、效能與限制見 [情緒準確度修正報告](docs/sentiment-accuracy-improvement.md)。
+
+單次最多 16 題，choice 最多 32 選項、score 最多 10 等級；每個模型請求提示上限 7,000 UTF-8 bytes。vLLM 最多八個模型請求並行（包含情緒子問題），回應保持原問題順序。任一題失敗會等待在途工作結束再回錯誤，不回傳部分成功。
 
 兩種推論路由共用一個 HTTP 忙碌鎖：處理中收到另一份推論請求會回 429。請求大小上限 64 KB，推論逾時由 `INFERENCE_TIMEOUT_MS` 控制。`GET /api/health` 檢查後端，`GET /api/runtime` 取得可提供的快照資訊。
 

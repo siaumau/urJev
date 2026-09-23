@@ -1,0 +1,395 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "profile": "optimized",
+  "dataset": "feedback-holdout-40",
+  "created_at": "2026-09-23T04:34:36.857Z",
+  "scope": "sentiment only; sequential requests; not five-question latency",
+  "variants": {
+    "evidence": {
+      "correct": 34,
+      "total": 40,
+      "accuracy": 0.85,
+      "mean_ms": 734.4993774999996,
+      "confusion": {
+        "positive": {
+          "positive": 5,
+          "mixed": 2
+        },
+        "negative": {
+          "negative": 16
+        },
+        "mixed": {
+          "mixed": 6
+        },
+        "neutral": {
+          "neutral": 7
+        },
+        "unclear": {
+          "neutral": 4
+        }
+      },
+      "rows": [
+        {
+          "id": "HOLD001",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：播放器非常順暢，字幕同步也很準確。  \n明確的不滿：無  \nANSWER: positive",
+          "tokens": 32,
+          "correct": true,
+          "ms": 933.5497
+        },
+        {
+          "id": "HOLD002",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有。  \nANSWER: negative",
+          "tokens": 21,
+          "correct": true,
+          "ms": 640.9783
+        },
+        {
+          "id": "HOLD003",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 605.7846999999999
+        },
+        {
+          "id": "HOLD004",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 603.2053000000001
+        },
+        {
+          "id": "HOLD005",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "State 中明確的肯定與不滿原文：肯定「課程很精彩」，不滿「影片反覆緩衝，之前回報也沒有用」。  \nANSWER: mixed",
+          "tokens": 41,
+          "correct": true,
+          "ms": 1186.1007
+        },
+        {
+          "id": "HOLD006",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 309.5720999999994
+        },
+        {
+          "id": "HOLD007",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.4390999999996
+        },
+        {
+          "id": "HOLD008",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 602.3254000000006
+        },
+        {
+          "id": "HOLD009",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：教材內容完整，案例也很有幫助。  \n明確的不滿：無  \nANSWER: positive",
+          "tokens": 28,
+          "correct": true,
+          "ms": 831.2155999999995
+        },
+        {
+          "id": "HOLD010",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有。  \nANSWER: negative",
+          "tokens": 21,
+          "correct": true,
+          "ms": 631.7379000000001
+        },
+        {
+          "id": "HOLD011",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.2218000000003
+        },
+        {
+          "id": "HOLD012",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 619.1395000000011
+        },
+        {
+          "id": "HOLD013",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定「老師講得很好」，不滿「講義有幾處錯字需要修正」。  \nANSWER: mixed",
+          "tokens": 36,
+          "correct": true,
+          "ms": 1041.7736000000004
+        },
+        {
+          "id": "HOLD014",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.5807999999997
+        },
+        {
+          "id": "HOLD015",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 599.4147000000012
+        },
+        {
+          "id": "HOLD016",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「入門部分清楚」；明確的不滿：「進階內容持續缺漏，我已決定不續訂」。  \nANSWER: mixed",
+          "tokens": 40,
+          "correct": true,
+          "ms": 1195.207199999999
+        },
+        {
+          "id": "HOLD017",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定原文：「年繳折扣很划算，我對目前方案很滿意。」  \n不存在的評價：無  \nANSWER: positive",
+          "tokens": 35,
+          "correct": true,
+          "ms": 1021.1947999999993
+        },
+        {
+          "id": "HOLD018",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有。  \nANSWER: negative",
+          "tokens": 21,
+          "correct": true,
+          "ms": 632.8316000000013
+        },
+        {
+          "id": "HOLD019",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.5579999999991
+        },
+        {
+          "id": "HOLD020",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 603.274800000001
+        },
+        {
+          "id": "HOLD021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定 - \"方案功能完整\"；不滿 - \"每個裝置都要額外付費\"。  \nANSWER: mixed",
+          "tokens": 37,
+          "correct": true,
+          "ms": 1082.9010999999991
+        },
+        {
+          "id": "HOLD022",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 299.7366000000002
+        },
+        {
+          "id": "HOLD023",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 603.7850000000017
+        },
+        {
+          "id": "HOLD024",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：「目前價格很合理」；不滿原文：「公司改用其他平台，我已決定到期不續訂」。  \nANSWER: mixed",
+          "tokens": 38,
+          "correct": false,
+          "ms": 1100.7044999999998
+        },
+        {
+          "id": "HOLD025",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「客服回覆迅速而且說明清楚，非常感謝。」  \n明確的不滿：無  \nANSWER: positive",
+          "tokens": 32,
+          "correct": true,
+          "ms": 932.3801999999996
+        },
+        {
+          "id": "HOLD026",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 606.8574999999983
+        },
+        {
+          "id": "HOLD027",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 600.1179999999986
+        },
+        {
+          "id": "HOLD028",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.7867000000006
+        },
+        {
+          "id": "HOLD029",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定：人員態度親切；不滿原文：承諾的回電一直沒有發生。  \nANSWER: mixed",
+          "tokens": 29,
+          "correct": true,
+          "ms": 850.5854999999974
+        },
+        {
+          "id": "HOLD030",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "無  \n無  \nANSWER: neutral",
+          "tokens": 9,
+          "correct": true,
+          "ms": 298.5742999999966
+        },
+        {
+          "id": "HOLD031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "明確的肯定：客服處理得很好；不滿原文：公司政策改變，我們下期不再續訂。  \nANSWER: mixed",
+          "tokens": 30,
+          "correct": false,
+          "ms": 892.5792000000001
+        },
+        {
+          "id": "HOLD032",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 600.6065999999992
+        },
+        {
+          "id": "HOLD033",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": false,
+          "ms": 825.9998999999989
+        },
+        {
+          "id": "HOLD034",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": false,
+          "ms": 826.1813999999977
+        },
+        {
+          "id": "HOLD035",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": false,
+          "ms": 828.534599999999
+        },
+        {
+          "id": "HOLD036",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "State 中明確的肯定與不滿原文：無；不存在的評價寫「無」。  \nANSWER: neutral",
+          "tokens": 28,
+          "correct": false,
+          "ms": 824.1146000000008
+        },
+        {
+          "id": "HOLD037",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "明確的肯定：「網站整體操作很直覺，我很喜歡新的深色模式」；不存在的不滿：無  \nANSWER: positive",
+          "tokens": 34,
+          "correct": true,
+          "ms": 990.9113999999972
+        },
+        {
+          "id": "HOLD038",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "明確的肯定：無；明確的不滿：有  \nANSWER: negative",
+          "tokens": 20,
+          "correct": true,
+          "ms": 610.1447999999982
+        },
+        {
+          "id": "HOLD039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "明確的肯定與不滿原文：肯定「登入很方便」，不滿「通知設定的位置很難找到」。  \nANSWER: mixed",
+          "tokens": 32,
+          "correct": true,
+          "ms": 938.5103999999992
+        },
+        {
+          "id": "HOLD040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "明確的肯定：無；明確的不滿：無  \nANSWER: neutral",
+          "tokens": 20,
+          "correct": true,
+          "ms": 601.8571999999986
+        }
+      ]
+    }
+  }
+}

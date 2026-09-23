@@ -223,5 +223,8 @@ export function createEngine({ backend = 'ollama', url = backend === 'vllm' ? 'h
     }
     return { labels, tokenIds };
   }
-  return { backend, candidateLabels, decide, health, infer, inferLabels, runtime };
+  const requestedSentiment = process.env.SENTIMENT_STRATEGY || 'auto';
+  if (!['auto', 'direct'].includes(requestedSentiment)) throw new Error('SENTIMENT_STRATEGY must be auto or direct');
+  const sentimentStrategy = requestedSentiment === 'auto' && backend === 'vllm' && model === 'Qwen/Qwen3-8B' ? 'decomposed' : 'direct';
+  return { backend, model, sentimentStrategy, candidateLabels, decide, health, infer, inferLabels, runtime };
 }

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>8 格拼圖競賽 · urJev × Jev</title><link rel="stylesheet" href="/puzzle.css"><style>.board{grid-template-columns:repeat(3,1fr)}</style></head>
+<body><header><a href="/">urJev <span>/ puzzle lab</span></a><a href="/benchmark">100 筆分類測試 ↗</a></header>
+<main><section class="intro"><span class="eyebrow">8 TILES · TWO MODELS · ONE START</span><h1>同一盤，誰先拼好？</h1><p>每列由左到右，再由上到下排列 1–8，空格留在右下角。每一步都交給模型決定。</p></section>
+<details id="config" open><summary>比賽設定 <span id="config-status">設定 Jev API key 後開始</span></summary><div class="settings">
+<label>盤面編號<input id="seed" type="number" min="0" max="4294967295" value="20260923"></label>
+<label>打亂次數<select id="scramble"><option value="8">8 次 · 先試簡單</option><option value="20">20 次</option><option value="60">60 次</option><option value="150">150 次 · 挑戰</option></select></label>
+<label>每邊最多步數<select id="limit"><option value="40">40 步</option><option value="100">100 步</option><option value="300">300 步</option></select></label>
+<label>每邊最長時間<select id="seconds"><option value="120">2 分鐘</option><option value="300">5 分鐘</option><option value="600">10 分鐘</option></select></label>
+<label class="wide">Jev API key<input id="key" type="password" autocomplete="off" spellcheck="false" placeholder="只保留在本頁，重新整理即清除"></label>
+<label class="wide">Jev 模型<input id="jev-model" value="jev-latest" spellcheck="false"></label>
+</div><p class="note">打亂以合法移動產生，確定可解；打亂次數不等於最少解題步數。每一步呼叫一次 API，官方呼叫會消耗額度，最多等於設定步數。Key 不會放進匯出檔或本機儲存。</p></details>
+<div class="actions"><button id="generate">換一盤</button><button id="start" class="primary">開始 · 兩邊一起拼 ↗</button><button id="local">只測 urJev</button><button id="stop" disabled>停止</button><button id="export" disabled>匯出紀錄 ↓</button></div>
+<p id="notice" role="status">兩邊已載入相同盤面，尚未呼叫模型。</p><div class="arena" id="arena"></div>
+<section class="explain"><h2>怎麼比較才公平？</h2><p>按下開始才同時送出第一個請求，起點、規則、步數與時間上限相同；之後盤面隨各自決策改變。每次只提供合法移動，不提供解答路徑，也不替模型搜尋下一步。</p><p>先完成正確盤面的一方獲勝。未完成就顯示未完成，不用歸位格數判勝。總時間包含 API 等待與畫面處理，單步延遲包含網路及回應解析；這是整個系統的解題能力與速度比較，不是純 GPU 速度比較。</p><details><summary>查看目標盤面與限制</summary><div id="goal" class="board small"></div><p>3×3 拼圖需要多步規劃，兩個模型都可能繞圈或無法完成。先從 8 次打亂開始。停止可中斷前端等待，但已送到服務端的請求仍可能完成及計費。Jev 的相容性需用您自己的 key 實際驗證。</p></details></section>
+</main><script type="module" src="/puzzle.js"></script></body></html>

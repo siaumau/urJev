@@ -50,7 +50,7 @@ const summarizeSamples = samples => ({
   }, {})
 });
 
-const report = { created_at: new Date().toISOString(), dataset: datasetLabel, split: split ?? 'all', rows: dataset.length, note: 'Synthetic-data baseline before probability calibration. Accuracy uses argmax; NLL, Brier, and 10-bin ECE use uncalibrated probabilities.', methods: {} };
+const report = { created_at: new Date().toISOString(), model: engine.model, sentiment_strategy: engine.sentimentStrategy, dataset: datasetLabel, split: split ?? 'all', rows: dataset.length, note: 'Synthetic-data evaluation, not a real-world accuracy guarantee. Accuracy uses argmax; NLL, Brier, and 10-bin ECE use uncalibrated scores. latency_ms is systemOne elapsed time, not browser roundtrip.', methods: {} };
 for (const method of requested) {
   const run = method === 'oneforward' ? systemOneOneForward : systemOne;
   const rows = [];

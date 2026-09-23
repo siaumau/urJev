@@ -1,0 +1,398 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "profile": "optimized",
+  "dataset": "feedback-holdout-40",
+  "created_at": "2026-09-23T04:34:33.729Z",
+  "scope": "sentiment only; sequential requests; not five-question latency",
+  "variants": {
+    "original": {
+      "correct": 27,
+      "total": 40,
+      "accuracy": 0.675,
+      "mean_ms": 74.21739500000004,
+      "confusion": {
+        "positive": {
+          "positive": 5,
+          "mixed": 2
+        },
+        "negative": {
+          "mixed": 5,
+          "negative": 10,
+          "neutral": 1
+        },
+        "mixed": {
+          "mixed": 6
+        },
+        "neutral": {
+          "neutral": 6,
+          "negative": 1
+        },
+        "unclear": {
+          "neutral": 4
+        }
+      },
+      "rows": [
+        {
+          "id": "HOLD001",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "positive",
+          "tokens": 1,
+          "correct": true,
+          "ms": 630.6379000000001
+        },
+        {
+          "id": "HOLD002",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 99.60760000000005
+        },
+        {
+          "id": "HOLD003",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 67.49199999999996
+        },
+        {
+          "id": "HOLD004",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 65.7478000000001
+        },
+        {
+          "id": "HOLD005",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 60.718399999999974
+        },
+        {
+          "id": "HOLD006",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 59.12069999999994
+        },
+        {
+          "id": "HOLD007",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 66.42930000000001
+        },
+        {
+          "id": "HOLD008",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 57.11510000000021
+        },
+        {
+          "id": "HOLD009",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "positive",
+          "tokens": 1,
+          "correct": true,
+          "ms": 57.471900000000005
+        },
+        {
+          "id": "HOLD010",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 52.64859999999999
+        },
+        {
+          "id": "HOLD011",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 54.3139000000001
+        },
+        {
+          "id": "HOLD012",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.361199999999826
+        },
+        {
+          "id": "HOLD013",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 54.009399999999914
+        },
+        {
+          "id": "HOLD014",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.522699999999986
+        },
+        {
+          "id": "HOLD015",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 58.66829999999982
+        },
+        {
+          "id": "HOLD016",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.8913
+        },
+        {
+          "id": "HOLD017",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "positive",
+          "tokens": 1,
+          "correct": true,
+          "ms": 54.02780000000007
+        },
+        {
+          "id": "HOLD018",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 53.962800000000016
+        },
+        {
+          "id": "HOLD019",
+          "expected": "negative",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 58.30950000000007
+        },
+        {
+          "id": "HOLD020",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.18979999999988
+        },
+        {
+          "id": "HOLD021",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 55.331100000000106
+        },
+        {
+          "id": "HOLD022",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 52.91459999999984
+        },
+        {
+          "id": "HOLD023",
+          "expected": "neutral",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": false,
+          "ms": 54.33320000000003
+        },
+        {
+          "id": "HOLD024",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 54.375
+        },
+        {
+          "id": "HOLD025",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "positive",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.636799999999766
+        },
+        {
+          "id": "HOLD026",
+          "expected": "negative",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 60.27480000000014
+        },
+        {
+          "id": "HOLD027",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 74.10439999999971
+        },
+        {
+          "id": "HOLD028",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 60.91840000000002
+        },
+        {
+          "id": "HOLD029",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 54.982400000000325
+        },
+        {
+          "id": "HOLD030",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 53.12030000000004
+        },
+        {
+          "id": "HOLD031",
+          "expected": "positive",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": false,
+          "ms": 55.05249999999978
+        },
+        {
+          "id": "HOLD032",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 58.16960000000017
+        },
+        {
+          "id": "HOLD033",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 54.13409999999976
+        },
+        {
+          "id": "HOLD034",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 64.1582000000003
+        },
+        {
+          "id": "HOLD035",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 77.00070000000005
+        },
+        {
+          "id": "HOLD036",
+          "expected": "unclear",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": false,
+          "ms": 58.594400000000405
+        },
+        {
+          "id": "HOLD037",
+          "expected": "positive",
+          "predicted": "positive",
+          "raw": "positive",
+          "tokens": 1,
+          "correct": true,
+          "ms": 60.66830000000027
+        },
+        {
+          "id": "HOLD038",
+          "expected": "negative",
+          "predicted": "negative",
+          "raw": "negative",
+          "tokens": 1,
+          "correct": true,
+          "ms": 78.89220000000023
+        },
+        {
+          "id": "HOLD039",
+          "expected": "mixed",
+          "predicted": "mixed",
+          "raw": "mixed",
+          "tokens": 1,
+          "correct": true,
+          "ms": 64.05790000000025
+        },
+        {
+          "id": "HOLD040",
+          "expected": "neutral",
+          "predicted": "neutral",
+          "raw": "neutral",
+          "tokens": 1,
+          "correct": true,
+          "ms": 59.73090000000002
+        }
+      ]
+    }
+  }
+}

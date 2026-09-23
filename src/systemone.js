@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
 import { JevError } from './engine.js';
+import { supportsSentimentFactors, prepareSentimentFactors, sentimentDistribution } from './sentiment.js';
 const object = x => x !== null && typeof x === 'object' && !Array.isArray(x);
 const fail = message => { throw new JevError(400, 'INVALID_PROBLEM', message); };
 const description = x => x === null || typeof x === 'string' || object(x) || Array.isArray(x);
@@ -131,43 +132,72 @@ export async function systemOne(engine, input, { concurrency = engine.backend ==
   } };
 }
 
-export async function systemOneOneForward(engine, input, { concurrency = 8 } = {}) {
+export async function systemOneOneForward(engine, input, { concurrency = 8, sentimentStrategy = engine.sentimentStrategy ?? 'direct' } = {}) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Concurrency must be 1–8');
   if (typeof engine.inferLabels !== 'function') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', '推論引擎不支援 OneForward。');
   const plans = prepareOneForwardProblems(input);
+  const questions = input.questions ?? input.problem;
+  for (const plan of plans) plan.decomposed = sentimentStrategy === 'decomposed' && supportsSentimentFactors(questions[plan.id]);
   if (typeof engine.candidateLabels === 'function') await Promise.all(plans.map(async plan => {
+    if (plan.decomposed) {
+      const binary = await engine.candidateLabels(['false', 'true']);
+      plan.factors = prepareSentimentFactors(input.state, binary);
+      if (plan.factors.every(factor => Buffer.byteLength(JSON.stringify(factor.prepared.messages), 'utf8') <= 7000)) return;
+      // Preserve previously valid long inputs instead of failing due to added examples.
+      plan.decomposed = false;
+      delete plan.factors;
+    }
     const { labels, tokenIds } = await engine.candidateLabels(plan.keys);
     plan.prepared = { ...plan.buildPrepared(labels), tokenIds };
   }));
   const start = performance.now();
-  const completed = new Array(plans.length);
+  const jobs = plans.flatMap((plan, index) => plan.decomposed
+    ? (plan.factors ?? []).map(factor => ({ ...factor, index }))
+    : [{ prepared: plan.prepared, index }]);
+  if (plans.some(plan => plan.decomposed && !plan.factors)) throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', '情緒分解需要 tokenizer 支援。');
+  const completed = plans.map(() => []);
   let next = 0, failure;
   async function worker() {
-    while (!failure && next < plans.length) {
-      const index = next++, plan = plans[index];
+    while (!failure && next < jobs.length) {
+      const job = jobs[next++];
       try {
-        const { probabilities: labelProbabilities, meta } = await engine.inferLabels(plan.prepared);
-        const probabilities = Object.fromEntries(plan.keys.map((key, i) => [key, labelProbabilities[plan.prepared.labels[i]]]));
-        if (Object.values(probabilities).some(value => !Number.isFinite(value)) || Object.values(probabilities).reduce((sum, value) => sum + value, 0) <= 0) throw new JevError(502, 'INVALID_DISTRIBUTION', `${plan.id}: 模型未提供有效候選機率。`);
-        completed[index] = { answer: typedAnswer(plan, probabilities), meta: { ...meta, question_id: plan.id } };
+        const started = performance.now();
+        const output = await engine.inferLabels(job.prepared);
+        const values = job.prepared.labels.map(label => output.probabilities[label]);
+        if (values.some(value => !Number.isFinite(value) || value < 0 || value > 1) || Math.abs(values.reduce((sum, v) => sum + v, 0) - 1) > 1e-6) throw new JevError(502, 'INVALID_DISTRIBUTION', `${plans[job.index].id}: 模型未提供有效候選機率。`);
+        completed[job.index].push({ ...output, factor: job.factor, started, finished: performance.now() });
       } catch (error) { failure ??= error; }
     }
   }
-  await Promise.all(Array.from({ length: Math.min(concurrency, plans.length) }, worker));
+  await Promise.all(Array.from({ length: Math.min(concurrency, jobs.length) }, worker));
   if (failure) throw failure;
   const answers = Object.create(null), metrics = [];
   for (const [index, plan] of plans.entries()) {
-    answers[plan.id] = completed[index].answer;
-    metrics.push(completed[index].meta);
+    const outputs = completed[index];
+    if (plan.decomposed) {
+      const factors = Object.fromEntries(outputs.map(output => [output.factor, output.probabilities.true]));
+      answers[plan.id] = typedAnswer(plan, sentimentDistribution(factors.positive, factors.negative));
+      const sum = field => outputs.every(o => Number.isFinite(o.meta[field])) ? outputs.reduce((s,o) => s + o.meta[field], 0) : null;
+      metrics.push({ model: outputs[0].meta.model, backend: outputs[0].meta.backend, question_id: plan.id,
+        schema_valid: true, decision_method: 'sentiment_binary_factors', probability_method: 'independent_binary_product_scores',
+        factor_scores: factors, subrequests: outputs.map(o => ({ ...o.meta, factor: o.factor })),
+        latency_ms: Math.round(Math.max(...outputs.map(o => o.finished)) - Math.min(...outputs.map(o => o.started))),
+        input_tokens: sum('input_tokens'), output_tokens: sum('output_tokens'), cached_input_tokens: sum('cached_input_tokens') });
+    } else {
+      const output = outputs[0];
+      const probabilities = Object.fromEntries(plan.keys.map((key, i) => [key, output.probabilities[plan.prepared.labels[i]]]));
+      answers[plan.id] = typedAnswer(plan, probabilities);
+      metrics.push({ ...output.meta, question_id: plan.id, decision_method: 'single_label', probability_method: 'conditional_label_token_logits' });
+    }
   }
   const total = field => metrics.every(item => typeof item[field] === 'number') ? metrics.reduce((sum, item) => sum + item[field], 0) : null;
   return { model: 'urjev', answers, usage: { input_tokens: total('input_tokens'), output_tokens: total('output_tokens') }, meta: {
     model: metrics[0].model, backend: metrics[0].backend, schema_valid: true,
     latency_ms: Math.round(performance.now() - start), output_tokens: total('output_tokens'),
     profile: { input_tokens: total('input_tokens'), output_tokens: total('output_tokens'), per_question: metrics },
-    probability_method: 'conditional_label_token_logits', calibrated: false, confidence_method: 'unavailable',
+    probability_method: plans.some(p => p.decomposed) ? 'mixed_label_logits_and_binary_product_scores' : 'conditional_label_token_logits', calibrated: false, confidence_method: 'unavailable',
     execution: concurrency > 1 ? 'independent_parallel' : 'independent_sequential', concurrency,
-    output_format: 'single_label_logprobs', questions: plans.length, experimental: true,
-    warning: '這些機率是候選標籤下一 token logits 經限定 softmax 的結果，尚未經校準；這是 Jev-style 實驗路徑，不代表 Jev 的專有模型或 RLCD。'
+    output_format: 'single_label_logprobs', questions: plans.length, inference_requests: jobs.length, experimental: true,
+    warning: '候選機率尚未校準；情緒分解若啟用，四類分數由兩個是非判斷按獨立假設相乘，並非經校準的聯合機率。這是 Jev-style 實驗路徑，不代表 Jev 的專有模型或 RLCD。'
   } };
 }
