@@ -1,16 +1,25 @@
 export const EMAIL_PROBLEM = Object.freeze({
   spam_likelihood: {
     type: 'choice',
-    instructions: '只根據 email.subject、email.from、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量推銷。正常交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報不要僅因含促銷就判成垃圾郵件。',
+    instructions: '只根據 email.subject、email.from、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結或退訂連結就判成垃圾郵件。',
     criteria: {
       likely_spam: '有明確大量濫發、欺騙、釣魚、可疑獎金、惡意連結誘導、假冒身分或與收件者無合理關係的強訊號',
       not_spam: '看起來是正常往來、帳戶或交易通知、合理訂閱內容，沒有明確垃圾或詐騙訊號',
       unclear: '現有內容不足，無法可靠判斷是否為垃圾郵件'
     }
   },
+  content_purpose: {
+    type: 'choice',
+    instructions: '判斷郵件的主要內容目的。以促成購買、註冊、點擊、領取優惠或參加商業活動為主要目的時選 marketing；以分享可學習、可參考的知識內容為主要目的時選 knowledge；交易、帳戶、工作往來、私人通信、系統通知或資訊不足時選 other。電子報要依主要內容判斷，不要看到「電子報」三字就固定分類。',
+    criteria: {
+      marketing: '主要是產品或服務推廣、折扣優惠、促銷活動、導購、品牌宣傳、商業邀約或以轉換為目的的內容',
+      knowledge: '主要是教學、研究摘要、產業趨勢、技術文章、專業觀點、案例解析、知識整理或非導購型資訊分享',
+      other: '主要是交易或帳戶通知、工作與私人往來、系統訊息，或沒有足夠訊號判定為行銷或新知'
+    }
+  },
   importance: {
     type: 'choice',
-    instructions: '判斷郵件對收件者的實際重要性。重要表示與本人、帳戶安全、金錢、訂單、工作、學習、法律義務或直接人際往來有明確關係；次要表示可稍後閱讀的更新、一般通知、電子報或促銷；無法歸類時選 uncategorized。',
+    instructions: '判斷郵件對收件者的實際重要性。重要表示與本人、帳戶安全、金錢、訂單、工作、學習義務、法律義務或直接人際往來有明確關係；次要表示可稍後閱讀的更新、一般通知、電子報、知識分享或促銷。教學、研究或產業資訊本身不代表需要本人處理，不要只因內容有學習價值就選 important；無法歸類時選 uncategorized。',
     criteria: {
       important: '需要本人留意、回覆、決策或採取行動，忽略可能造成實際影響',
       secondary: '有內容價值但優先度低，可延後處理或不需採取明確行動',
@@ -19,7 +28,7 @@ export const EMAIL_PROBLEM = Object.freeze({
   },
   urgency: {
     type: 'choice',
-    instructions: '判斷是否需要近期立即處理。只有明確期限、即將發生的行程、帳戶或付款風險、必須迅速回覆等時間壓力才算 urgent；行銷文案自稱限時或緊急，不能單獨當成真正緊急。',
+    instructions: '判斷收件者是否需要近期立即處理。只有明確期限、即將發生的行程、帳戶或付款風險、必須迅速回覆等行動壓力才算 urgent；行銷文案自稱限時或緊急不能單獨當成真正緊急，「最新」「本週摘要」「近期趨勢」「每日更新」等內容時間也不算需要收件者處理的期限。',
     criteria: {
       urgent: '需要立即或在明確短期限內處理，延誤會造成具體損失或錯過事件',
       not_urgent: '沒有明確近期時間壓力，可以稍後處理'
@@ -50,20 +59,23 @@ export function buildEmailPayload(email, now = new Date()) {
 
 export function deriveClassification(answers) {
   const spam = answers?.spam_likelihood?.choice ?? 'unclear';
+  const contentPurpose = answers?.content_purpose?.choice ?? 'other';
   const importance = answers?.importance?.choice ?? 'uncategorized';
   const urgency = answers?.urgency?.choice ?? 'not_urgent';
   const mentionsTime = Number(answers?.mentions_time?.noul ?? 0) >= 0.5;
   let category;
   if (spam === 'likely_spam') category = 'possible_spam';
+  else if (contentPurpose === 'marketing') category = 'marketing';
+  else if (contentPurpose === 'knowledge') category = 'knowledge';
   else if (importance === 'important') category = urgency === 'urgent' ? 'important_urgent' : 'important_not_urgent';
   else if (importance === 'secondary') category = 'secondary';
   else category = mentionsTime ? 'time_related' : 'uncategorized';
-  return { spam, importance, urgency, mentionsTime, category };
+  return { spam, contentPurpose, importance, urgency, mentionsTime, category };
 }
 
 export const CATEGORY_LABELS = Object.freeze({
   possible_spam: '可能垃圾', important_urgent: '重要・緊急', important_not_urgent: '重要・不緊急',
-  secondary: '次要', time_related: '時間相關', uncategorized: '未分類'
+  marketing: '行銷', knowledge: '新知', secondary: '次要', time_related: '時間相關', uncategorized: '未分類'
 });
 
 export async function analyzeEmail(email, endpoint, fetchImpl = fetch) {

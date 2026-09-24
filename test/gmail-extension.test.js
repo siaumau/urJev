@@ -4,25 +4,30 @@ import { readFile } from 'node:fs/promises';
 import { buildEmailPayload, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
 import { AI_LABELS, applyAiLabel, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
 
-test('Gmail classifier maps spam, important urgency, time fallback and uncategorized', () => {
-  const answer = (spam, importance, urgency, mentionsTime) => ({
+test('Gmail classifier applies spam, importance, marketing, knowledge and fallback priority', () => {
+  const answer = (spam, importance, urgency, mentionsTime, contentPurpose = 'other') => ({
     spam_likelihood: { type: 'choice', choice: spam }, importance: { type: 'choice', choice: importance },
-    urgency: { type: 'choice', choice: urgency }, mentions_time: { type: 'noul', noul: mentionsTime }
+    urgency: { type: 'choice', choice: urgency }, mentions_time: { type: 'noul', noul: mentionsTime },
+    content_purpose: { type: 'choice', choice: contentPurpose }
   });
-  assert.equal(deriveClassification(answer('likely_spam', 'important', 'urgent', 1)).category, 'possible_spam');
+  assert.equal(deriveClassification(answer('likely_spam', 'important', 'urgent', 1, 'marketing')).category, 'possible_spam');
+  assert.equal(deriveClassification(answer('not_spam', 'important', 'urgent', 0, 'marketing')).category, 'marketing');
+  assert.equal(deriveClassification(answer('not_spam', 'important', 'urgent', 0, 'knowledge')).category, 'knowledge');
   assert.equal(deriveClassification(answer('not_spam', 'important', 'urgent', 0)).category, 'important_urgent');
   assert.equal(deriveClassification(answer('not_spam', 'important', 'not_urgent', 1)).category, 'important_not_urgent');
+  assert.equal(deriveClassification(answer('not_spam', 'secondary', 'not_urgent', 0, 'marketing')).category, 'marketing');
+  assert.equal(deriveClassification(answer('not_spam', 'secondary', 'not_urgent', 0, 'knowledge')).category, 'knowledge');
   assert.equal(deriveClassification(answer('not_spam', 'secondary', 'urgent', 1)).category, 'secondary');
   assert.equal(deriveClassification(answer('unclear', 'uncategorized', 'not_urgent', .5)).category, 'time_related');
   assert.equal(deriveClassification(answer('not_spam', 'uncategorized', 'not_urgent', .49)).category, 'uncategorized');
 });
 
-test('Gmail payload keeps email as State data and defines four bounded decisions', () => {
+test('Gmail payload keeps email as State data and defines five bounded decisions', () => {
   const payload = buildEmailPayload({ subject: 'Meeting tomorrow', from: 'a@example.com', receivedAt: 'today', snippet: 'At 10', body: 'Please join at 10:00.' }, new Date('2026-09-24T00:00:00Z'));
   assert.equal(payload.model, 'urjev');
   assert.equal(payload.state.email.subject, 'Meeting tomorrow');
   assert.equal(payload.state.analysis_date, '2026-09-24T00:00:00.000Z');
-  assert.deepEqual(Object.keys(payload.problem), ['spam_likelihood', 'importance', 'urgency', 'mentions_time']);
+  assert.deepEqual(Object.keys(payload.problem), ['spam_likelihood', 'content_purpose', 'importance', 'urgency', 'mentions_time']);
   assert.equal(EMAIL_PROBLEM.mentions_time.type, 'noul');
   assert.equal(EMAIL_PROBLEM.importance.criteria.important.includes('需要本人'), true);
 });
@@ -38,6 +43,8 @@ test('Gmail categories map to the AI nested label tree', () => {
   assert.equal(AI_LABELS.possible_spam, 'AI/可能垃圾');
   assert.equal(AI_LABELS.important_urgent, 'AI/重要/緊急');
   assert.equal(AI_LABELS.important_not_urgent, 'AI/重要/不緊急');
+  assert.equal(AI_LABELS.marketing, 'AI/行銷');
+  assert.equal(AI_LABELS.knowledge, 'AI/新知');
   assert.equal(AI_LABELS.secondary, 'AI/次要');
   assert.equal(AI_LABELS.time_related, 'AI/時間相關');
   assert.equal(AI_LABELS.uncategorized, 'AI/未分類');
@@ -96,6 +103,6 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /chrome\.storage\.session\.get/);
   assert.match(panel, /function updateProgress\(\)/);
   assert.match(markup, /id="analysis-progress"/);
-  assert.equal((markup.match(/data-category-count=/g) ?? []).length, 6);
+  assert.equal((markup.match(/data-category-count=/g) ?? []).length, 8);
   assert.match(progressStyle, /position:fixed/);
 });

@@ -111,6 +111,8 @@ export const AI_LABELS = Object.freeze({
   possible_spam: 'AI/可能垃圾',
   important_urgent: 'AI/重要/緊急',
   important_not_urgent: 'AI/重要/不緊急',
+  marketing: 'AI/行銷',
+  knowledge: 'AI/新知',
   secondary: 'AI/次要',
   time_related: 'AI/時間相關',
   uncategorized: 'AI/未分類'
