@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "urJev Gmail 郵件分析器",
-  "version": "0.1.0",
-  "description": "使用本機 urJev 分析 Gmail 郵件，辨識可能垃圾郵件、重要性、緊急性與時間相關內容。",
+  "version": "0.2.0",
+  "description": "使用本機 urJev 分析 Gmail 郵件，確認後整理到 AI 分類標籤。",
   "minimum_chrome_version": "105",
   "permissions": ["identity", "storage", "clipboardWrite"],
   "host_permissions": [

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildEmailPayload, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
-import { truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
+import { AI_LABELS, applyAiLabel, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
 
 test('Gmail classifier maps spam, important urgency, time fallback and uncategorized', () => {
   const answer = (spam, importance, urgency, mentionsTime) => ({
@@ -31,4 +31,51 @@ test('Gmail body truncation uses UTF-8 bytes and preserves valid text', () => {
   assert.ok(new TextEncoder().encode(shortened).length <= 3500);
   assert.match(shortened, /內容已截短/);
   assert.equal(truncateUtf8('short', 3500), 'short');
+});
+
+test('Gmail categories map to the AI nested label tree', () => {
+  assert.equal(AI_LABELS.possible_spam, 'AI/可能垃圾');
+  assert.equal(AI_LABELS.important_urgent, 'AI/重要/緊急');
+  assert.equal(AI_LABELS.important_not_urgent, 'AI/重要/不緊急');
+  assert.equal(AI_LABELS.secondary, 'AI/次要');
+  assert.equal(AI_LABELS.time_related, 'AI/時間相關');
+  assert.equal(AI_LABELS.uncategorized, 'AI/未分類');
+});
+
+test('Gmail execute classification applies one AI label and can archive', async () => {
+  const originalFetch = globalThis.fetch;
+  const labels = ['AI', 'AI/重要', ...Object.values(AI_LABELS)].map((name, index) => ({ name, id: `label-${index}` }));
+  let modifyRequest;
+  globalThis.fetch = async (url, options = {}) => {
+    if (String(url).endsWith('/labels')) return new Response(JSON.stringify({ labels }), { status: 200 });
+    if (String(url).includes('/messages/message-1/modify')) {
+      modifyRequest = JSON.parse(options.body);
+      return new Response('{}', { status: 200 });
+    }
+    throw new Error(`Unexpected Gmail request: ${url}`);
+  };
+  try {
+    await applyAiLabel('token', 'message-1', 'important_urgent', { archive: true });
+    const target = labels.find(label => label.name === 'AI/重要/緊急').id;
+    assert.deepEqual(modifyRequest.addLabelIds, [target]);
+    assert.ok(modifyRequest.removeLabelIds.includes('INBOX'));
+    assert.equal(modifyRequest.removeLabelIds.includes(target), false);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('Gmail summary loading preserves order and limits request concurrency', async () => {
+  const originalFetch = globalThis.fetch; let active = 0, peak = 0;
+  const refs = Array.from({ length: 12 }, (_, index) => ({ id: `m${index}`, threadId: `t${index}` }));
+  globalThis.fetch = async url => {
+    active++; peak = Math.max(peak, active);
+    await new Promise(resolve => setTimeout(resolve, 2));
+    active--;
+    const id = decodeURIComponent(String(url).match(/messages\/([^?]+)/)[1]);
+    return new Response(JSON.stringify({ id, snippet: id, payload: { headers: [{ name: 'Subject', value: id }] } }), { status: 200 });
+  };
+  try {
+    const summaries = await loadMessageSummaries('token', refs);
+    assert.deepEqual(summaries.map(item => item.id), refs.map(item => item.id));
+    assert.ok(peak <= 8);
+  } finally { globalThis.fetch = originalFetch; }
 });

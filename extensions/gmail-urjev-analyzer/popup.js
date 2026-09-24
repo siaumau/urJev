@@ -1,9 +1,9 @@
 import { getSettings } from './settings.js';
-import { getGmailToken, listMessages, loadMessageSummaries, getMessage, extractEmail, applyUrjevLabel } from './gmail-api.js';
+import { getGmailToken, listMessages, loadMessageSummaries, getMessage, extractEmail, applyAiLabel } from './gmail-api.js';
 import { analyzeEmail, CATEGORY_LABELS } from './urjev.js';
 
 const $ = id => document.getElementById(id);
-const state = { token: null, settings: null, messages: [], elements: new Map() };
+const state = { token: null, settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false };
 
 function setStatus(message, type = '') {
   $('status').textContent = message;
@@ -11,7 +11,9 @@ function setStatus(message, type = '') {
 }
 
 function busy(value) {
-  for (const id of ['connect', 'load', 'analyze']) $(id).disabled = value || (id === 'analyze' && !selectedIds().length);
+  state.working = value;
+  for (const id of ['connect', 'load', 'analyze', 'classify', 'scope']) $(id).disabled = value;
+  if (!value) updateCounter();
 }
 
 function selectedIds() {
@@ -21,11 +23,14 @@ function selectedIds() {
 function updateCounter() {
   const selected = selectedIds().length;
   $('counter').textContent = state.messages.length ? `${selected}/${state.messages.length} 封已勾選` : '尚未載入';
-  $('analyze').disabled = !selected;
+  const pending = [...state.results.keys()].filter(id => !state.appliedIds.has(id)).length;
+  $('analyze').disabled = state.working || !selected;
+  $('classify').disabled = state.working || !pending;
+  $('classify').textContent = pending ? `執行分類 (${pending})` : '執行分類';
 }
 
 function renderMessages() {
-  $('messages').replaceChildren(); state.elements.clear();
+  $('messages').replaceChildren(); state.elements.clear(); state.results.clear(); state.appliedIds.clear();
   for (const message of state.messages) {
     const node = $('message-template').content.firstElementChild.cloneNode(true);
     const pick = node.querySelector('.pick'); pick.dataset.id = message.id;
@@ -49,10 +54,12 @@ async function load() {
   busy(true); setStatus('正在讀取 Gmail 郵件清單…', 'working');
   try {
     state.token ??= await getGmailToken(false);
-    const refs = await listMessages(state.token, state.settings.query, state.settings.maxMessages);
+    const selectedScope = $('scope').value;
+    const query = selectedScope === 'custom' ? state.settings.query : selectedScope;
+    const refs = await listMessages(state.token, query, state.settings.maxMessages);
     state.messages = await loadMessageSummaries(state.token, refs);
     renderMessages();
-    setStatus(state.messages.length ? `已載入 ${state.messages.length} 封郵件。勾選後開始分析。` : '查詢範圍內沒有郵件。');
+    setStatus(state.messages.length ? `已載入 ${state.messages.length} 封郵件（上限 ${state.settings.maxMessages}）。勾選後開始分析。` : '查詢範圍內沒有郵件。');
   } catch (error) { setStatus(error.message, 'error'); }
   finally { busy(false); }
 }
@@ -82,10 +89,27 @@ async function analyze() {
       setStatus(`分析中 ${index + 1}/${ids.length}…`, 'working');
       const email = await extractEmail(state.token, await getMessage(state.token, id));
       const result = await analyzeEmail(email, state.settings.endpoint);
-      if (state.settings.applyLabels) await applyUrjevLabel(state.token, id, result.category);
-      showResult(id, result, state.settings.applyLabels);
+      state.results.set(id, result); state.appliedIds.delete(id);
+      showResult(id, result, false); updateCounter();
     }
-    setStatus(`完成 ${ids.length} 封郵件分析。`);
+    setStatus(`完成 ${ids.length} 封郵件分析。確認結果後，按「執行分類」套用 AI 標籤。`);
+  } catch (error) { setStatus(error.message, 'error'); }
+  finally { busy(false); }
+}
+
+async function executeClassification() {
+  const entries = [...state.results.entries()].filter(([id]) => !state.appliedIds.has(id));
+  if (!entries.length) return;
+  busy(true);
+  try {
+    state.token ??= await getGmailToken(false);
+    for (const [index, [id, result]] of entries.entries()) {
+      setStatus(`執行分類中 ${index + 1}/${entries.length}…`, 'working');
+      await applyAiLabel(state.token, id, result.category, { archive: state.settings.archiveAfterApply });
+      state.appliedIds.add(id); showResult(id, result, true);
+    }
+    const suffix = state.settings.archiveAfterApply ? '，並已移出 Inbox。' : '。郵件仍保留在 Inbox。';
+    setStatus(`已將 ${entries.length} 封郵件放入 AI 分類標籤${suffix}`);
   } catch (error) { setStatus(error.message, 'error'); }
   finally { busy(false); }
 }
@@ -93,8 +117,11 @@ async function analyze() {
 $('connect').addEventListener('click', connect);
 $('load').addEventListener('click', load);
 $('analyze').addEventListener('click', analyze);
+$('classify').addEventListener('click', executeClassification);
 $('open-options').addEventListener('click', () => chrome.runtime.openOptionsPage());
 $('select-all').addEventListener('change', event => { for (const input of document.querySelectorAll('.pick')) input.checked = event.target.checked; updateCounter(); });
 
 state.settings = await getSettings();
 $('endpoint').textContent = `urJev：${state.settings.endpoint}`;
+const preset = [...$('scope').options].find(option => option.value === state.settings.query);
+$('scope').value = preset ? preset.value : 'custom';

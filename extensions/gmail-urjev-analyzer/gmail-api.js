@@ -39,10 +39,16 @@ export async function getMessage(token, id, format = 'full') {
 }
 
 export async function loadMessageSummaries(token, refs) {
-  return Promise.all(refs.map(async ref => {
-    const message = await getMessage(token, ref.id, 'metadata');
-    return { id: ref.id, threadId: ref.threadId, subject: headerValue(message, 'Subject') || '（無主旨）', from: headerValue(message, 'From') || '（未知寄件者）', date: headerValue(message, 'Date'), snippet: message.snippet ?? '' };
-  }));
+  const summaries = new Array(refs.length); let cursor = 0;
+  const workers = Array.from({ length: Math.min(8, refs.length) }, async () => {
+    while (cursor < refs.length) {
+      const index = cursor++; const ref = refs[index];
+      const message = await getMessage(token, ref.id, 'metadata');
+      summaries[index] = { id: ref.id, threadId: ref.threadId, subject: headerValue(message, 'Subject') || '（無主旨）', from: headerValue(message, 'From') || '（未知寄件者）', date: headerValue(message, 'Date'), snippet: message.snippet ?? '' };
+    }
+  });
+  await Promise.all(workers);
+  return summaries;
 }
 
 function decodeBase64Url(data = '') {
@@ -101,19 +107,22 @@ export async function extractEmail(token, message) {
   };
 }
 
-export const GMAIL_LABELS = Object.freeze({
-  possible_spam: 'urJev/可能垃圾',
-  important_urgent: 'urJev/重要-緊急',
-  important_not_urgent: 'urJev/重要-不緊急',
-  secondary: 'urJev/次要',
-  time_related: 'urJev/時間相關',
-  uncategorized: 'urJev/未分類'
+export const AI_LABELS = Object.freeze({
+  possible_spam: 'AI/可能垃圾',
+  important_urgent: 'AI/重要/緊急',
+  important_not_urgent: 'AI/重要/不緊急',
+  secondary: 'AI/次要',
+  time_related: 'AI/時間相關',
+  uncategorized: 'AI/未分類'
 });
+
+const LABEL_TREE = Object.freeze(['AI', 'AI/重要', ...Object.values(AI_LABELS)]);
+const LEGACY_LABELS = Object.freeze(['urJev/可能垃圾', 'urJev/重要-緊急', 'urJev/重要-不緊急', 'urJev/次要', 'urJev/時間相關', 'urJev/未分類']);
 
 async function ensureLabels(token) {
   const existing = (await gmailFetch('/labels', token)).labels ?? [];
   const byName = new Map(existing.map(label => [label.name, label.id]));
-  for (const name of Object.values(GMAIL_LABELS)) {
+  for (const name of LABEL_TREE) {
     if (byName.has(name)) continue;
     const created = await gmailFetch('/labels', token, { method: 'POST', body: JSON.stringify({ name, labelListVisibility: 'labelShow', messageListVisibility: 'show' }) });
     byName.set(name, created.id);
@@ -122,12 +131,16 @@ async function ensureLabels(token) {
 }
 
 let labelsPromise;
-export async function applyUrjevLabel(token, messageId, category) {
+export async function applyAiLabel(token, messageId, category, { archive = false } = {}) {
   labelsPromise ??= ensureLabels(token).catch(error => { labelsPromise = null; throw error; });
   const labels = await labelsPromise;
-  const targetName = GMAIL_LABELS[category] ?? GMAIL_LABELS.uncategorized;
-  const allIds = Object.values(GMAIL_LABELS).map(name => labels.get(name)).filter(Boolean);
+  const targetName = AI_LABELS[category] ?? AI_LABELS.uncategorized;
+  const allIds = [...Object.values(AI_LABELS), ...LEGACY_LABELS].map(name => labels.get(name)).filter(Boolean);
+  const removeLabelIds = allIds.filter(id => id !== labels.get(targetName));
+  if (archive) removeLabelIds.push('INBOX');
   return gmailFetch(`/messages/${encodeURIComponent(messageId)}/modify`, token, {
-    method: 'POST', body: JSON.stringify({ addLabelIds: [labels.get(targetName)], removeLabelIds: allIds.filter(id => id !== labels.get(targetName)) })
+    method: 'POST', body: JSON.stringify({ addLabelIds: [labels.get(targetName)], removeLabelIds })
   });
 }
+
+export const applyUrjevLabel = applyAiLabel;

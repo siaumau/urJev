@@ -6,8 +6,8 @@
     <span class="eyebrow">urJev Gmail Analyzer</span><h1>外掛設定</h1>
     <label>urJev OneForward 端點<input id="endpoint" type="url"></label>
     <label>Gmail 搜尋條件<input id="query" type="text"></label>
-    <label>每次最多載入<input id="max-messages" type="number" min="1" max="50"></label>
-    <label class="check"><input id="apply-labels" type="checkbox">分析完成後自動套用 Gmail 標籤</label>
+    <label>每次最多載入<input id="max-messages" type="number" min="1" max="500"></label>
+    <label class="check"><input id="archive-after-apply" type="checkbox">執行分類後移出 Inbox（封存，仍保留在 AI 標籤）</label>
     <section><strong>此外掛的 Origin</strong><code id="origin"></code><button id="copy-origin" type="button">複製 Origin</button><p>將它填入 urJev `.env` 的 `EXTENSION_ORIGINS`，再重新啟動 urJev。</p></section>
     <div class="actions"><button id="save" class="primary">儲存設定</button><span id="status"></span></div>
   </main>

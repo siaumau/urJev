@@ -12,16 +12,26 @@
     <button id="open-options" class="icon-button" title="設定">⚙</button>
   </header>
   <p id="endpoint" class="endpoint"></p>
+  <label class="scope">郵件範圍
+    <select id="scope">
+      <option value="in:inbox newer_than:30d">最近 30 天 Inbox</option>
+      <option value="is:important">全部重要郵件</option>
+      <option value="is:unread">全部未讀郵件</option>
+      <option value="in:anywhere newer_than:30d">最近 30 天全部郵件</option>
+      <option value="custom">使用設定頁搜尋條件</option>
+    </select>
+  </label>
   <section class="actions">
     <button id="connect" class="secondary">連接 Gmail</button>
     <button id="load" class="secondary">載入郵件</button>
     <button id="analyze" class="primary" disabled>分析已勾選</button>
+    <button id="classify" class="classify" disabled>執行分類</button>
   </section>
   <div class="toolbar">
     <label><input id="select-all" type="checkbox"> 全選</label>
     <span id="counter">尚未載入</span>
   </div>
-  <div id="status" class="status" role="status">先連接 Gmail，再載入 Inbox。</div>
+  <div id="status" class="status" role="status">先連接 Gmail，選擇範圍後載入郵件。</div>
   <main id="messages"></main>
   <template id="message-template">
     <article class="message">
