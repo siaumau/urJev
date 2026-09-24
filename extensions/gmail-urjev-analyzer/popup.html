@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>urJev Gmail 分析器</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">LOCAL AI</span><h1>Gmail 郵件分析器</h1></div>
+    <button id="open-options" class="icon-button" title="設定">⚙</button>
+  </header>
+  <p id="endpoint" class="endpoint"></p>
+  <section class="actions">
+    <button id="connect" class="secondary">連接 Gmail</button>
+    <button id="load" class="secondary">載入郵件</button>
+    <button id="analyze" class="primary" disabled>分析已勾選</button>
+  </section>
+  <div class="toolbar">
+    <label><input id="select-all" type="checkbox"> 全選</label>
+    <span id="counter">尚未載入</span>
+  </div>
+  <div id="status" class="status" role="status">先連接 Gmail，再載入 Inbox。</div>
+  <main id="messages"></main>
+  <template id="message-template">
+    <article class="message">
+      <label class="message-head"><input class="pick" type="checkbox"><span><strong class="subject"></strong><small class="from"></small></span></label>
+      <p class="snippet"></p>
+      <div class="result hidden"><span class="badge"></span><span class="detail"></span></div>
+    </article>
+  </template>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

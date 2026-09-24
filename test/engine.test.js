@@ -51,6 +51,21 @@ test('HTTP validates content type, JSON, origins and returns structured results'
   assert.equal((await fetch(base + '/missing')).status, 404);
   assert.match(await (await fetch(base)).text(), /urJev/);
 });
+test('HTTP permits only explicitly configured Chrome extension origins', async t => {
+  const extensionOrigin = `chrome-extension://${'a'.repeat(32)}`;
+  const server = createApp(createEngine({ fetchImpl: mock('{"label":"shipping"}') }), { extensionOrigins: extensionOrigin });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const preflight = await fetch(base + '/api/decide', { method: 'OPTIONS', headers: { Origin: extensionOrigin, 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'content-type' } });
+  assert.equal(preflight.status, 204);
+  assert.equal(preflight.headers.get('access-control-allow-origin'), extensionOrigin);
+  const allowed = await fetch(base + '/api/decide', { method: 'POST', headers: { Origin: extensionOrigin, 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+  assert.equal(allowed.status, 200);
+  assert.equal(allowed.headers.get('access-control-allow-origin'), extensionOrigin);
+  const blocked = await fetch(base + '/api/decide', { method: 'POST', headers: { Origin: `chrome-extension://${'b'.repeat(32)}`, 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+  assert.equal(blocked.status, 403);
+});
 test('health distinguishes installed model from reachable empty backend', async () => {
   const engine = models => createEngine({ fetchImpl: async () => new Response(JSON.stringify({ models })) });
   assert.equal((await engine([]).health()).ready, false);

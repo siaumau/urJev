@@ -9,9 +9,10 @@ const files = { '/': ['index.html', 'text/html'], '/app.js': ['app.js', 'text/ja
 files['/feedback-example.js'] = ['feedback-example.js', 'text/javascript'];
 files['/json-input.js'] = ['json-input.js', 'text/javascript'];
 for (const [path, name, type] of [['/puzzle','puzzle.html','text/html'],['/puzzle.html','puzzle.html','text/html'],['/puzzle.js','puzzle.js','text/javascript'],['/puzzle-core.js','puzzle-core.js','text/javascript'],['/puzzle.css','puzzle.css','text/css']]) files[path] = [name, type];
-export function createApp(engine = createEngine({ backend: process.env.INFERENCE_BACKEND, url: process.env.INFERENCE_BACKEND === 'vllm' ? process.env.VLLM_URL : process.env.OLLAMA_URL, model: process.env.MODEL, timeout: Number(process.env.INFERENCE_TIMEOUT_MS || 120000) }), { jevFetch = fetch } = {}) {
+export function createApp(engine = createEngine({ backend: process.env.INFERENCE_BACKEND, url: process.env.INFERENCE_BACKEND === 'vllm' ? process.env.VLLM_URL : process.env.OLLAMA_URL, model: process.env.MODEL, timeout: Number(process.env.INFERENCE_TIMEOUT_MS || 120000) }), { jevFetch = fetch, extensionOrigins = process.env.EXTENSION_ORIGINS ?? '' } = {}) {
   const publicOrigin = process.env.PUBLIC_ORIGIN ? new URL(process.env.PUBLIC_ORIGIN).origin : null;
   const publicHost = publicOrigin ? new URL(publicOrigin).host : null;
+  const allowedExtensionOrigins = new Set(String(extensionOrigins).split(',').map(value => value.trim()).filter(value => /^chrome-extension:\/\/[a-p]{32}$/.test(value)));
   let active = false;
   return http.createServer(async (req, res) => {
     const requestStarted = performance.now();
@@ -32,7 +33,17 @@ export function createApp(engine = createEngine({ backend: process.env.INFERENCE
     try {
       const host = req.headers.host || '';
       if (!/^(127\.0\.0\.1|localhost)(:\d+)?$/.test(host) && host !== publicHost) return json(403, { error: { code: 'FORBIDDEN_HOST', message: '此網域未獲允許。' } });
-      if (req.headers.origin && req.headers.origin !== (host === publicHost ? publicOrigin : `http://${host}`)) return json(403, { error: { code: 'FORBIDDEN_ORIGIN', message: '不允許跨來源存取。' } });
+      const origin = req.headers.origin;
+      const expectedOrigin = host === publicHost ? publicOrigin : `http://${host}`;
+      const extensionAllowed = origin && allowedExtensionOrigins.has(origin);
+      if (origin && origin !== expectedOrigin && !extensionAllowed) return json(403, { error: { code: 'FORBIDDEN_ORIGIN', message: '不允許跨來源存取。' } });
+      if (extensionAllowed) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Vary', 'Origin');
+      }
+      if (req.method === 'OPTIONS' && extensionAllowed) { res.writeHead(204); return res.end(); }
       if (req.method === 'GET' && req.url === '/api/health') return json(200, await engine.health());
       if (req.method === 'GET' && req.url === '/api/runtime') return json(200, await engine.runtime());
       if (req.method === 'GET' && req.url === '/api/benchmark/dataset') {

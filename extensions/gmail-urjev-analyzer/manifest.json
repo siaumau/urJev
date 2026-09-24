@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "urJev Gmail 郵件分析器",
+  "version": "0.1.0",
+  "description": "使用本機 urJev 分析 Gmail 郵件，辨識可能垃圾郵件、重要性、緊急性與時間相關內容。",
+  "minimum_chrome_version": "105",
+  "permissions": ["identity", "storage", "clipboardWrite"],
+  "host_permissions": [
+    "https://gmail.googleapis.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "action": {
+    "default_title": "urJev Gmail 分析器",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html",
+  "oauth2": {
+    "client_id": "REPLACE_WITH_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/gmail.modify"]
+  }
+}
