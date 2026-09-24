@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { buildEmailPayload, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
+import { buildEmailPayload, clipUtf8Prefix, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
 import { AI_LABELS, applyAiLabel, extractEmail, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
 import { summarizeProgress } from '../extensions/gmail-urjev-analyzer/progress.js';
 import { createFeedbackRecord, matchFeedback, senderIdentity, subjectFeatures } from '../extensions/gmail-urjev-analyzer/feedback.js';
+import { prepareOneForwardProblems } from '../src/systemone.js';
 
 test('Gmail classifier applies spam, importance, marketing, knowledge and fallback priority', () => {
   const answer = (spam, importance, urgency, mentionsTime, contentPurpose = 'other') => ({
@@ -33,6 +34,18 @@ test('Gmail payload keeps email and authentication as State data and defines fiv
   assert.deepEqual(Object.keys(payload.problem), ['spam_likelihood', 'content_purpose', 'importance', 'urgency', 'mentions_time']);
   assert.equal(EMAIL_PROBLEM.mentions_time.type, 'noul');
   assert.equal(EMAIL_PROBLEM.importance.criteria.important.includes('需要本人'), true);
+});
+
+test('Gmail prompt keeps only the first 2,000 body bytes and stays below every OneForward limit', () => {
+  const body = `開頭內容${'測'.repeat(2500)}不應保留的結尾`;
+  const payload = buildEmailPayload({ subject: '很長的郵件', from: 'sender@example.com', receivedAt: 'today', authenticationResults: `dkim=pass header.i=@example.com; ${'x'.repeat(3000)}`, returnPath: '<bounce@example.com>', snippet: '摘要', body });
+  assert.ok(new TextEncoder().encode(payload.state.email.body).length <= 2000);
+  assert.match(payload.state.email.body, /^開頭內容/);
+  assert.match(payload.state.email.body, /內容已截短/);
+  assert.doesNotMatch(payload.state.email.body, /不應保留的結尾/);
+  assert.equal(clipUtf8Prefix('短內容', 2000), '短內容');
+  const plans = prepareOneForwardProblems(payload);
+  for (const plan of plans) assert.ok(Buffer.byteLength(JSON.stringify(plan.prepared.messages), 'utf8') <= 7000);
 });
 
 test('Gmail extraction includes authentication headers for spoofing assessment', async () => {

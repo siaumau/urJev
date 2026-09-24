@@ -104,7 +104,7 @@ EXTENSION_ORIGINS=chrome-extension://abcdefghijklmnopabcdefghijklmnop
 ## 隱私與限制
 
 - Gmail OAuth token 由 Chrome Identity API 管理，外掛不把 token 寫入專案或匯出檔。
-- 郵件主旨、寄件者、驗證結果、摘要與最多約 3,500 UTF-8 bytes 的本文會送到本機 urJev 端點；外掛設定拒絕非 localhost 端點，不會呼叫 Jev 官方 API。
+- 郵件主旨、寄件者、驗證結果、摘要與本文前 2,000 UTF-8 bytes 會送到本機 urJev 端點；外掛設定拒絕非 localhost 端點，不會呼叫 Jev 官方 API。輸入還會經過整體提示預算檢查，避免超過 OneForward 每題 7,000 bytes 上限。
 - 分類是模型判斷，可能誤判；尤其「可能垃圾」不應直接拿來自動刪信。
 - HTML 郵件會轉為純文字；圖片中的文字、加密郵件與部分複雜附件不會分析。
 - Gmail 標籤是輔助整理，不會變更 Gmail 自己的 Importance 或 Spam 系統判斷。

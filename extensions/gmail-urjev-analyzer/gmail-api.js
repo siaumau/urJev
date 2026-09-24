@@ -105,7 +105,7 @@ export async function extractEmail(token, message) {
     authenticationResults: truncateUtf8(headerValue(message, 'Authentication-Results'), 1200),
     returnPath: truncateUtf8(headerValue(message, 'Return-Path'), 500),
     snippet: truncateUtf8(message.snippet ?? '', 500),
-    body: truncateUtf8(text, 3500)
+    body: truncateUtf8(text, 2000)
   };
 }
 

@@ -40,21 +40,60 @@ export const EMAIL_PROBLEM = Object.freeze({
   }
 });
 
+const encoder = new TextEncoder();
+const PROMPT_STATE_BUDGET = 4300;
+const clipBytes = (text, budget, fromEnd = false) => {
+  const characters = Array.from(String(text ?? '')); let used = 0, output = '';
+  const source = fromEnd ? characters.reverse() : characters;
+  for (const character of source) {
+    const size = encoder.encode(character).length;
+    if (used + size > budget) break;
+    output = fromEnd ? character + output : output + character; used += size;
+  }
+  return output;
+};
+
+export function clipUtf8Middle(text, maxBytes) {
+  const value = String(text ?? '');
+  if (encoder.encode(value).length <= maxBytes) return value;
+  const marker = '\n[內容已截短]\n', markerBytes = encoder.encode(marker).length;
+  const available = Math.max(0, maxBytes - markerBytes), front = Math.floor(available * .72);
+  return `${clipBytes(value, front)}${marker}${clipBytes(value, available - front, true)}`;
+}
+
+export function clipUtf8Prefix(text, maxBytes) {
+  const value = String(text ?? '');
+  if (encoder.encode(value).length <= maxBytes) return value;
+  const marker = '\n[內容已截短]', markerBytes = encoder.encode(marker).length;
+  return `${clipBytes(value, Math.max(0, maxBytes - markerBytes))}${marker}`;
+}
+
+export function compactEmailState(email, now = new Date()) {
+  const raw = {
+    subject: String(email.subject ?? ''), from: String(email.from ?? ''), received_at: String(email.receivedAt ?? ''),
+    authentication_results: String(email.authenticationResults ?? ''), return_path: String(email.returnPath ?? ''),
+    snippet: String(email.snippet ?? ''), body: String(email.body ?? '')
+  };
+  if (raw.body && raw.snippet && raw.body.includes(raw.snippet)) raw.snippet = '';
+  const limits = { subject: 400, from: 400, received_at: 100, authentication_results: 600, return_path: 200, snippet: 300, body: 2000 };
+  const minimum = { body: 700, authentication_results: 120, snippet: 0, return_path: 0, from: 100, subject: 100, received_at: 0 };
+  const compactField = key => key === 'body' ? clipUtf8Prefix(raw[key], limits[key]) : clipUtf8Middle(raw[key], limits[key]);
+  const state = { analysis_date: now.toISOString(), email: Object.fromEntries(Object.keys(raw).map(key => [key, compactField(key)])) };
+  const size = () => encoder.encode(JSON.stringify({ state })).length;
+  const order = ['body', 'authentication_results', 'snippet', 'return_path', 'from', 'subject', 'received_at'];
+  while (size() > PROMPT_STATE_BUDGET) {
+    const key = order.find(name => limits[name] > minimum[name]);
+    if (!key) break;
+    limits[key] = Math.max(minimum[key], limits[key] - 160);
+    state.email[key] = compactField(key);
+  }
+  return state;
+}
+
 export function buildEmailPayload(email, now = new Date()) {
   return {
     model: 'urjev',
-    state: {
-      analysis_date: now.toISOString(),
-      email: {
-        subject: email.subject,
-        from: email.from,
-        received_at: email.receivedAt,
-        authentication_results: email.authenticationResults ?? '',
-        return_path: email.returnPath ?? '',
-        snippet: email.snippet,
-        body: email.body
-      }
-    },
+    state: compactEmailState(email, now),
     problem: EMAIL_PROBLEM
   };
 }
