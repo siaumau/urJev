@@ -6,7 +6,8 @@ import { authenticatedSender, findLearnedCorrection, saveFeedback } from './feed
 
 const $ = id => document.getElementById(id);
 const SESSION_KEY = 'gmailAnalyzerPanelState';
-const state = { token: null, accountEmail: '', settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false, analyzing: false, runIds: [], runCompletedIds: new Set(), runTotal: 0, panelPosition: { x: 0, y: 0 } };
+const PAGE_SIZE = 5;
+const state = { token: null, accountEmail: '', settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false, analyzing: false, runIds: [], runCompletedIds: new Set(), runTotal: 0, currentPage: 1, panelPosition: { x: 0, y: 0 } };
 
 function setStatus(message, type = '') {
   $('status').textContent = message;
@@ -16,6 +17,7 @@ function setStatus(message, type = '') {
 function busy(value) {
   state.working = value;
   for (const id of ['connect', 'load', 'analyze', 'classify', 'scope', 'search-mode', 'search-term']) $(id).disabled = value;
+  updatePagination();
   if (!value) updateCounter();
 }
 
@@ -32,6 +34,7 @@ async function persistSession() {
     scope: $('scope').value,
     searchMode: $('search-mode').value,
     searchTerm: $('search-term').value,
+    currentPage: state.currentPage,
     runIds: state.runIds,
     runCompletedIds: [...state.runCompletedIds],
     panelPosition: state.panelPosition,
@@ -46,6 +49,25 @@ function updateCounter() {
   $('analyze').disabled = state.working || !selected;
   $('classify').disabled = state.working || !pending;
   $('classify').textContent = pending ? `執行分類 (${pending})` : '執行分類';
+}
+
+function updatePagination() {
+  const totalPages = Math.max(1, Math.ceil(state.messages.length / PAGE_SIZE));
+  state.currentPage = Math.min(totalPages, Math.max(1, state.currentPage));
+  for (const [index, message] of state.messages.entries()) {
+    state.elements.get(message.id)?.classList.toggle('page-hidden', Math.floor(index / PAGE_SIZE) + 1 !== state.currentPage);
+  }
+  for (const pagination of document.querySelectorAll('.pagination')) {
+    pagination.classList.toggle('hidden', state.messages.length <= PAGE_SIZE);
+    pagination.querySelector('.page-status').textContent = `第 ${state.currentPage} / ${totalPages} 頁・共 ${state.messages.length} 封`;
+    pagination.querySelector('.page-prev').disabled = state.working || state.currentPage <= 1;
+    pagination.querySelector('.page-next').disabled = state.working || state.currentPage >= totalPages;
+  }
+}
+
+function changePage(offset) {
+  state.currentPage += offset; updatePagination(); persistSession().catch(console.error);
+  $('messages').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function updateProgress() {
@@ -91,7 +113,7 @@ function renderMessages(selected = new Set(), reset = true) {
     const result = state.results.get(message.id);
     if (result) showResult(message.id, result, state.appliedIds.has(message.id));
   }
-  updateCounter(); updateProgress();
+  updateCounter(); updateProgress(); updatePagination();
 }
 
 async function restoreSession() {
@@ -105,6 +127,7 @@ async function restoreSession() {
   const runIdSet = new Set(state.runIds);
   state.runCompletedIds = new Set(Array.isArray(saved.runCompletedIds) ? saved.runCompletedIds.filter(id => runIdSet.has(id) && state.results.has(id)) : state.runIds);
   state.runTotal = state.runIds.length;
+  state.currentPage = Number.isInteger(saved.currentPage) ? saved.currentPage : 1;
   if (Number.isFinite(saved.panelPosition?.x) && Number.isFinite(saved.panelPosition?.y)) state.panelPosition = saved.panelPosition;
   applyPanelPosition();
   if ([...$('scope').options].some(option => option.value === saved.scope)) $('scope').value = saved.scope;
@@ -135,6 +158,7 @@ async function load() {
     const query = excludeAiLabeled(addGmailTextSearch(baseQuery, $('search-mode').value, searchTerm));
     const refs = await listMessages(state.token, query, state.settings.maxMessages);
     state.messages = await loadMessageSummaries(state.token, refs);
+    state.currentPage = 1;
     state.runIds = []; state.runCompletedIds.clear(); state.runTotal = 0; state.analyzing = false;
     renderMessages();
     const searched = searchTerm ? `，搜尋「${searchTerm}」` : '';
@@ -275,6 +299,8 @@ $('scope').addEventListener('change', () => persistSession().catch(console.error
 $('search-mode').addEventListener('change', () => persistSession().catch(console.error));
 $('search-term').addEventListener('input', () => persistSession().catch(console.error));
 $('search-term').addEventListener('keydown', event => { if (event.key === 'Enter' && !state.working) load(); });
+for (const button of document.querySelectorAll('.page-prev')) button.addEventListener('click', () => changePage(-1));
+for (const button of document.querySelectorAll('.page-next')) button.addEventListener('click', () => changePage(1));
 $('progress-toggle').addEventListener('click', () => {
   const collapsed = $('analysis-progress').classList.toggle('collapsed');
   $('progress-toggle').textContent = collapsed ? '+' : '−';

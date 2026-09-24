@@ -43,7 +43,17 @@
     <span id="counter">尚未載入</span>
   </div>
   <div id="status" class="status" role="status">先連接 Gmail，選擇範圍後載入郵件。</div>
+  <nav class="pagination hidden" aria-label="郵件分頁">
+    <button class="page-prev" type="button">上一頁</button>
+    <span class="page-status">第 1 / 1 頁</span>
+    <button class="page-next" type="button">下一頁</button>
+  </nav>
   <main id="messages"></main>
+  <nav class="pagination hidden" aria-label="郵件分頁">
+    <button class="page-prev" type="button">上一頁</button>
+    <span class="page-status">第 1 / 1 頁</span>
+    <button class="page-next" type="button">下一頁</button>
+  </nav>
   <aside id="analysis-progress" class="analysis-progress hidden" aria-live="polite">
     <div class="progress-header" title="按住並拖曳">
       <div><small id="progress-phase">分析進度</small><strong id="progress-fraction">0 / 0</strong><em id="progress-percent">0%</em></div>

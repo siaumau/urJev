@@ -267,6 +267,7 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(markup, /id="search-term"/);
   assert.match(markup, /id="search-mode"/);
   assert.match(markup, /class="sticky-controls"/);
+  assert.equal((markup.match(/class="pagination hidden"/g) ?? []).length, 2);
   assert.equal((markup.match(/data-category-count=/g) ?? []).length, 9);
   assert.match(progressStyle, /position:fixed/);
   assert.match(progressStyle, /cursor:grab/);
@@ -277,6 +278,8 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(settings, /archiveAfterApply:\s*true/);
   assert.match(panel, /excludeAiLabeled/);
   assert.match(panel, /state\.messages = state\.messages\.filter/);
+  assert.match(panel, /const PAGE_SIZE = 5/);
+  assert.match(panel, /function updatePagination\(\)/);
 });
 
 test('Gmail progress reaches 100 percent for five selected messages out of 100 loaded', () => {
