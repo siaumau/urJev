@@ -57,6 +57,9 @@ function updateProgress() {
 
   const summary = summarizeProgress({ loadedCount: state.messages.length, runIds: state.runIds, completedIds: state.runCompletedIds, results: state.results, categories: Object.keys(CATEGORY_LABELS) });
   for (const node of document.querySelectorAll('[data-category-count]')) node.textContent = summary.counts[node.dataset.categoryCount] ?? 0;
+  const fraudCount = summary.counts.suspected_fraud ?? 0;
+  $('fraud-alert-count').textContent = fraudCount;
+  $('fraud-alert').classList.toggle('hidden', fraudCount === 0);
   $('progress-loaded').textContent = summary.loaded;
   $('progress-target').textContent = summary.target;
   $('progress-analyzed').textContent = summary.done;

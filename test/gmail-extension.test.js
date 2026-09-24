@@ -262,6 +262,7 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /chrome\.storage\.session\.get/);
   assert.match(panel, /function updateProgress\(\)/);
   assert.match(markup, /id="analysis-progress"/);
+  assert.match(markup, /id="fraud-alert"/);
   assert.match(markup, /class="correction-select"/);
   assert.match(markup, /id="search-term"/);
   assert.match(markup, /id="search-mode"/);
@@ -269,6 +270,8 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.equal((markup.match(/data-category-count=/g) ?? []).length, 9);
   assert.match(progressStyle, /position:fixed/);
   assert.match(progressStyle, /cursor:grab/);
+  assert.match(progressStyle, /@keyframes fraud-alert-pulse/);
+  assert.match(panel, /summary\.counts\.suspected_fraud/);
   const popupStyle = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.css', import.meta.url), 'utf8');
   assert.match(popupStyle, /\.sticky-controls\{position:sticky;top:0/);
   assert.match(settings, /archiveAfterApply:\s*true/);

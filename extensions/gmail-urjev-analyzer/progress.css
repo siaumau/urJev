@@ -8,6 +8,11 @@
 .progress-header em{padding:2px 6px;border-radius:999px;background:#173b5a;color:#72dfff;font-size:10px;font-style:normal;font-weight:800}
 .progress-toggle{width:28px;height:28px;padding:0;border-radius:8px}
 .progress-body{margin-top:9px}
+.fraud-alert{margin-bottom:9px;padding:8px 10px;border:1px solid #ffd84d;border-radius:9px;background:#5a430b;color:#ffe66d;text-align:center;font-size:12px;font-weight:900;letter-spacing:.03em;box-shadow:0 0 16px #ffd84d66;animation:fraud-alert-pulse .8s ease-in-out infinite alternate}
+.fraud-alert.hidden{display:none}
+.fraud-alert strong{color:#fff1a3}
+@keyframes fraud-alert-pulse{from{opacity:.5;box-shadow:0 0 4px #ffd84d33}to{opacity:1;box-shadow:0 0 20px #ffd84daa}}
+@media (prefers-reduced-motion:reduce){.fraud-alert{animation:none}}
 .progress-track{height:6px;overflow:hidden;border-radius:999px;background:#17334d}
 .progress-track span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#32cef3,#7455e7);transition:width .2s ease}
 .progress-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}
