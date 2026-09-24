@@ -85,6 +85,8 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   const manifest = JSON.parse(await readFile(new URL('../extensions/gmail-urjev-analyzer/manifest.json', import.meta.url), 'utf8'));
   const worker = await readFile(new URL('../extensions/gmail-urjev-analyzer/service-worker.js', import.meta.url), 'utf8');
   const panel = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.js', import.meta.url), 'utf8');
+  const markup = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.html', import.meta.url), 'utf8');
+  const progressStyle = await readFile(new URL('../extensions/gmail-urjev-analyzer/progress.css', import.meta.url), 'utf8');
   assert.ok(manifest.permissions.includes('sidePanel'));
   assert.equal(manifest.side_panel.default_path, 'popup.html');
   assert.equal(manifest.action.default_popup, undefined);
@@ -92,4 +94,8 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(worker, /openPanelOnActionClick:\s*true/);
   assert.match(panel, /chrome\.storage\.session\.set/);
   assert.match(panel, /chrome\.storage\.session\.get/);
+  assert.match(panel, /function updateProgress\(\)/);
+  assert.match(markup, /id="analysis-progress"/);
+  assert.equal((markup.match(/data-category-count=/g) ?? []).length, 6);
+  assert.match(progressStyle, /position:fixed/);
 });

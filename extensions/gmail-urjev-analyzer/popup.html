@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>urJev Gmail 分析器</title>
   <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="progress.css">
 </head>
 <body>
   <header>
@@ -33,6 +34,28 @@
   </div>
   <div id="status" class="status" role="status">先連接 Gmail，選擇範圍後載入郵件。</div>
   <main id="messages"></main>
+  <aside id="analysis-progress" class="analysis-progress hidden" aria-live="polite">
+    <div class="progress-header">
+      <div><small id="progress-phase">分析進度</small><strong id="progress-fraction">0 / 0</strong></div>
+      <button id="progress-toggle" class="progress-toggle" type="button" aria-label="收合分析統計" aria-expanded="true">−</button>
+    </div>
+    <div class="progress-body">
+      <div class="progress-track"><span id="progress-bar"></span></div>
+      <div class="progress-summary">
+        <div><strong id="progress-loaded">0</strong><small>已載入</small></div>
+        <div><strong id="progress-target">0</strong><small>本次目標</small></div>
+        <div><strong id="progress-analyzed">0</strong><small>已有結果</small></div>
+      </div>
+      <div class="category-counts">
+        <div><span>可能垃圾</span><strong data-category-count="possible_spam">0</strong></div>
+        <div><span>重要・緊急</span><strong data-category-count="important_urgent">0</strong></div>
+        <div><span>重要・不緊急</span><strong data-category-count="important_not_urgent">0</strong></div>
+        <div><span>次要</span><strong data-category-count="secondary">0</strong></div>
+        <div><span>時間相關</span><strong data-category-count="time_related">0</strong></div>
+        <div><span>未分類</span><strong data-category-count="uncategorized">0</strong></div>
+      </div>
+    </div>
+  </aside>
   <template id="message-template">
     <article class="message">
       <label class="message-head"><input class="pick" type="checkbox"><span><strong class="subject"></strong><small class="from"></small></span></label>
