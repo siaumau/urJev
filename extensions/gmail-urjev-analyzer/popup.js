@@ -3,6 +3,7 @@ import { getGmailToken, listMessages, loadMessageSummaries, getMessage, extractE
 import { analyzeEmail, CATEGORY_LABELS } from './urjev.js';
 
 const $ = id => document.getElementById(id);
+const SESSION_KEY = 'gmailAnalyzerPanelState';
 const state = { token: null, settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false };
 
 function setStatus(message, type = '') {
@@ -20,6 +21,17 @@ function selectedIds() {
   return [...document.querySelectorAll('.pick:checked')].map(input => input.dataset.id);
 }
 
+async function persistSession() {
+  await chrome.storage.session.set({ [SESSION_KEY]: {
+    messages: state.messages,
+    results: [...state.results.entries()],
+    appliedIds: [...state.appliedIds],
+    selectedIds: selectedIds(),
+    scope: $('scope').value,
+    savedAt: Date.now()
+  } });
+}
+
 function updateCounter() {
   const selected = selectedIds().length;
   $('counter').textContent = state.messages.length ? `${selected}/${state.messages.length} 封已勾選` : '尚未載入';
@@ -29,18 +41,32 @@ function updateCounter() {
   $('classify').textContent = pending ? `執行分類 (${pending})` : '執行分類';
 }
 
-function renderMessages() {
-  $('messages').replaceChildren(); state.elements.clear(); state.results.clear(); state.appliedIds.clear();
+function renderMessages(selected = new Set(), reset = true) {
+  $('messages').replaceChildren(); state.elements.clear();
+  if (reset) { state.results.clear(); state.appliedIds.clear(); }
   for (const message of state.messages) {
     const node = $('message-template').content.firstElementChild.cloneNode(true);
-    const pick = node.querySelector('.pick'); pick.dataset.id = message.id;
+    const pick = node.querySelector('.pick'); pick.dataset.id = message.id; pick.checked = selected.has(message.id);
     node.querySelector('.subject').textContent = message.subject;
     node.querySelector('.from').textContent = message.from;
     node.querySelector('.snippet').textContent = message.snippet;
-    pick.addEventListener('change', updateCounter);
+    pick.addEventListener('change', () => { updateCounter(); persistSession().catch(console.error); });
     state.elements.set(message.id, node); $('messages').append(node);
+    const result = state.results.get(message.id);
+    if (result) showResult(message.id, result, state.appliedIds.has(message.id));
   }
   updateCounter();
+}
+
+async function restoreSession() {
+  const saved = (await chrome.storage.session.get(SESSION_KEY))[SESSION_KEY];
+  if (!saved || !Array.isArray(saved.messages)) return;
+  state.messages = saved.messages;
+  state.results = new Map(Array.isArray(saved.results) ? saved.results : []);
+  state.appliedIds = new Set(Array.isArray(saved.appliedIds) ? saved.appliedIds : []);
+  if ([...$('scope').options].some(option => option.value === saved.scope)) $('scope').value = saved.scope;
+  renderMessages(new Set(Array.isArray(saved.selectedIds) ? saved.selectedIds : []), false);
+  if (state.messages.length) setStatus(`已還原 ${state.messages.length} 封郵件與分析進度。`);
 }
 
 async function connect() {
@@ -60,6 +86,7 @@ async function load() {
     state.messages = await loadMessageSummaries(state.token, refs);
     renderMessages();
     setStatus(state.messages.length ? `已載入 ${state.messages.length} 封郵件（上限 ${state.settings.maxMessages}）。勾選後開始分析。` : '查詢範圍內沒有郵件。');
+    await persistSession();
   } catch (error) { setStatus(error.message, 'error'); }
   finally { busy(false); }
 }
@@ -91,6 +118,7 @@ async function analyze() {
       const result = await analyzeEmail(email, state.settings.endpoint);
       state.results.set(id, result); state.appliedIds.delete(id);
       showResult(id, result, false); updateCounter();
+      await persistSession();
     }
     setStatus(`完成 ${ids.length} 封郵件分析。確認結果後，按「執行分類」套用 AI 標籤。`);
   } catch (error) { setStatus(error.message, 'error'); }
@@ -107,6 +135,7 @@ async function executeClassification() {
       setStatus(`執行分類中 ${index + 1}/${entries.length}…`, 'working');
       await applyAiLabel(state.token, id, result.category, { archive: state.settings.archiveAfterApply });
       state.appliedIds.add(id); showResult(id, result, true);
+      await persistSession();
     }
     const suffix = state.settings.archiveAfterApply ? '，並已移出 Inbox。' : '。郵件仍保留在 Inbox。';
     setStatus(`已將 ${entries.length} 封郵件放入 AI 分類標籤${suffix}`);
@@ -119,9 +148,11 @@ $('load').addEventListener('click', load);
 $('analyze').addEventListener('click', analyze);
 $('classify').addEventListener('click', executeClassification);
 $('open-options').addEventListener('click', () => chrome.runtime.openOptionsPage());
-$('select-all').addEventListener('change', event => { for (const input of document.querySelectorAll('.pick')) input.checked = event.target.checked; updateCounter(); });
+$('select-all').addEventListener('change', event => { for (const input of document.querySelectorAll('.pick')) input.checked = event.target.checked; updateCounter(); persistSession().catch(console.error); });
+$('scope').addEventListener('change', () => persistSession().catch(console.error));
 
 state.settings = await getSettings();
 $('endpoint').textContent = `urJev：${state.settings.endpoint}`;
 const preset = [...$('scope').options].find(option => option.value === state.settings.query);
 $('scope').value = preset ? preset.value : 'custom';
+await restoreSession();

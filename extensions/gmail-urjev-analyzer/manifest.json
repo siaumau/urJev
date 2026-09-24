@@ -1,18 +1,23 @@
 {
   "manifest_version": 3,
   "name": "urJev Gmail 郵件分析器",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "使用本機 urJev 分析 Gmail 郵件，確認後整理到 AI 分類標籤。",
-  "minimum_chrome_version": "105",
-  "permissions": ["identity", "storage", "clipboardWrite"],
+  "minimum_chrome_version": "114",
+  "permissions": ["identity", "storage", "clipboardWrite", "sidePanel"],
   "host_permissions": [
     "https://gmail.googleapis.com/*",
     "http://127.0.0.1/*",
     "http://localhost/*"
   ],
   "action": {
-    "default_title": "urJev Gmail 分析器",
-    "default_popup": "popup.html"
+    "default_title": "在側邊面板開啟 urJev Gmail 分析器"
+  },
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
   },
   "options_page": "options.html",
   "oauth2": {

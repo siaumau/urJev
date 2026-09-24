@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { buildEmailPayload, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
 import { AI_LABELS, applyAiLabel, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
 
@@ -78,4 +79,17 @@ test('Gmail summary loading preserves order and limits request concurrency', asy
     assert.deepEqual(summaries.map(item => item.id), refs.map(item => item.id));
     assert.ok(peak <= 8);
   } finally { globalThis.fetch = originalFetch; }
+});
+
+test('Gmail extension opens from the toolbar as a persistent side panel', async () => {
+  const manifest = JSON.parse(await readFile(new URL('../extensions/gmail-urjev-analyzer/manifest.json', import.meta.url), 'utf8'));
+  const worker = await readFile(new URL('../extensions/gmail-urjev-analyzer/service-worker.js', import.meta.url), 'utf8');
+  const panel = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.js', import.meta.url), 'utf8');
+  assert.ok(manifest.permissions.includes('sidePanel'));
+  assert.equal(manifest.side_panel.default_path, 'popup.html');
+  assert.equal(manifest.action.default_popup, undefined);
+  assert.equal(manifest.background.service_worker, 'service-worker.js');
+  assert.match(worker, /openPanelOnActionClick:\s*true/);
+  assert.match(panel, /chrome\.storage\.session\.set/);
+  assert.match(panel, /chrome\.storage\.session\.get/);
 });
