@@ -1,7 +1,7 @@
 export const EMAIL_PROBLEM = Object.freeze({
   spam_likelihood: {
     type: 'choice',
-    instructions: '只根據 email.subject、email.from、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結或退訂連結就判成垃圾郵件。',
+    instructions: '根據 email.subject、email.from、email.authentication_results、email.return_path、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。若 authentication_results 顯示 SPF、DKIM 或 DMARC 通過且與寄件網域對齊，這是來源真實的重要證據；官方帳戶安全通知不要只因出現「立即檢查」「有人嘗試登入」「查看活動」等警示文字就判成釣魚。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結或退訂連結就判成垃圾郵件。驗證失敗、網域不一致、索取密碼或付款資料及可疑連結仍是強烈風險訊號。',
     criteria: {
       likely_spam: '有明確大量濫發、欺騙、釣魚、可疑獎金、惡意連結誘導、假冒身分或與收件者無合理關係的強訊號',
       not_spam: '看起來是正常往來、帳戶或交易通知、合理訂閱內容，沒有明確垃圾或詐騙訊號',
@@ -49,6 +49,8 @@ export function buildEmailPayload(email, now = new Date()) {
         subject: email.subject,
         from: email.from,
         received_at: email.receivedAt,
+        authentication_results: email.authenticationResults ?? '',
+        return_path: email.returnPath ?? '',
         snippet: email.snippet,
         body: email.body
       }

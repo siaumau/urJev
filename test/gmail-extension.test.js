@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { buildEmailPayload, deriveClassification, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
-import { AI_LABELS, applyAiLabel, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
+import { AI_LABELS, applyAiLabel, extractEmail, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
+import { summarizeProgress } from '../extensions/gmail-urjev-analyzer/progress.js';
+import { createFeedbackRecord, matchFeedback, senderIdentity, subjectFeatures } from '../extensions/gmail-urjev-analyzer/feedback.js';
 
 test('Gmail classifier applies spam, importance, marketing, knowledge and fallback priority', () => {
   const answer = (spam, importance, urgency, mentionsTime, contentPurpose = 'other') => ({
@@ -22,14 +24,26 @@ test('Gmail classifier applies spam, importance, marketing, knowledge and fallba
   assert.equal(deriveClassification(answer('not_spam', 'uncategorized', 'not_urgent', .49)).category, 'uncategorized');
 });
 
-test('Gmail payload keeps email as State data and defines five bounded decisions', () => {
-  const payload = buildEmailPayload({ subject: 'Meeting tomorrow', from: 'a@example.com', receivedAt: 'today', snippet: 'At 10', body: 'Please join at 10:00.' }, new Date('2026-09-24T00:00:00Z'));
+test('Gmail payload keeps email and authentication as State data and defines five bounded decisions', () => {
+  const payload = buildEmailPayload({ subject: 'Meeting tomorrow', from: 'a@example.com', receivedAt: 'today', authenticationResults: 'dkim=pass header.i=@example.com', returnPath: '<bounce@example.com>', snippet: 'At 10', body: 'Please join at 10:00.' }, new Date('2026-09-24T00:00:00Z'));
   assert.equal(payload.model, 'urjev');
   assert.equal(payload.state.email.subject, 'Meeting tomorrow');
   assert.equal(payload.state.analysis_date, '2026-09-24T00:00:00.000Z');
+  assert.match(payload.state.email.authentication_results, /dkim=pass/);
   assert.deepEqual(Object.keys(payload.problem), ['spam_likelihood', 'content_purpose', 'importance', 'urgency', 'mentions_time']);
   assert.equal(EMAIL_PROBLEM.mentions_time.type, 'noul');
   assert.equal(EMAIL_PROBLEM.importance.criteria.important.includes('需要本人'), true);
+});
+
+test('Gmail extraction includes authentication headers for spoofing assessment', async () => {
+  const message = { id: 'm1', threadId: 't1', snippet: 'Security alert', payload: { mimeType: 'text/plain', body: { data: Buffer.from('Review account activity').toString('base64url') }, headers: [
+    { name: 'Subject', value: 'Security alert' }, { name: 'From', value: 'Google <no-reply@accounts.google.com>' },
+    { name: 'Authentication-Results', value: 'mx.google.com; dkim=pass header.i=@accounts.google.com; dmarc=pass header.from=accounts.google.com' },
+    { name: 'Return-Path', value: '<bounce@accounts.google.com>' }
+  ] } };
+  const email = await extractEmail('token', message);
+  assert.match(email.authenticationResults, /dmarc=pass/);
+  assert.equal(email.returnPath, '<bounce@accounts.google.com>');
 });
 
 test('Gmail body truncation uses UTF-8 bytes and preserves valid text', () => {
@@ -103,6 +117,26 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /chrome\.storage\.session\.get/);
   assert.match(panel, /function updateProgress\(\)/);
   assert.match(markup, /id="analysis-progress"/);
+  assert.match(markup, /class="correction-select"/);
   assert.equal((markup.match(/data-category-count=/g) ?? []).length, 8);
   assert.match(progressStyle, /position:fixed/);
+  assert.match(progressStyle, /cursor:grab/);
+});
+
+test('Gmail progress reaches 100 percent for five selected messages out of 100 loaded', () => {
+  const runIds = ['1', '2', '3', '4', '5'];
+  const results = new Map(runIds.map((id, index) => [id, { category: index < 2 ? 'marketing' : 'knowledge' }]));
+  const summary = summarizeProgress({ loadedCount: 100, runIds, completedIds: new Set(runIds), results, categories: ['marketing', 'knowledge', 'uncategorized'] });
+  assert.deepEqual({ loaded: summary.loaded, target: summary.target, done: summary.done, percent: summary.percent }, { loaded: 100, target: 5, done: 5, percent: 100 });
+  assert.deepEqual(summary.counts, { marketing: 2, knowledge: 3, uncategorized: 0 });
+});
+
+test('Gmail feedback learns similar subjects but will not bypass spam without authentication', () => {
+  const correctedEmail = { subject: '安全性快訊', from: 'Google <no-reply@accounts.google.com>', authenticated: true };
+  const record = createFeedbackRecord(correctedEmail, 'possible_spam', 'important_urgent', new Date('2026-09-24T00:00:00Z'));
+  const authenticated = { subject: '安全性快訊：新的登入活動', from: 'no-reply@accounts.google.com', authenticationResults: 'dkim=pass header.i=@accounts.google.com; dmarc=pass header.from=accounts.google.com' };
+  assert.equal(matchFeedback([record], authenticated, 'possible_spam').category, 'important_urgent');
+  assert.equal(matchFeedback([record], { ...authenticated, authenticationResults: '' }, 'possible_spam'), null);
+  assert.equal(senderIdentity(authenticated.from).domain, 'accounts.google.com');
+  assert.ok(subjectFeatures(authenticated.subject).length > 2);
 });

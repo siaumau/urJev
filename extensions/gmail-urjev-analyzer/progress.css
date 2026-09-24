@@ -1,9 +1,11 @@
-.analysis-progress{position:fixed;z-index:20;right:12px;bottom:12px;left:12px;padding:12px;border:1px solid #2a6e91;border-radius:14px;background:#091a2bea;box-shadow:0 12px 36px #0009;backdrop-filter:blur(14px)}
+.analysis-progress{--drag-x:0px;--drag-y:0px;position:fixed;z-index:20;right:12px;bottom:12px;width:min(360px,calc(100vw - 24px));padding:12px;border:1px solid #2a6e91;border-radius:14px;background:#091a2bea;box-shadow:0 12px 36px #0009;backdrop-filter:blur(14px);transform:translate(var(--drag-x),var(--drag-y))}
 .analysis-progress.hidden{display:none}
-.progress-header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.progress-header{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:grab;touch-action:none;user-select:none}
+.analysis-progress.dragging .progress-header{cursor:grabbing}
 .progress-header>div{display:flex;align-items:baseline;gap:9px}
 .progress-header small{color:#72dfff;font-weight:800;letter-spacing:.04em}
 .progress-header strong{font-size:15px}
+.progress-header em{padding:2px 6px;border-radius:999px;background:#173b5a;color:#72dfff;font-size:10px;font-style:normal;font-weight:800}
 .progress-toggle{width:28px;height:28px;padding:0;border-radius:8px}
 .progress-body{margin-top:9px}
 .progress-track{height:6px;overflow:hidden;border-radius:999px;background:#17334d}

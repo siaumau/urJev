@@ -6,6 +6,7 @@
   <title>urJev Gmail 分析器</title>
   <link rel="stylesheet" href="popup.css">
   <link rel="stylesheet" href="progress.css">
+  <link rel="stylesheet" href="feedback.css">
 </head>
 <body>
   <header>
@@ -35,8 +36,8 @@
   <div id="status" class="status" role="status">先連接 Gmail，選擇範圍後載入郵件。</div>
   <main id="messages"></main>
   <aside id="analysis-progress" class="analysis-progress hidden" aria-live="polite">
-    <div class="progress-header">
-      <div><small id="progress-phase">分析進度</small><strong id="progress-fraction">0 / 0</strong></div>
+    <div class="progress-header" title="按住並拖曳">
+      <div><small id="progress-phase">分析進度</small><strong id="progress-fraction">0 / 0</strong><em id="progress-percent">0%</em></div>
       <button id="progress-toggle" class="progress-toggle" type="button" aria-label="收合分析統計" aria-expanded="true">−</button>
     </div>
     <div class="progress-body">
@@ -44,7 +45,7 @@
       <div class="progress-summary">
         <div><strong id="progress-loaded">0</strong><small>已載入</small></div>
         <div><strong id="progress-target">0</strong><small>本次目標</small></div>
-        <div><strong id="progress-analyzed">0</strong><small>已有結果</small></div>
+        <div><strong id="progress-analyzed">0</strong><small>本次完成</small></div>
       </div>
       <div class="category-counts">
         <div><span>可能垃圾</span><strong data-category-count="possible_spam">0</strong></div>
@@ -63,6 +64,11 @@
       <label class="message-head"><input class="pick" type="checkbox"><span><strong class="subject"></strong><small class="from"></small></span></label>
       <p class="snippet"></p>
       <div class="result hidden"><span class="badge"></span><span class="detail"></span></div>
+      <div class="correction hidden">
+        <label>正確分類<select class="correction-select"></select></label>
+        <button class="save-correction" type="button">儲存並學習</button>
+        <small class="correction-status"></small>
+      </div>
     </article>
   </template>
   <script type="module" src="popup.js"></script>

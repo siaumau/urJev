@@ -1,9 +1,19 @@
 import { getSettings, saveSettings, validateEndpoint } from './settings.js';
+import { clearFeedbackRecords, getFeedbackRecords } from './feedback.js';
 const $ = id => document.getElementById(id);
 const settings = await getSettings();
 $('endpoint').value = settings.endpoint; $('query').value = settings.query; $('max-messages').value = settings.maxMessages; $('archive-after-apply').checked = settings.archiveAfterApply;
 $('origin').textContent = location.origin;
 $('copy-origin').addEventListener('click', async () => { await navigator.clipboard.writeText(location.origin); $('status').textContent = 'Origin 已複製。'; });
+async function refreshFeedbackCount() { $('feedback-count').textContent = (await getFeedbackRecords()).length; }
+$('copy-feedback').addEventListener('click', async () => {
+  await navigator.clipboard.writeText(JSON.stringify({ exportedAt: new Date().toISOString(), records: await getFeedbackRecords() }, null, 2));
+  $('feedback-status').textContent = '校正 JSON 已複製。';
+});
+$('clear-feedback').addEventListener('click', async () => {
+  if (!confirm('確定要清除所有本機分類校正嗎？')) return;
+  await clearFeedbackRecords(); await refreshFeedbackCount(); $('feedback-status').textContent = '校正資料已清除。';
+});
 $('save').addEventListener('click', async () => {
   try {
     const endpoint = validateEndpoint($('endpoint').value.trim());
@@ -14,3 +24,4 @@ $('save').addEventListener('click', async () => {
     $('status').textContent = '設定已儲存。';
   } catch (error) { $('status').textContent = error.message; }
 });
+await refreshFeedbackCount();
