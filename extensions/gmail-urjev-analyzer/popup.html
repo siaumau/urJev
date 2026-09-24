@@ -9,26 +9,35 @@
   <link rel="stylesheet" href="feedback.css">
 </head>
 <body>
-  <header>
-    <div><span class="eyebrow">LOCAL AI</span><h1>Gmail 郵件分析器</h1></div>
-    <button id="open-options" class="icon-button" title="設定">⚙</button>
-  </header>
-  <p id="endpoint" class="endpoint"></p>
-  <label class="scope">郵件範圍
-    <select id="scope">
-      <option value="in:inbox newer_than:30d">最近 30 天 Inbox</option>
-      <option value="is:important">全部重要郵件</option>
-      <option value="is:unread">全部未讀郵件</option>
-      <option value="in:anywhere newer_than:30d">最近 30 天全部郵件</option>
-      <option value="custom">使用設定頁搜尋條件</option>
-    </select>
-  </label>
-  <section class="actions">
-    <button id="connect" class="secondary">連接 Gmail</button>
-    <button id="load" class="secondary">載入郵件</button>
-    <button id="analyze" class="primary" disabled>分析已勾選</button>
-    <button id="classify" class="classify" disabled>執行分類</button>
-  </section>
+  <div class="sticky-controls">
+    <header>
+      <div><span class="eyebrow">LOCAL AI</span><h1>Gmail 郵件分析器</h1></div>
+      <button id="open-options" class="icon-button" title="設定">⚙</button>
+    </header>
+    <p id="endpoint" class="endpoint"></p>
+    <label class="scope">郵件範圍
+      <select id="scope">
+        <option value="in:inbox newer_than:30d">最近 30 天 Inbox</option>
+        <option value="is:important">全部重要郵件</option>
+        <option value="is:unread">全部未讀郵件</option>
+        <option value="in:anywhere newer_than:30d">最近 30 天全部郵件</option>
+        <option value="custom">使用設定頁搜尋條件</option>
+      </select>
+    </label>
+    <div class="mail-search">
+      <select id="search-mode" aria-label="搜尋欄位">
+        <option value="all">標題或內容</option>
+        <option value="subject">只搜尋標題</option>
+      </select>
+      <input id="search-term" type="search" placeholder="輸入要搜尋的文字" autocomplete="off">
+    </div>
+    <section class="actions">
+      <button id="connect" class="secondary">連接 Gmail</button>
+      <button id="load" class="secondary">載入郵件</button>
+      <button id="analyze" class="primary" disabled>分析已勾選</button>
+      <button id="classify" class="classify" disabled>執行分類</button>
+    </section>
+  </div>
   <div class="toolbar">
     <label><input id="select-all" type="checkbox"> 全選</label>
     <span id="counter">尚未載入</span>

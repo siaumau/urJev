@@ -69,6 +69,26 @@ function stripHtml(html) {
     .replace(/[ \t]+/g, ' ').replace(/\n\s*\n\s*\n+/g, '\n\n').trim();
 }
 
+const decodeHtmlAttribute = value => String(value ?? '')
+  .replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
+  .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>');
+
+export function extractLinks(plainParts = [], htmlParts = []) {
+  const links = [];
+  const add = (url, text = '') => {
+    const value = decodeHtmlAttribute(url).trim();
+    if (!/^https?:\/\//i.test(value)) return;
+    if (!links.some(item => item.url === value)) links.push({ url: value, text: stripHtml(text).slice(0, 120) });
+  };
+  for (const html of htmlParts) {
+    for (const match of String(html).matchAll(/<a\b[^>]*?href\s*=\s*(["'])(.*?)\1[^>]*>([\s\S]*?)<\/a>/gi)) add(match[2], match[3]);
+  }
+  for (const plain of plainParts) {
+    for (const match of String(plain).matchAll(/https?:\/\/[^\s<>"')\]]+/gi)) add(match[0].replace(/[.,;:!?]+$/, ''));
+  }
+  return links.slice(0, 20);
+}
+
 export function truncateUtf8(text, maxBytes) {
   const encoder = new TextEncoder();
   if (encoder.encode(text).length <= maxBytes) return text;
@@ -113,7 +133,8 @@ export async function extractEmail(token, message) {
     authenticationResults: truncateUtf8(headerValue(message, 'Authentication-Results'), 1200),
     returnPath: truncateUtf8(headerValue(message, 'Return-Path'), 500),
     snippet: truncateUtf8(message.snippet ?? '', 500),
-    body: truncateUtf8(text, 2000)
+    body: truncateUtf8(text, 2000),
+    links: extractLinks(output.plain, output.html)
   };
 }
 
@@ -128,6 +149,31 @@ export const AI_LABELS = Object.freeze({
   time_related: 'AI/時間相關',
   uncategorized: 'AI/未分類'
 });
+
+export function excludeAiLabeled(query) {
+  const exclusions = Object.values(AI_LABELS).map(name => `-label:"${name}"`).join(' ');
+  return `${String(query ?? '').trim()} ${exclusions}`.trim();
+}
+
+export function addGmailTextSearch(query, mode, term) {
+  const phrase = String(term ?? '').trim().replace(/["\\]+/g, ' ').replace(/\s+/g, ' ').trim();
+  if (!phrase) return String(query ?? '').trim();
+  const filter = mode === 'subject' ? `subject:"${phrase}"` : `"${phrase}"`;
+  return `${String(query ?? '').trim()} ${filter}`.trim();
+}
+
+export function onlyAiLabeled(query = '') {
+  const alternatives = Object.values(AI_LABELS).map(name => `label:"${name}"`).join(' ');
+  return `${String(query ?? '').trim()} {${alternatives}}`.trim();
+}
+
+export async function archiveMessages(token, messageIds) {
+  const ids = [...new Set(messageIds)].filter(Boolean);
+  if (!ids.length) return null;
+  return gmailFetch('/messages/batchModify', token, {
+    method: 'POST', body: JSON.stringify({ ids, removeLabelIds: ['INBOX'] })
+  });
+}
 
 const LABEL_TREE = Object.freeze(['AI', 'AI/重要', ...Object.values(AI_LABELS)]);
 const LEGACY_LABELS = Object.freeze(['urJev/可能垃圾', 'urJev/重要-緊急', 'urJev/重要-不緊急', 'urJev/次要', 'urJev/時間相關', 'urJev/未分類']);

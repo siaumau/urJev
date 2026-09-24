@@ -7,7 +7,7 @@
     <label>urJev OneForward 端點<input id="endpoint" type="url"></label>
     <label>Gmail 搜尋條件<input id="query" type="text"></label>
     <label>每次最多載入<input id="max-messages" type="number" min="1" max="500"></label>
-    <label class="check"><input id="archive-after-apply" type="checkbox">執行分類後移出 Inbox（封存，仍保留在 AI 標籤）</label>
+    <label class="check"><input id="archive-after-apply" type="checkbox">執行分類後移出 Inbox（預設開啟；封存後仍保留在 AI 標籤）</label>
     <section><strong>此外掛的 Origin</strong><code id="origin"></code><button id="copy-origin" type="button">複製 Origin</button><p>將它填入 urJev `.env` 的 `EXTENSION_ORIGINS`，再重新啟動 urJev。</p></section>
     <section><strong>本機分類校正</strong><p>目前儲存 <b id="feedback-count">0</b> 筆。只保存寄件地址、主旨特徵與你選的分類，不保存郵件全文。</p><button id="copy-feedback" type="button">複製校正 JSON</button> <button id="clear-feedback" type="button">清除校正資料</button><p id="feedback-status"></p></section>
     <div class="actions"><button id="save" class="primary">儲存設定</button><span id="status"></span></div>

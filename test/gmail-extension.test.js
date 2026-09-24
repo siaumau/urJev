@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { buildEmailPayload, clipUtf8Prefix, deriveClassification, deriveIdentitySignals, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
-import { AI_LABELS, applyAiLabel, extractEmail, loadMessageSummaries, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
+import { analyzeEmail, buildEmailPayload, clipUtf8Prefix, deriveClassification, deriveIdentitySignals, deriveOrganizationSignals, EMAIL_PROBLEM } from '../extensions/gmail-urjev-analyzer/urjev.js';
+import { addGmailTextSearch, AI_LABELS, applyAiLabel, archiveMessages, excludeAiLabeled, extractEmail, extractLinks, loadMessageSummaries, onlyAiLabeled, truncateUtf8 } from '../extensions/gmail-urjev-analyzer/gmail-api.js';
 import { summarizeProgress } from '../extensions/gmail-urjev-analyzer/progress.js';
 import { createFeedbackRecord, matchFeedback, senderIdentity, subjectFeatures } from '../extensions/gmail-urjev-analyzer/feedback.js';
 import { prepareOneForwardProblems } from '../src/systemone.js';
@@ -27,7 +27,7 @@ test('Gmail classifier applies spam, importance, marketing, knowledge and fallba
   assert.equal(deriveClassification(answer('not_spam', 'uncategorized', 'not_urgent', .49)).category, 'uncategorized');
 });
 
-test('Gmail payload keeps identity, recipient and authentication data and defines six bounded decisions', () => {
+test('Gmail payload keeps identity, recipient, link and authentication data and defines six bounded decisions', () => {
   const payload = buildEmailPayload({ subject: 'Meeting tomorrow', from: 'a@example.com', to: 'me@example.com', recipientAccount: 'me@example.com', receivedAt: 'today', authenticationResults: 'dkim=pass header.i=@example.com', returnPath: '<bounce@example.com>', snippet: 'At 10', body: 'Please join at 10:00.' }, new Date('2026-09-24T00:00:00Z'));
   assert.equal(payload.model, 'urjev');
   assert.equal(payload.state.email.subject, 'Meeting tomorrow');
@@ -35,6 +35,7 @@ test('Gmail payload keeps identity, recipient and authentication data and define
   assert.match(payload.state.email.authentication_results, /dkim=pass/);
   assert.equal(payload.state.email.recipient_match, 'matched');
   assert.equal(payload.state.email.sender_authenticated, 'true');
+  assert.equal(payload.state.email.link_alignment, 'no_claim');
   assert.deepEqual(Object.keys(payload.problem), ['fraud_likelihood', 'spam_likelihood', 'content_purpose', 'importance', 'urgency', 'mentions_time']);
   assert.match(EMAIL_PROBLEM.fraud_likelihood.instructions, /sender_authenticated=true/);
   assert.equal(EMAIL_PROBLEM.mentions_time.type, 'noul');
@@ -67,13 +68,96 @@ test('Gmail extraction includes authentication headers for spoofing assessment',
   assert.equal(email.replyTo, 'no-reply@accounts.google.com');
 });
 
+test('Gmail extracts the actual destinations behind HTML link labels', () => {
+  const links = extractLinks(
+    ['備用網址 https://www.esunbank.com/zh-tw/personal'],
+    ['<a href="https://fake-bank.example/login?next=esun">玉山銀行安全登入</a>']
+  );
+  assert.deepEqual(links, [
+    { url: 'https://fake-bank.example/login?next=esun', text: '玉山銀行安全登入' },
+    { url: 'https://www.esunbank.com/zh-tw/personal', text: '' }
+  ]);
+});
+
 test('Gmail identity signals compare sender routes and the signed-in recipient', () => {
   const legitimate = deriveIdentitySignals({ from: 'Google <no-reply@accounts.google.com>', replyTo: 'support@accounts.google.com', returnPath: '<bounce@accounts.google.com>', to: 'me@example.com', recipientAccount: 'me@example.com', authenticationResults: 'dkim=pass header.i=@accounts.google.com; dmarc=pass header.from=accounts.google.com' });
   assert.deepEqual(legitimate, { recipientAccount: 'me@example.com', recipientMatch: 'matched', senderDomain: 'accounts.google.com', senderAuthenticated: true, senderAlignment: 'aligned' });
   const suspicious = deriveIdentitySignals({ from: 'Bank <notice@bank.example>', replyTo: 'steal@evil.example', returnPath: '<bounce@evil.example>', to: 'victim@example.com', recipientAccount: 'me@example.com', authenticationResults: 'dkim=fail; dmarc=fail' });
-  assert.equal(suspicious.recipientMatch, 'not_visible');
+  assert.equal(suspicious.recipientMatch, 'mismatch');
   assert.equal(suspicious.senderAlignment, 'mismatch');
   assert.equal(suspicious.senderAuthenticated, false);
+});
+
+test('Gmail distinguishes a visible wrong recipient from BCC or group delivery', () => {
+  assert.equal(deriveIdentitySignals({ to: 'other@example.com', recipientAccount: 'me@example.com' }).recipientMatch, 'mismatch');
+  assert.equal(deriveIdentitySignals({ recipientAccount: 'me@example.com' }).recipientMatch, 'not_visible');
+});
+
+test('Gmail compares a claimed E.SUN identity with official sender and link domains', () => {
+  const official = deriveOrganizationSignals({
+    subject: '玉山銀行信用卡通知', from: 'service@esunbank.com', body: '請查看帳務',
+    authenticationResults: 'dkim=pass header.i=@esunbank.com; dmarc=pass header.from=esunbank.com',
+    links: [{ url: 'https://ebank.esunbank.com.tw/login', text: '登入' }, { url: 'https://esun.co/notice', text: '說明' }]
+  });
+  assert.deepEqual(official.claimedOrganizations, ['玉山銀行']);
+  assert.equal(official.organizationSenderAlignment, 'official_authenticated');
+  assert.equal(official.linkAlignment, 'official');
+  const fake = deriveOrganizationSignals({
+    subject: '玉山銀行帳戶遭停用', from: 'service@notice-example.com', body: '立即驗證',
+    authenticationResults: 'dkim=pass header.i=@notice-example.com',
+    links: [{ url: 'https://esun-secure.example/login', text: '玉山銀行登入' }]
+  });
+  assert.equal(fake.organizationSenderAlignment, 'mismatch');
+  assert.equal(fake.linkAlignment, 'mismatch');
+  assert.deepEqual(fake.suspiciousLinkDomains, ['esun-secure.example']);
+});
+
+test('Gmail recognises authenticated iKala newsletters as the claimed official sender', () => {
+  const signals = deriveOrganizationSignals({
+    subject: '【iKala 9月報】AI Agent 產業落地實戰解析', from: 'iKala <contact@ikala.ai>',
+    body: 'iKala AI Service 月報：5 大趨勢掌握最新 AI 動態',
+    authenticationResults: 'dkim=pass header.i=@mailer.example; dmarc=pass header.from=ikala.ai',
+    returnPath: '<bounce@mailer.example>', links: [{ url: 'https://ikala.ai/news/', text: '閱讀全文' }]
+  });
+  assert.equal(signals.organizationSenderAlignment, 'official_authenticated');
+  assert.equal(signals.linkAlignment, 'official');
+});
+
+test('Gmail forces suspected fraud when a claimed institution has both sender and link mismatches', async () => {
+  const response = { answers: {
+    fraud_likelihood: { type: 'choice', choice: 'not_fraud' }, spam_likelihood: { type: 'choice', choice: 'not_spam' },
+    content_purpose: { type: 'choice', choice: 'other' }, importance: { type: 'choice', choice: 'important' },
+    urgency: { type: 'choice', choice: 'urgent' }, mentions_time: { type: 'noul', noul: 0 }
+  } };
+  const result = await analyzeEmail({ subject: '玉山銀行帳戶驗證', from: 'alert@evil.example', body: '請登入確認', links: [{ url: 'https://esun-login.evil.example', text: '登入' }] }, 'http://localhost/test', async () => new Response(JSON.stringify(response)));
+  assert.equal(result.fraud, 'likely_fraud');
+  assert.equal(result.category, 'suspected_fraud');
+  assert.equal(result.linkAlignment, 'mismatch');
+});
+
+test('Gmail does not let mailing-provider routes turn a verified iKala newsletter into fraud', async () => {
+  const response = { answers: {
+    fraud_likelihood: { type: 'choice', choice: 'likely_fraud' }, spam_likelihood: { type: 'choice', choice: 'not_spam' },
+    content_purpose: { type: 'choice', choice: 'marketing' }, importance: { type: 'choice', choice: 'secondary' },
+    urgency: { type: 'choice', choice: 'not_urgent' }, mentions_time: { type: 'noul', noul: 1 }
+  } };
+  const result = await analyzeEmail({
+    subject: '【iKala 9月報】AI Agent 產業落地實戰解析', from: 'iKala <contact@ikala.ai>',
+    to: 'me@example.com', recipientAccount: 'me@example.com', returnPath: '<bounce@mailer.example>',
+    authenticationResults: 'dkim=pass header.i=@mailer.example; dmarc=pass header.from=ikala.ai',
+    body: 'iKala AI Service 月報：5 大趨勢掌握最新 AI 動態',
+    links: [{ url: 'https://ikala.ai/news/', text: '閱讀全文' }, { url: 'https://mailer.example/unsubscribe', text: '取消訂閱' }]
+  }, 'http://localhost/test', async () => new Response(JSON.stringify(response)));
+  assert.equal(result.fraud, 'not_fraud');
+  assert.equal(result.category, 'marketing');
+  assert.equal(result.linkAlignment, 'mixed');
+});
+
+test('Gmail requires an aligned passing DKIM or DMARC result for sender authentication', () => {
+  const misleading = deriveIdentitySignals({ from: 'iKala <contact@ikala.ai>', authenticationResults: 'dkim=pass header.i=@mailer.example; dmarc=fail header.from=ikala.ai' });
+  assert.equal(misleading.senderAuthenticated, false);
+  const aligned = deriveIdentitySignals({ from: 'iKala <contact@ikala.ai>', authenticationResults: 'dkim=pass header.i=@mailer.example; dmarc=pass header.from=ikala.ai' });
+  assert.equal(aligned.senderAuthenticated, true);
 });
 
 test('Gmail body truncation uses UTF-8 bytes and preserves valid text', () => {
@@ -93,6 +177,35 @@ test('Gmail categories map to the AI nested label tree', () => {
   assert.equal(AI_LABELS.secondary, 'AI/次要');
   assert.equal(AI_LABELS.time_related, 'AI/時間相關');
   assert.equal(AI_LABELS.uncategorized, 'AI/未分類');
+});
+
+test('Gmail loading query excludes every message already carrying an AI classification', () => {
+  const query = excludeAiLabeled('in:inbox newer_than:30d');
+  assert.match(query, /^in:inbox newer_than:30d /);
+  for (const label of Object.values(AI_LABELS)) assert.ok(query.includes(`-label:"${label}"`));
+  const cleanupQuery = onlyAiLabeled('in:inbox');
+  assert.match(cleanupQuery, /^in:inbox \{/);
+  for (const label of Object.values(AI_LABELS)) assert.ok(cleanupQuery.includes(`label:"${label}"`));
+});
+
+test('Gmail search can target the subject or search subject and body text', () => {
+  assert.equal(addGmailTextSearch('in:inbox', 'subject', 'AI Agent'), 'in:inbox subject:"AI Agent"');
+  assert.equal(addGmailTextSearch('in:inbox', 'all', 'AI Agent'), 'in:inbox "AI Agent"');
+  assert.equal(addGmailTextSearch('in:inbox', 'all', '  '), 'in:inbox');
+  assert.equal(addGmailTextSearch('in:inbox', 'subject', '"危險" \\ 測試'), 'in:inbox subject:"危險 測試"');
+});
+
+test('Gmail can archive previously classified messages in one batch', async () => {
+  const originalFetch = globalThis.fetch; let request;
+  globalThis.fetch = async (url, options) => {
+    request = { url: String(url), body: JSON.parse(options.body) };
+    return new Response('{}', { status: 200 });
+  };
+  try {
+    await archiveMessages('token', ['m1', 'm2', 'm1']);
+    assert.match(request.url, /messages\/batchModify$/);
+    assert.deepEqual(request.body, { ids: ['m1', 'm2'], removeLabelIds: ['INBOX'] });
+  } finally { globalThis.fetch = originalFetch; }
 });
 
 test('Gmail execute classification applies one AI label and can archive', async () => {
@@ -139,6 +252,7 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   const panel = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.js', import.meta.url), 'utf8');
   const markup = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.html', import.meta.url), 'utf8');
   const progressStyle = await readFile(new URL('../extensions/gmail-urjev-analyzer/progress.css', import.meta.url), 'utf8');
+  const settings = await readFile(new URL('../extensions/gmail-urjev-analyzer/settings.js', import.meta.url), 'utf8');
   assert.ok(manifest.permissions.includes('sidePanel'));
   assert.equal(manifest.side_panel.default_path, 'popup.html');
   assert.equal(manifest.action.default_popup, undefined);
@@ -149,9 +263,17 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /function updateProgress\(\)/);
   assert.match(markup, /id="analysis-progress"/);
   assert.match(markup, /class="correction-select"/);
+  assert.match(markup, /id="search-term"/);
+  assert.match(markup, /id="search-mode"/);
+  assert.match(markup, /class="sticky-controls"/);
   assert.equal((markup.match(/data-category-count=/g) ?? []).length, 9);
   assert.match(progressStyle, /position:fixed/);
   assert.match(progressStyle, /cursor:grab/);
+  const popupStyle = await readFile(new URL('../extensions/gmail-urjev-analyzer/popup.css', import.meta.url), 'utf8');
+  assert.match(popupStyle, /\.sticky-controls\{position:sticky;top:0/);
+  assert.match(settings, /archiveAfterApply:\s*true/);
+  assert.match(panel, /excludeAiLabeled/);
+  assert.match(panel, /state\.messages = state\.messages\.filter/);
 });
 
 test('Gmail progress reaches 100 percent for five selected messages out of 100 loaded', () => {

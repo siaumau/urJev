@@ -2,8 +2,8 @@ export const DEFAULT_SETTINGS = Object.freeze({
   endpoint: 'http://127.0.0.1:15413/v1/systemone/oneforward',
   query: 'in:inbox newer_than:30d',
   maxMessages: 100,
-  archiveAfterApply: false,
-  settingsVersion: 2
+  archiveAfterApply: true,
+  settingsVersion: 3
 });
 
 export async function getSettings() {
@@ -11,9 +11,13 @@ export async function getSettings() {
   const settings = { ...DEFAULT_SETTINGS, ...stored };
   if (!stored.settingsVersion) {
     if (stored.maxMessages === 20 || stored.maxMessages == null) settings.maxMessages = 100;
-    settings.settingsVersion = 2;
+    settings.settingsVersion = 3;
     await chrome.storage.local.set(settings);
     await chrome.storage.local.remove('applyLabels');
+  } else if (stored.settingsVersion < 3) {
+    settings.archiveAfterApply = true;
+    settings.settingsVersion = 3;
+    await chrome.storage.local.set(settings);
   }
   return settings;
 }

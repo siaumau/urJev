@@ -1,7 +1,9 @@
+import { findClaimedOrganizations, hostnameMatchesDomain } from './trusted-organizations.js';
+
 export const EMAIL_PROBLEM = Object.freeze({
   fraud_likelihood: {
     type: 'choice',
-    instructions: '判斷是否很可能為詐騙或冒充郵件。綜合 sender_domain、sender_authenticated、sender_alignment、From、Reply-To、Return-Path、recipient_match 與正文：自稱的組織是否和實際驗證網域吻合、回覆或退信網域是否異常、是否索取密碼／驗證碼／付款／轉帳／敏感資料，或用威脅與急迫感誘導操作。recipient_match=not_visible 可能只是 BCC 或郵件群組，不能單獨視為詐騙。若 sender_authenticated=true、sender_alignment=aligned、recipient_match=matched，且內容只是官方帳戶安全通知並要求查看帳戶活動，沒有索取密碼、驗證碼、付款或轉帳，應選 not_fraud；不要只因「有人嘗試登入」「立即查看活動」「保護帳戶」等警示措辭選 likely_fraud。合法網域驗證通過只能證明寄件來源，若仍索取敏感資料或付款則不能因此排除詐騙。',
+    instructions: '判斷是否很可能為詐騙或冒充郵件。綜合 sender_domain、sender_authenticated、sender_alignment、From、Reply-To、Return-Path、recipient_match、claimed_organizations、organization_sender_alignment、link_alignment、link_domains 與正文。若內容自稱某機構，必須比較已驗證寄件網域及實際連結目的網域是否屬於該機構公布的 official_domains；按鈕顯示文字不能取代實際網址。link_alignment=mismatch 且 organization_sender_alignment=mismatch 是強烈冒充訊號。電子報常由合法代寄服務寄送，使 Reply-To 或 Return-Path 與 From 不同；若 From 已通過 DKIM／DMARC、寄件網域符合品牌、內容是一般月報或行銷，且沒有索取帳密、驗證碼、付款、轉帳或敏感資料，sender_alignment=mismatch 不能單獨判成詐騙。recipient_match=mismatch 表示標頭明確是其他收件者；recipient_match=not_visible 可能只是 BCC 或郵件群組，不能單獨視為詐騙。若 sender_authenticated=true、recipient_match=matched，機構及連結合理吻合，且內容只是官方通知或行銷，應選 not_fraud。合法網域驗證通過只能證明寄件者控制該網域，若仍索取敏感資料或付款則不能因此排除詐騙。',
     criteria: {
       likely_fraud: '身分或網域明顯不一致並伴隨金錢、帳密、敏感資料或惡意操作誘導，或有其他明確冒充與詐騙證據',
       not_fraud: '寄件來源與聲稱身分合理一致，內容屬正常通知、帳戶安全警示、往來或推廣，沒有索取密碼、驗證碼、付款、轉帳等明確欺騙與敏感操作誘導',
@@ -10,7 +12,7 @@ export const EMAIL_PROBLEM = Object.freeze({
   },
   spam_likelihood: {
     type: 'choice',
-    instructions: '根據 email.subject、email.from、email.authentication_results、email.return_path、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。若 authentication_results 顯示 SPF、DKIM 或 DMARC 通過且與寄件網域對齊，這是來源真實的重要證據；官方帳戶安全通知不要只因出現「立即檢查」「有人嘗試登入」「查看活動」等警示文字就判成釣魚。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結或退訂連結就判成垃圾郵件。驗證失敗、網域不一致、索取密碼或付款資料及可疑連結仍是強烈風險訊號。',
+    instructions: '根據 email.subject、email.from、email.authentication_results、email.return_path、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。若 authentication_results 顯示 SPF、DKIM 或 DMARC 通過且與寄件網域對齊，這是來源真實的重要證據；官方帳戶安全通知不要只因出現警示文字就判成釣魚。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結、退訂連結或代寄服務的 Return-Path 就判成垃圾郵件。像品牌月報、產業趨勢摘要及產品電子報應依 content_purpose 分到 marketing 或 knowledge。驗證失敗、品牌與網域不一致、索取密碼或付款資料及可疑連結仍是強烈風險訊號。',
     criteria: {
       likely_spam: '有明確大量濫發、欺騙、釣魚、可疑獎金、惡意連結誘導、假冒身分或與收件者無合理關係的強訊號',
       not_spam: '看起來是正常往來、帳戶或交易通知、合理訂閱內容，沒有明確垃圾或詐騙訊號',
@@ -85,31 +87,60 @@ export function deriveIdentitySignals(email) {
   const account = String(email.recipientAccount ?? '').trim().toLowerCase();
   const fromDomain = domainOf(email.from), replyDomain = domainOf(email.replyTo), returnDomain = domainOf(email.returnPath);
   const authentication = String(email.authenticationResults ?? '').toLowerCase();
-  const senderAuthenticated = Boolean(fromDomain && authentication.includes(fromDomain) && /(?:dkim|dmarc)=pass/.test(authentication));
+  const authenticatedDomains = [
+    ...[...authentication.matchAll(/dkim=pass[^;]*?header\.i=@?([^\s;]+)/g)].map(match => match[1]),
+    ...[...authentication.matchAll(/dmarc=pass[^;]*?header\.from=([^\s;]+)/g)].map(match => match[1])
+  ];
+  const senderAuthenticated = Boolean(fromDomain && authenticatedDomains.some(domain => domainsAlign(fromDomain, domain)));
   const routeMismatch = Boolean((replyDomain && !domainsAlign(fromDomain, replyDomain)) || (returnDomain && !domainsAlign(fromDomain, returnDomain)));
   const visibleRecipients = [email.to, email.cc, email.deliveredTo, email.originalTo].flatMap(addresses);
-  const recipientMatch = !account ? 'unknown' : visibleRecipients.includes(account) ? 'matched' : 'not_visible';
+  const recipientMatch = !account ? 'unknown' : visibleRecipients.includes(account) ? 'matched' : visibleRecipients.length ? 'mismatch' : 'not_visible';
   return { recipientAccount: account, recipientMatch, senderDomain: fromDomain, senderAuthenticated, senderAlignment: routeMismatch ? 'mismatch' : senderAuthenticated ? 'aligned' : 'unverified' };
+}
+
+const parseHttpUrl = value => {
+  try { const url = new URL(String(value)); return /^https?:$/.test(url.protocol) ? url : null; } catch { return null; }
+};
+
+export function deriveOrganizationSignals(email) {
+  const identity = deriveIdentitySignals(email);
+  const linkLabels = (email.links ?? []).map(link => typeof link === 'string' ? '' : link?.text).filter(Boolean).join('\n');
+  const content = [email.subject, email.from, email.snippet, email.body, linkLabels].filter(Boolean).join('\n');
+  const organizations = findClaimedOrganizations(content);
+  const urls = [...(email.links ?? []).map(link => typeof link === 'string' ? link : link?.url), ...String(email.body ?? '').matchAll(/https?:\/\/[^\s<>"')\]]+/gi)].map(item => typeof item === 'string' ? item : item[0]);
+  const linkDomains = [...new Set(urls.map(parseHttpUrl).filter(Boolean).map(url => url.hostname.toLowerCase().replace(/^www\./, '')))];
+  if (!organizations.length) return { claimedOrganizations: [], officialDomains: [], linkDomains, linkAlignment: 'no_claim', organizationSenderAlignment: 'no_claim', suspiciousLinkDomains: [] };
+  const officialDomains = [...new Set(organizations.flatMap(item => item.officialDomains))];
+  const matchesOfficial = hostname => officialDomains.some(domain => hostnameMatchesDomain(hostname, domain));
+  const officialLinks = linkDomains.filter(matchesOfficial), suspiciousLinkDomains = linkDomains.filter(domain => !matchesOfficial(domain));
+  const linkAlignment = !linkDomains.length ? 'no_links' : suspiciousLinkDomains.length ? (officialLinks.length ? 'mixed' : 'mismatch') : 'official';
+  const senderOfficial = matchesOfficial(identity.senderDomain);
+  const organizationSenderAlignment = senderOfficial && identity.senderAuthenticated ? 'official_authenticated' : senderOfficial ? 'official_unverified' : 'mismatch';
+  return { claimedOrganizations: organizations.map(item => item.name), officialDomains, linkDomains, linkAlignment, organizationSenderAlignment, suspiciousLinkDomains };
 }
 
 export function compactEmailState(email, now = new Date()) {
   const signals = deriveIdentitySignals(email);
+  const organization = deriveOrganizationSignals(email);
   const raw = {
     subject: String(email.subject ?? ''), from: String(email.from ?? ''), reply_to: String(email.replyTo ?? ''),
     to: String(email.to ?? ''), cc: String(email.cc ?? ''), delivered_to: String(email.deliveredTo ?? ''), original_to: String(email.originalTo ?? ''),
     recipient_account: signals.recipientAccount, recipient_match: signals.recipientMatch,
     sender_domain: signals.senderDomain, sender_authenticated: String(signals.senderAuthenticated), sender_alignment: signals.senderAlignment,
+    claimed_organizations: organization.claimedOrganizations.join(', '), official_domains: organization.officialDomains.join(', '),
+    organization_sender_alignment: organization.organizationSenderAlignment, link_alignment: organization.linkAlignment,
+    link_domains: organization.linkDomains.join(', '), suspicious_link_domains: organization.suspiciousLinkDomains.join(', '),
     received_at: String(email.receivedAt ?? ''),
     authentication_results: String(email.authenticationResults ?? ''), return_path: String(email.returnPath ?? ''),
     snippet: String(email.snippet ?? ''), body: String(email.body ?? '')
   };
   if (raw.body && raw.snippet && raw.body.includes(raw.snippet)) raw.snippet = '';
-  const limits = { subject: 260, from: 260, reply_to: 180, to: 220, cc: 140, delivered_to: 140, original_to: 140, recipient_account: 120, recipient_match: 20, sender_domain: 120, sender_authenticated: 8, sender_alignment: 20, received_at: 80, authentication_results: 400, return_path: 140, snippet: 220, body: 2000 };
-  const minimum = { body: 700, authentication_results: 100, snippet: 0, cc: 0, original_to: 0, delivered_to: 0, return_path: 0, reply_to: 0, to: 80, from: 100, subject: 100, received_at: 0, recipient_account: 60, recipient_match: 10, sender_domain: 40, sender_authenticated: 4, sender_alignment: 8 };
+  const limits = { subject: 260, from: 260, reply_to: 180, to: 220, cc: 140, delivered_to: 140, original_to: 140, recipient_account: 120, recipient_match: 20, sender_domain: 120, sender_authenticated: 8, sender_alignment: 20, claimed_organizations: 100, official_domains: 180, organization_sender_alignment: 30, link_alignment: 20, link_domains: 350, suspicious_link_domains: 250, received_at: 80, authentication_results: 400, return_path: 140, snippet: 220, body: 2000 };
+  const minimum = { body: 700, authentication_results: 100, snippet: 0, cc: 0, original_to: 0, delivered_to: 0, return_path: 0, reply_to: 0, to: 80, from: 100, subject: 100, received_at: 0, recipient_account: 60, recipient_match: 10, sender_domain: 40, sender_authenticated: 4, sender_alignment: 8, claimed_organizations: 30, official_domains: 50, organization_sender_alignment: 12, link_alignment: 8, link_domains: 80, suspicious_link_domains: 50 };
   const compactField = key => key === 'body' ? clipUtf8Prefix(raw[key], limits[key]) : clipUtf8Middle(raw[key], limits[key]);
   const state = { analysis_date: now.toISOString(), email: Object.fromEntries(Object.keys(raw).map(key => [key, compactField(key)])) };
   const size = () => encoder.encode(JSON.stringify({ state })).length;
-  const order = ['authentication_results', 'snippet', 'cc', 'original_to', 'delivered_to', 'return_path', 'reply_to', 'to', 'from', 'subject', 'received_at', 'recipient_account', 'sender_domain', 'body'];
+  const order = ['authentication_results', 'snippet', 'cc', 'original_to', 'delivered_to', 'return_path', 'reply_to', 'to', 'from', 'subject', 'received_at', 'recipient_account', 'sender_domain', 'link_domains', 'suspicious_link_domains', 'body'];
   while (size() > PROMPT_STATE_BUDGET) {
     const key = order.find(name => limits[name] > minimum[name]);
     if (!key) break;
@@ -156,5 +187,18 @@ export async function analyzeEmail(email, endpoint, fetchImpl = fetch) {
   let body;
   try { body = await response.json(); } catch { body = null; }
   if (!response.ok) throw new Error(body?.error?.message || `urJev HTTP ${response.status}`);
-  return { ...deriveClassification(body.answers), recipientMatch: payload.state.email.recipient_match, senderAuthenticated: payload.state.email.sender_authenticated === 'true', senderAlignment: payload.state.email.sender_alignment, answers: body.answers, meta: body.meta, usage: body.usage };
+  const classification = deriveClassification(body.answers);
+  const strongBrandMismatch = payload.state.email.link_alignment === 'mismatch' && payload.state.email.organization_sender_alignment === 'mismatch';
+  const sensitiveRequest = /密碼|驗證碼|一次性密碼|信用卡號|卡號|轉帳|匯款|加密貨幣|助記詞|(?:請|立即|必須).{0,10}(?:登入驗證|驗證帳戶|確認身分)|password|one[- ]time password|\botp\b|wire transfer|seed phrase/i.test(`${email.subject ?? ''}\n${email.body ?? ''}`);
+  const verifiedBrandNewsletter = payload.state.email.organization_sender_alignment === 'official_authenticated'
+    && payload.state.email.recipient_match === 'matched'
+    && classification.contentPurpose === 'marketing'
+    && ['official', 'mixed', 'no_links'].includes(payload.state.email.link_alignment)
+    && !sensitiveRequest;
+  if (strongBrandMismatch) { classification.fraud = 'likely_fraud'; classification.category = 'suspected_fraud'; }
+  else if (verifiedBrandNewsletter) {
+    classification.fraud = 'not_fraud';
+    if (classification.spam === 'not_spam') classification.category = 'marketing';
+  }
+  return { ...classification, recipientMatch: payload.state.email.recipient_match, senderAuthenticated: payload.state.email.sender_authenticated === 'true', senderAlignment: payload.state.email.sender_alignment, claimedOrganizations: payload.state.email.claimed_organizations, linkAlignment: payload.state.email.link_alignment, suspiciousLinkDomains: payload.state.email.suspicious_link_domains, organizationSenderAlignment: payload.state.email.organization_sender_alignment, answers: body.answers, meta: body.meta, usage: body.usage };
 }
