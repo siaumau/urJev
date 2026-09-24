@@ -4,3 +4,4 @@
 .correction select{min-width:0;padding:6px;border:1px solid #285273;border-radius:8px;background:#071522;color:#eaf7ff}
 .save-correction{padding:6px 8px;border-color:#5267a7;background:#192447;font-size:10px}
 .correction-status{grid-column:1/-1;min-height:1em;color:#73dfb3;font-size:10px}
+.badge.fraud{background:#711d2b;color:#ffd0d8}

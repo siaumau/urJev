@@ -8,7 +8,7 @@
 
 本專案採 [MIT License](LICENSE)。模型權重與第三方套件遵循各自授權，未隨 repository 散布。這是 Jev 類型工作流程的原型，不是 Jev 原始模型或完整 SDK 複製品，也尚未做專屬資料微調。
 
-Chrome 子專案：[urJev Gmail 郵件分析器](extensions/gmail-urjev-analyzer/README.md)會固定開在 Chrome 側邊面板，可讀取使用者勾選的 Gmail 郵件，以本機 OneForward 分成可能垃圾、重要且緊急、重要但不緊急、行銷、新知、次要、時間相關與未分類。分析完成後由使用者按「執行分類」，套用 `AI/*` Gmail 標籤。
+Chrome 子專案：[urJev Gmail 郵件分析器](extensions/gmail-urjev-analyzer/README.md)會固定開在 Chrome 側邊面板，可讀取使用者勾選的 Gmail 郵件，以本機 OneForward 分成可能詐騙、可能垃圾、重要且緊急、重要但不緊急、行銷、新知、次要、時間相關與未分類。分析完成後由使用者按「執行分類」，套用 `AI/*` Gmail 標籤。
 
 ## 目前設定
 

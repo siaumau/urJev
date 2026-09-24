@@ -28,6 +28,10 @@ export async function listMessages(token, query, maxResults) {
   return body.messages ?? [];
 }
 
+export async function getProfile(token) {
+  return gmailFetch('/profile', token);
+}
+
 export function headerValue(message, name) {
   return message.payload?.headers?.find(item => item.name.toLowerCase() === name.toLowerCase())?.value ?? '';
 }
@@ -100,7 +104,11 @@ export async function extractEmail(token, message) {
     threadId: message.threadId,
     subject: truncateUtf8(headerValue(message, 'Subject') || '（無主旨）', 500),
     from: truncateUtf8(headerValue(message, 'From') || '（未知寄件者）', 500),
-    to: headerValue(message, 'To'),
+    to: truncateUtf8(headerValue(message, 'To'), 700),
+    cc: truncateUtf8(headerValue(message, 'Cc'), 700),
+    deliveredTo: truncateUtf8(headerValue(message, 'Delivered-To'), 500),
+    originalTo: truncateUtf8(headerValue(message, 'X-Original-To'), 500),
+    replyTo: truncateUtf8(headerValue(message, 'Reply-To'), 500),
     receivedAt: headerValue(message, 'Date'),
     authenticationResults: truncateUtf8(headerValue(message, 'Authentication-Results'), 1200),
     returnPath: truncateUtf8(headerValue(message, 'Return-Path'), 500),
@@ -110,6 +118,7 @@ export async function extractEmail(token, message) {
 }
 
 export const AI_LABELS = Object.freeze({
+  suspected_fraud: 'AI/可能詐騙',
   possible_spam: 'AI/可能垃圾',
   important_urgent: 'AI/重要/緊急',
   important_not_urgent: 'AI/重要/不緊急',

@@ -1,4 +1,13 @@
 export const EMAIL_PROBLEM = Object.freeze({
+  fraud_likelihood: {
+    type: 'choice',
+    instructions: '判斷是否很可能為詐騙或冒充郵件。綜合 sender_domain、sender_authenticated、sender_alignment、From、Reply-To、Return-Path、recipient_match 與正文：自稱的組織是否和實際驗證網域吻合、回覆或退信網域是否異常、是否索取密碼／驗證碼／付款／轉帳／敏感資料，或用威脅與急迫感誘導操作。recipient_match=not_visible 可能只是 BCC 或郵件群組，不能單獨視為詐騙。若 sender_authenticated=true、sender_alignment=aligned、recipient_match=matched，且內容只是官方帳戶安全通知並要求查看帳戶活動，沒有索取密碼、驗證碼、付款或轉帳，應選 not_fraud；不要只因「有人嘗試登入」「立即查看活動」「保護帳戶」等警示措辭選 likely_fraud。合法網域驗證通過只能證明寄件來源，若仍索取敏感資料或付款則不能因此排除詐騙。',
+    criteria: {
+      likely_fraud: '身分或網域明顯不一致並伴隨金錢、帳密、敏感資料或惡意操作誘導，或有其他明確冒充與詐騙證據',
+      not_fraud: '寄件來源與聲稱身分合理一致，內容屬正常通知、帳戶安全警示、往來或推廣，沒有索取密碼、驗證碼、付款、轉帳等明確欺騙與敏感操作誘導',
+      unclear: '驗證或內容證據不足，無法可靠排除或確認詐騙'
+    }
+  },
   spam_likelihood: {
     type: 'choice',
     instructions: '根據 email.subject、email.from、email.authentication_results、email.return_path、email.snippet 與 email.body，判斷郵件是否很可能是垃圾郵件、詐騙或未經請求的大量濫發。若 authentication_results 顯示 SPF、DKIM 或 DMARC 通過且與寄件網域對齊，這是來源真實的重要證據；官方帳戶安全通知不要只因出現「立即檢查」「有人嘗試登入」「查看活動」等警示文字就判成釣魚。正常品牌促銷、優惠、活動導購、交易通知、帳戶安全通知、收據、直接往來與使用者可能訂閱的電子報，不要僅因含行銷內容、追蹤連結或退訂連結就判成垃圾郵件。驗證失敗、網域不一致、索取密碼或付款資料及可疑連結仍是強烈風險訊號。',
@@ -68,19 +77,39 @@ export function clipUtf8Prefix(text, maxBytes) {
   return `${clipBytes(value, Math.max(0, maxBytes - markerBytes))}${marker}`;
 }
 
+const addresses = value => [...String(value ?? '').toLowerCase().matchAll(/[\w.!#$%&'*+/=?^`{|}~-]+@[\w.-]+/g)].map(match => match[0]);
+const domainOf = value => addresses(value)[0]?.split('@')[1] ?? '';
+const domainsAlign = (left, right) => Boolean(left && right && (left === right || left.endsWith(`.${right}`) || right.endsWith(`.${left}`)));
+
+export function deriveIdentitySignals(email) {
+  const account = String(email.recipientAccount ?? '').trim().toLowerCase();
+  const fromDomain = domainOf(email.from), replyDomain = domainOf(email.replyTo), returnDomain = domainOf(email.returnPath);
+  const authentication = String(email.authenticationResults ?? '').toLowerCase();
+  const senderAuthenticated = Boolean(fromDomain && authentication.includes(fromDomain) && /(?:dkim|dmarc)=pass/.test(authentication));
+  const routeMismatch = Boolean((replyDomain && !domainsAlign(fromDomain, replyDomain)) || (returnDomain && !domainsAlign(fromDomain, returnDomain)));
+  const visibleRecipients = [email.to, email.cc, email.deliveredTo, email.originalTo].flatMap(addresses);
+  const recipientMatch = !account ? 'unknown' : visibleRecipients.includes(account) ? 'matched' : 'not_visible';
+  return { recipientAccount: account, recipientMatch, senderDomain: fromDomain, senderAuthenticated, senderAlignment: routeMismatch ? 'mismatch' : senderAuthenticated ? 'aligned' : 'unverified' };
+}
+
 export function compactEmailState(email, now = new Date()) {
+  const signals = deriveIdentitySignals(email);
   const raw = {
-    subject: String(email.subject ?? ''), from: String(email.from ?? ''), received_at: String(email.receivedAt ?? ''),
+    subject: String(email.subject ?? ''), from: String(email.from ?? ''), reply_to: String(email.replyTo ?? ''),
+    to: String(email.to ?? ''), cc: String(email.cc ?? ''), delivered_to: String(email.deliveredTo ?? ''), original_to: String(email.originalTo ?? ''),
+    recipient_account: signals.recipientAccount, recipient_match: signals.recipientMatch,
+    sender_domain: signals.senderDomain, sender_authenticated: String(signals.senderAuthenticated), sender_alignment: signals.senderAlignment,
+    received_at: String(email.receivedAt ?? ''),
     authentication_results: String(email.authenticationResults ?? ''), return_path: String(email.returnPath ?? ''),
     snippet: String(email.snippet ?? ''), body: String(email.body ?? '')
   };
   if (raw.body && raw.snippet && raw.body.includes(raw.snippet)) raw.snippet = '';
-  const limits = { subject: 400, from: 400, received_at: 100, authentication_results: 600, return_path: 200, snippet: 300, body: 2000 };
-  const minimum = { body: 700, authentication_results: 120, snippet: 0, return_path: 0, from: 100, subject: 100, received_at: 0 };
+  const limits = { subject: 260, from: 260, reply_to: 180, to: 220, cc: 140, delivered_to: 140, original_to: 140, recipient_account: 120, recipient_match: 20, sender_domain: 120, sender_authenticated: 8, sender_alignment: 20, received_at: 80, authentication_results: 400, return_path: 140, snippet: 220, body: 2000 };
+  const minimum = { body: 700, authentication_results: 100, snippet: 0, cc: 0, original_to: 0, delivered_to: 0, return_path: 0, reply_to: 0, to: 80, from: 100, subject: 100, received_at: 0, recipient_account: 60, recipient_match: 10, sender_domain: 40, sender_authenticated: 4, sender_alignment: 8 };
   const compactField = key => key === 'body' ? clipUtf8Prefix(raw[key], limits[key]) : clipUtf8Middle(raw[key], limits[key]);
   const state = { analysis_date: now.toISOString(), email: Object.fromEntries(Object.keys(raw).map(key => [key, compactField(key)])) };
   const size = () => encoder.encode(JSON.stringify({ state })).length;
-  const order = ['body', 'authentication_results', 'snippet', 'return_path', 'from', 'subject', 'received_at'];
+  const order = ['authentication_results', 'snippet', 'cc', 'original_to', 'delivered_to', 'return_path', 'reply_to', 'to', 'from', 'subject', 'received_at', 'recipient_account', 'sender_domain', 'body'];
   while (size() > PROMPT_STATE_BUDGET) {
     const key = order.find(name => limits[name] > minimum[name]);
     if (!key) break;
@@ -99,30 +128,33 @@ export function buildEmailPayload(email, now = new Date()) {
 }
 
 export function deriveClassification(answers) {
+  const fraud = answers?.fraud_likelihood?.choice ?? 'unclear';
   const spam = answers?.spam_likelihood?.choice ?? 'unclear';
   const contentPurpose = answers?.content_purpose?.choice ?? 'other';
   const importance = answers?.importance?.choice ?? 'uncategorized';
   const urgency = answers?.urgency?.choice ?? 'not_urgent';
   const mentionsTime = Number(answers?.mentions_time?.noul ?? 0) >= 0.5;
   let category;
-  if (spam === 'likely_spam') category = 'possible_spam';
+  if (fraud === 'likely_fraud') category = 'suspected_fraud';
+  else if (spam === 'likely_spam') category = 'possible_spam';
   else if (contentPurpose === 'marketing') category = 'marketing';
   else if (contentPurpose === 'knowledge') category = 'knowledge';
   else if (importance === 'important') category = urgency === 'urgent' ? 'important_urgent' : 'important_not_urgent';
   else if (importance === 'secondary') category = 'secondary';
   else category = mentionsTime ? 'time_related' : 'uncategorized';
-  return { spam, contentPurpose, importance, urgency, mentionsTime, category };
+  return { fraud, spam, contentPurpose, importance, urgency, mentionsTime, category };
 }
 
 export const CATEGORY_LABELS = Object.freeze({
-  possible_spam: '可能垃圾', important_urgent: '重要・緊急', important_not_urgent: '重要・不緊急',
+  suspected_fraud: '可能詐騙', possible_spam: '可能垃圾', important_urgent: '重要・緊急', important_not_urgent: '重要・不緊急',
   marketing: '行銷', knowledge: '新知', secondary: '次要', time_related: '時間相關', uncategorized: '未分類'
 });
 
 export async function analyzeEmail(email, endpoint, fetchImpl = fetch) {
-  const response = await fetchImpl(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(buildEmailPayload(email)) });
+  const payload = buildEmailPayload(email);
+  const response = await fetchImpl(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
   let body;
   try { body = await response.json(); } catch { body = null; }
   if (!response.ok) throw new Error(body?.error?.message || `urJev HTTP ${response.status}`);
-  return { ...deriveClassification(body.answers), answers: body.answers, meta: body.meta, usage: body.usage };
+  return { ...deriveClassification(body.answers), recipientMatch: payload.state.email.recipient_match, senderAuthenticated: payload.state.email.sender_authenticated === 'true', senderAlignment: payload.state.email.sender_alignment, answers: body.answers, meta: body.meta, usage: body.usage };
 }

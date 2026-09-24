@@ -38,7 +38,8 @@ export function createFeedbackRecord(email, sourceCategory, correctedCategory, n
 export function matchFeedback(records, email, modelCategory = '') {
   const sender = senderIdentity(email.from), features = subjectFeatures(email.subject);
   const incomingAuthenticated = authenticatedSender(email);
-  const eligible = record => modelCategory !== 'possible_spam' || record.correctedCategory === 'possible_spam' || (record.authenticated && incomingAuthenticated);
+  const securityFlag = ['possible_spam', 'suspected_fraud'].includes(modelCategory);
+  const eligible = record => !securityFlag || ['possible_spam', 'suspected_fraud'].includes(record.correctedCategory) || (record.authenticated && incomingAuthenticated);
   const sameSender = records.filter(record => record.senderAddress && record.senderAddress === sender.address && eligible(record));
   const similar = sameSender.map(record => ({ record, score: similarity(record.subjectFeatures ?? [], features) })).filter(item => item.score >= .3).sort((a, b) => b.score - a.score || b.record.correctedAt.localeCompare(a.record.correctedAt));
   if (similar.length) return { category: similar[0].record.correctedCategory, reason: 'same_sender_similar_subject', score: similar[0].score };

@@ -1,12 +1,12 @@
 import { getSettings } from './settings.js';
-import { getGmailToken, listMessages, loadMessageSummaries, getMessage, extractEmail, applyAiLabel } from './gmail-api.js';
+import { getGmailToken, getProfile, listMessages, loadMessageSummaries, getMessage, extractEmail, applyAiLabel } from './gmail-api.js';
 import { analyzeEmail, CATEGORY_LABELS } from './urjev.js';
 import { summarizeProgress } from './progress.js';
 import { authenticatedSender, findLearnedCorrection, saveFeedback } from './feedback.js';
 
 const $ = id => document.getElementById(id);
 const SESSION_KEY = 'gmailAnalyzerPanelState';
-const state = { token: null, settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false, analyzing: false, runIds: [], runCompletedIds: new Set(), runTotal: 0, panelPosition: { x: 0, y: 0 } };
+const state = { token: null, accountEmail: '', settings: null, messages: [], elements: new Map(), results: new Map(), appliedIds: new Set(), working: false, analyzing: false, runIds: [], runCompletedIds: new Set(), runTotal: 0, panelPosition: { x: 0, y: 0 } };
 
 function setStatus(message, type = '') {
   $('status').textContent = message;
@@ -133,10 +133,13 @@ async function load() {
 function showResult(id, result, applied) {
   const node = state.elements.get(id), box = node.querySelector('.result'), badge = node.querySelector('.badge');
   box.classList.remove('hidden'); badge.textContent = CATEGORY_LABELS[result.category];
-  badge.className = `badge ${result.category === 'possible_spam' ? 'spam' : result.category === 'important_urgent' ? 'urgent' : ''}`.trim();
+  badge.className = `badge ${result.category === 'suspected_fraud' ? 'fraud' : result.category === 'possible_spam' ? 'spam' : result.category === 'important_urgent' ? 'urgent' : ''}`.trim();
   const spam = { likely_spam: '垃圾：可能', not_spam: '垃圾：否', unclear: '垃圾：不明' }[result.spam] ?? '垃圾：不明';
+  const fraud = { likely_fraud: '詐騙：可能', not_fraud: '詐騙：否', unclear: '詐騙：不明' }[result.fraud] ?? '詐騙：不明';
+  const recipient = { matched: '收件者：是', not_visible: '收件者：未顯示', unknown: '收件者：不明' }[result.recipientMatch] ?? '收件者：不明';
+  const sender = result.senderAlignment === 'mismatch' ? '寄件路徑：不符' : result.senderAuthenticated ? '寄件驗證：通過' : '寄件驗證：未確認';
   const source = result.correctedByUser ? '・人工修正' : result.learnedOverride ? '・依校正記憶' : '';
-  node.querySelector('.detail').textContent = `${spam}・${result.mentionsTime ? '提到時間' : '未提到時間'}${source}${applied ? '・已套用標籤' : ''}`;
+  node.querySelector('.detail').textContent = `${fraud}・${spam}・${sender}・${recipient}・${result.mentionsTime ? '提到時間' : '未提到時間'}${source}${applied ? '・已套用標籤' : ''}`;
   node.querySelector('.correction').classList.remove('hidden');
   node.querySelector('.correction-select').value = result.category;
   node.querySelector('.correction-status').textContent = result.learnedOverride ? '已依過去修正自動調整，可再次更改。' : result.correctedByUser ? '此分類已加入本機校正記憶。' : '';
@@ -168,10 +171,12 @@ async function analyze() {
   try {
     await persistSession();
     state.token ??= await getGmailToken(false);
+    state.accountEmail ||= (await getProfile(state.token)).emailAddress ?? '';
     await checkUrjev();
     for (const [index, id] of ids.entries()) {
       setStatus(`分析中 ${index + 1}/${ids.length}…`, 'working');
       const email = await extractEmail(state.token, await getMessage(state.token, id));
+      email.recipientAccount = state.accountEmail;
       const modelResult = await analyzeEmail(email, state.settings.endpoint);
       const learned = await findLearnedCorrection(email, modelResult.category);
       const feedbackContext = { subject: email.subject, from: email.from, authenticated: authenticatedSender(email) };
