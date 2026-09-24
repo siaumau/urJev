@@ -25,6 +25,10 @@ function selectedIds() {
   return [...document.querySelectorAll('.pick:checked')].map(input => input.dataset.id);
 }
 
+function pendingSelectedIds() {
+  return selectedIds().filter(id => !state.results.has(id));
+}
+
 async function persistSession() {
   await chrome.storage.session.set({ [SESSION_KEY]: {
     messages: state.messages,
@@ -44,9 +48,11 @@ async function persistSession() {
 
 function updateCounter() {
   const selected = selectedIds().length;
+  const pendingSelected = pendingSelectedIds().length;
   $('counter').textContent = state.messages.length ? `${selected}/${state.messages.length} 封已勾選` : '尚未載入';
   const pending = [...state.results.keys()].filter(id => !state.appliedIds.has(id)).length;
-  $('analyze').disabled = state.working || !selected;
+  $('analyze').disabled = state.working || !pendingSelected;
+  $('analyze').textContent = pendingSelected ? `分析已勾選 (${pendingSelected})` : '分析已勾選';
   $('classify').disabled = state.working || !pending;
   $('classify').textContent = pending ? `執行分類 (${pending})` : '執行分類';
 }
@@ -87,6 +93,9 @@ function updateProgress() {
   $('progress-analyzed').textContent = summary.done;
   $('progress-fraction').textContent = `${summary.done} / ${summary.target}`;
   $('progress-percent').textContent = `${summary.percent}%`;
+  $('llm-latency').textContent = Number.isFinite(summary.averageLatencyMs) ? `${summary.averageLatencyMs} ms` : '—';
+  $('llm-input-tokens').textContent = Number.isFinite(summary.inputTokens) ? summary.inputTokens.toLocaleString() : '—';
+  $('llm-output-tokens').textContent = Number.isFinite(summary.outputTokens) ? summary.outputTokens.toLocaleString() : '—';
   $('progress-phase').textContent = state.analyzing ? '正在分析' : summary.done < summary.target ? '分析已停止' : '分析完成';
   $('progress-bar').style.width = `${summary.percent}%`;
 }
@@ -178,8 +187,11 @@ function showResult(id, result, applied) {
   const sender = result.senderAlignment === 'mismatch' ? '寄件路徑：不符' : result.senderAuthenticated ? '寄件驗證：通過' : '寄件驗證：未確認';
   const brand = result.claimedOrganizations ? `・聲稱：${result.claimedOrganizations}` : '';
   const link = { official: '連結：官方', mixed: '連結：混合網域', mismatch: `連結：不符${result.suspiciousLinkDomains ? ` (${result.suspiciousLinkDomains})` : ''}`, no_links: '連結：未提供', no_claim: '' }[result.linkAlignment] ?? '';
+  const latency = Number.isFinite(result.meta?.latency_ms) ? `・LLM ${result.meta.latency_ms} ms` : '';
+  const inputTokens = result.usage?.input_tokens, outputTokens = result.usage?.output_tokens;
+  const tokens = Number.isFinite(inputTokens) && Number.isFinite(outputTokens) ? `・Tokens ${inputTokens.toLocaleString()} → ${outputTokens.toLocaleString()}` : '';
   const source = result.correctedByUser ? '・人工修正' : result.learnedOverride ? '・依校正記憶' : '';
-  node.querySelector('.detail').textContent = `${fraud}・${spam}・${sender}・${recipient}${brand}${link ? `・${link}` : ''}・${result.mentionsTime ? '提到時間' : '未提到時間'}${source}${applied ? '・已套用標籤' : ''}`;
+  node.querySelector('.detail').textContent = `${fraud}・${spam}・${sender}・${recipient}${brand}${link ? `・${link}` : ''}・${result.mentionsTime ? '提到時間' : '未提到時間'}${latency}${tokens}${source}${applied ? '・已套用標籤' : ''}`;
   node.querySelector('.correction').classList.remove('hidden');
   node.querySelector('.correction-select').value = result.category;
   node.querySelector('.correction-status').textContent = result.learnedOverride ? '已依過去修正自動調整，可再次更改。' : result.correctedByUser ? '此分類已加入本機校正記憶。' : '';
@@ -205,7 +217,7 @@ async function checkUrjev() {
 }
 
 async function analyze() {
-  const ids = selectedIds(); if (!ids.length) return;
+  const ids = pendingSelectedIds(); if (!ids.length) return;
   state.runIds = [...ids]; state.runCompletedIds.clear(); state.runTotal = ids.length; state.analyzing = true; updateProgress();
   busy(true);
   try {

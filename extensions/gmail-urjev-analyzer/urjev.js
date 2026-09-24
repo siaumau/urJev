@@ -52,7 +52,9 @@ export const EMAIL_PROBLEM = Object.freeze({
 });
 
 const encoder = new TextEncoder();
-const PROMPT_STATE_BUDGET = 4300;
+// Keep room for fraud_likelihood, the largest fixed instruction, inside the
+// server's 7,000-byte per-question guard even when every field is populated.
+const PROMPT_STATE_BUDGET = 3300;
 const clipBytes = (text, budget, fromEnd = false) => {
   const characters = Array.from(String(text ?? '')); let used = 0, output = '';
   const source = fromEnd ? characters.reverse() : characters;

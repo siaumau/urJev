@@ -54,6 +54,18 @@ test('Gmail prompt keeps only the first 2,000 body bytes and stays below every O
   for (const plan of plans) assert.ok(Buffer.byteLength(JSON.stringify(plan.prepared.messages), 'utf8') <= 7000);
 });
 
+test('Gmail worst-case populated state leaves room for every question under 7,000 bytes', () => {
+  const email = {
+    subject: '測'.repeat(300), from: `品牌 <sender@${'a'.repeat(40)}.example>`, replyTo: `reply@${'b'.repeat(40)}.example`,
+    to: 'recipient@example.com', cc: 'copy@example.com', deliveredTo: 'recipient@example.com', originalTo: 'recipient@example.com', recipientAccount: 'recipient@example.com',
+    receivedAt: 'Wed, 24 Sep 2026 10:00:00 +0800', authenticationResults: `dkim=pass header.i=@example.com; ${'驗證'.repeat(800)}`,
+    returnPath: `<bounce@${'c'.repeat(40)}.example>`, snippet: '摘要'.repeat(300), body: '本文'.repeat(3000),
+    links: Array.from({ length: 20 }, (_, index) => ({ url: `https://suspicious-${index}.example/path`, text: `玉山銀行連結 ${index}` }))
+  };
+  const plans = prepareOneForwardProblems(buildEmailPayload(email));
+  for (const plan of plans) assert.ok(Buffer.byteLength(JSON.stringify(plan.prepared.messages), 'utf8') <= 7000, plan.id);
+});
+
 test('Gmail extraction includes authentication headers for spoofing assessment', async () => {
   const message = { id: 'm1', threadId: 't1', snippet: 'Security alert', payload: { mimeType: 'text/plain', body: { data: Buffer.from('Review account activity').toString('base64url') }, headers: [
     { name: 'Subject', value: 'Security alert' }, { name: 'From', value: 'Google <no-reply@accounts.google.com>' }, { name: 'To', value: 'Me <me@example.com>' },
@@ -263,6 +275,8 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /function updateProgress\(\)/);
   assert.match(markup, /id="analysis-progress"/);
   assert.match(markup, /id="fraud-alert"/);
+  assert.match(markup, /id="llm-input-tokens"/);
+  assert.match(markup, /id="llm-output-tokens"/);
   assert.match(markup, /class="correction-select"/);
   assert.match(markup, /id="search-term"/);
   assert.match(markup, /id="search-mode"/);
@@ -280,14 +294,17 @@ test('Gmail extension opens from the toolbar as a persistent side panel', async 
   assert.match(panel, /state\.messages = state\.messages\.filter/);
   assert.match(panel, /const PAGE_SIZE = 5/);
   assert.match(panel, /function updatePagination\(\)/);
+  assert.match(panel, /function pendingSelectedIds\(\)/);
+  assert.match(panel, /const ids = pendingSelectedIds\(\)/);
 });
 
 test('Gmail progress reaches 100 percent for five selected messages out of 100 loaded', () => {
   const runIds = ['1', '2', '3', '4', '5'];
-  const results = new Map(runIds.map((id, index) => [id, { category: index < 2 ? 'marketing' : 'knowledge' }]));
+  const results = new Map(runIds.map((id, index) => [id, { category: index < 2 ? 'marketing' : 'knowledge', meta: { latency_ms: 100 + index * 10 }, usage: { input_tokens: 200, output_tokens: 6 } }]));
   const summary = summarizeProgress({ loadedCount: 100, runIds, completedIds: new Set(runIds), results, categories: ['marketing', 'knowledge', 'uncategorized'] });
   assert.deepEqual({ loaded: summary.loaded, target: summary.target, done: summary.done, percent: summary.percent }, { loaded: 100, target: 5, done: 5, percent: 100 });
   assert.deepEqual(summary.counts, { marketing: 2, knowledge: 3, uncategorized: 0 });
+  assert.deepEqual({ latency: summary.averageLatencyMs, input: summary.inputTokens, output: summary.outputTokens }, { latency: 120, input: 1000, output: 30 });
 });
 
 test('Gmail feedback learns similar subjects but will not bypass spam without authentication', () => {

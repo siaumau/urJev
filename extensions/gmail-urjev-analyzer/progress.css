@@ -19,6 +19,7 @@
 .progress-summary div{display:flex;flex-direction:column;align-items:center;padding:6px;border-radius:8px;background:#0d263d}
 .progress-summary strong{font-size:15px;color:#f2fbff}
 .progress-summary small{margin-top:2px;color:#8fa8c1;font-size:10px}
+.llm-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:7px}.llm-metrics div{display:flex;flex-direction:column;align-items:center;padding:6px 3px;border:1px solid #21465f;border-radius:8px;background:#0a2033}.llm-metrics strong{color:#ffe66d;font-size:12px}.llm-metrics small{margin-top:2px;color:#8fa8c1;font-size:8px;text-align:center}
 .category-counts{display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;margin-top:9px}
 .category-counts div{display:flex;align-items:center;justify-content:space-between;gap:6px;color:#a9bfd2;font-size:10px}
 .category-counts strong{min-width:22px;padding:2px 6px;border-radius:999px;background:#173b5a;color:#72dfff;text-align:center;font-size:10px}
