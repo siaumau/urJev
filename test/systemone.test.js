@@ -147,6 +147,29 @@ test('OneForward maps opaque labels back to typed answers', async () => {
   assert.equal(output.meta.experimental, true);
 });
 
+test('OneForward can average normal and reversed choice order without changing label meanings', async () => {
+  const input = { state: 'evidence', problem: { result: { type: 'choice', instructions: 'Choose one', criteria: { first: 'First definition', second: 'Second definition' } } } };
+  const prompts = [];
+  const engine = {
+    backend: 'vllm',
+    choiceOrderEnsemble: true,
+    candidateLabels: async () => ({ labels: ['A', 'B'], tokenIds: [32, 33] }),
+    inferLabels: async prepared => {
+      prompts.push(prepared.messages[0].content);
+      const reversed = prepared.messages[0].content.indexOf('"key":"second"') < prepared.messages[0].content.indexOf('"key":"first"');
+      return { probabilities: reversed ? { A: .2, B: .8 } : { A: .6, B: .4 }, meta: { model: 'test', backend: 'vllm', input_tokens: 5, output_tokens: 1 } };
+    }
+  };
+  const output = await systemOneOneForward(engine, input);
+  assert.equal(prompts.length, 2);
+  assert.equal(output.answers.result.choice, 'second');
+  assert.ok(Math.abs(output.answers.result.probabilities.first - .4) < 1e-12);
+  assert.ok(Math.abs(output.answers.result.probabilities.second - .6) < 1e-12);
+  assert.equal(output.usage.output_tokens, 2);
+  assert.equal(output.meta.inference_requests, 2);
+  assert.equal(output.meta.profile.per_question[0].decision_method, 'choice_order_ensemble');
+});
+
 test('OneForward HTTP route returns the same public answer shape', async t => {
   const server = createApp({ backend: 'vllm', inferLabels: async () => ({ probabilities: { A: .1, B: .9 }, meta: { model: 'test', backend: 'vllm', output_tokens: 1 } }) });
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));

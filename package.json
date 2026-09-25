@@ -7,6 +7,7 @@
     "test": "node --test",
     "evaluate": "node --env-file-if-exists=.env scripts/evaluate.js",
     "evaluate:oneforward": "node --env-file-if-exists=.env scripts/evaluate-accuracy.js oneforward-main --oneforward",
+    "evaluate:choice-order": "node --env-file-if-exists=.env scripts/evaluate-reversed-rerank.js",
     "evaluate:calibration-data": "node --env-file-if-exists=.env scripts/evaluate-calibration-dataset.js",
     "calibrate:report": "node scripts/fit-temperature.js",
     "dataset:calibration": "node scripts/generate-calibration-dataset.js",

@@ -91,6 +91,18 @@ function typedAnswer(plan, probabilities) {
   return { type: 'score', score: values.reduce((total, probability, index) => total + index * probability, 0), legend: plan.criteria, probabilities, confidence: null };
 }
 
+function reversedCandidateOrder(prepared) {
+  const prefix = '候選標籤、答案 key 與定義: ';
+  const messages = structuredClone(prepared.messages);
+  const lines = messages[0].content.split('\n');
+  const index = lines.findIndex(line => line.startsWith(prefix));
+  if (index < 0) throw new Error('OneForward candidate list is missing.');
+  const candidates = JSON.parse(lines[index].slice(prefix.length));
+  lines[index] = prefix + JSON.stringify(candidates.reverse());
+  messages[0].content = lines.join('\n');
+  return { ...prepared, messages };
+}
+
 export async function systemOne(engine, input, { concurrency = engine.backend === 'vllm' ? 8 : 1, compact = engine.backend === 'vllm', flatWeights = engine.backend === 'vllm' } = {}) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Concurrency must be 1–8');
   const plans = prepareProblems(input, { compact, flatWeights }); // Validate every question before starting inference.
@@ -132,7 +144,7 @@ export async function systemOne(engine, input, { concurrency = engine.backend ==
   } };
 }
 
-export async function systemOneOneForward(engine, input, { concurrency = 8, sentimentStrategy = engine.sentimentStrategy ?? 'direct' } = {}) {
+export async function systemOneOneForward(engine, input, { concurrency = 8, sentimentStrategy = engine.sentimentStrategy ?? 'direct', choiceOrderEnsemble = engine.choiceOrderEnsemble ?? false } = {}) {
   if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 8) throw new Error('Concurrency must be 1–8');
   if (typeof engine.inferLabels !== 'function') throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', '推論引擎不支援 OneForward。');
   const plans = prepareOneForwardProblems(input);
@@ -149,11 +161,12 @@ export async function systemOneOneForward(engine, input, { concurrency = 8, sent
     }
     const { labels, tokenIds } = await engine.candidateLabels(plan.keys);
     plan.prepared = { ...plan.buildPrepared(labels), tokenIds };
+    if (choiceOrderEnsemble && plan.type === 'choice') plan.reversedPrepared = reversedCandidateOrder(plan.prepared);
   }));
   const start = performance.now();
   const jobs = plans.flatMap((plan, index) => plan.decomposed
     ? (plan.factors ?? []).map(factor => ({ ...factor, index }))
-    : [{ prepared: plan.prepared, index }]);
+    : [{ prepared: plan.prepared, index, variant: 'original' }, ...(plan.reversedPrepared ? [{ prepared: plan.reversedPrepared, index, variant: 'reversed' }] : [])]);
   if (plans.some(plan => plan.decomposed && !plan.factors)) throw new JevError(501, 'ONEFORWARD_UNSUPPORTED', '情緒分解需要 tokenizer 支援。');
   const completed = plans.map(() => []);
   let next = 0, failure;
@@ -165,7 +178,7 @@ export async function systemOneOneForward(engine, input, { concurrency = 8, sent
         const output = await engine.inferLabels(job.prepared);
         const values = job.prepared.labels.map(label => output.probabilities[label]);
         if (values.some(value => !Number.isFinite(value) || value < 0 || value > 1) || Math.abs(values.reduce((sum, v) => sum + v, 0) - 1) > 1e-6) throw new JevError(502, 'INVALID_DISTRIBUTION', `${plans[job.index].id}: 模型未提供有效候選機率。`);
-        completed[job.index].push({ ...output, factor: job.factor, started, finished: performance.now() });
+        completed[job.index].push({ ...output, factor: job.factor, variant: job.variant, started, finished: performance.now() });
       } catch (error) { failure ??= error; }
     }
   }
@@ -184,10 +197,20 @@ export async function systemOneOneForward(engine, input, { concurrency = 8, sent
         latency_ms: Math.round(Math.max(...outputs.map(o => o.finished)) - Math.min(...outputs.map(o => o.started))),
         input_tokens: sum('input_tokens'), output_tokens: sum('output_tokens'), cached_input_tokens: sum('cached_input_tokens') });
     } else {
-      const output = outputs[0];
-      const probabilities = Object.fromEntries(plan.keys.map((key, i) => [key, output.probabilities[plan.prepared.labels[i]]]));
+      const output = outputs.find(item => item.variant === 'original') ?? outputs[0];
+      const reversed = outputs.find(item => item.variant === 'reversed');
+      const probabilities = Object.fromEntries(plan.keys.map((key, i) => {
+        const label = plan.prepared.labels[i];
+        return [key, reversed ? (output.probabilities[label] + reversed.probabilities[label]) / 2 : output.probabilities[label]];
+      }));
       answers[plan.id] = typedAnswer(plan, probabilities);
-      metrics.push({ ...output.meta, question_id: plan.id, decision_method: 'single_label', probability_method: 'conditional_label_token_logits' });
+      if (reversed) {
+        const sum = field => outputs.every(item => Number.isFinite(item.meta[field])) ? outputs.reduce((total, item) => total + item.meta[field], 0) : null;
+        metrics.push({ ...output.meta, question_id: plan.id, decision_method: 'choice_order_ensemble', probability_method: 'mean_conditional_label_token_logits',
+          latency_ms: Math.round(Math.max(...outputs.map(item => item.finished)) - Math.min(...outputs.map(item => item.started))),
+          input_tokens: sum('input_tokens'), output_tokens: sum('output_tokens'), cached_input_tokens: sum('cached_input_tokens'),
+          subrequests: outputs.map(item => ({ ...item.meta, variant: item.variant })) });
+      } else metrics.push({ ...output.meta, question_id: plan.id, decision_method: 'single_label', probability_method: 'conditional_label_token_logits' });
     }
   }
   const total = field => metrics.every(item => typeof item[field] === 'number') ? metrics.reduce((sum, item) => sum + item[field], 0) : null;
@@ -195,9 +218,9 @@ export async function systemOneOneForward(engine, input, { concurrency = 8, sent
     model: metrics[0].model, backend: metrics[0].backend, schema_valid: true,
     latency_ms: Math.round(performance.now() - start), output_tokens: total('output_tokens'),
     profile: { input_tokens: total('input_tokens'), output_tokens: total('output_tokens'), per_question: metrics },
-    probability_method: plans.some(p => p.decomposed) ? 'mixed_label_logits_and_binary_product_scores' : 'conditional_label_token_logits', calibrated: false, confidence_method: 'unavailable',
+    probability_method: plans.some(p => p.decomposed) || plans.some(p => p.reversedPrepared) ? 'mixed_decision_methods' : 'conditional_label_token_logits', calibrated: false, confidence_method: 'unavailable',
     execution: concurrency > 1 ? 'independent_parallel' : 'independent_sequential', concurrency,
     output_format: 'single_label_logprobs', questions: plans.length, inference_requests: jobs.length, experimental: true,
-    warning: '候選機率尚未校準；情緒分解若啟用，四類分數由兩個是非判斷按獨立假設相乘，並非經校準的聯合機率。這是 Jev-style 實驗路徑，不代表 Jev 的專有模型或 RLCD。'
+    warning: '候選機率尚未校準；choice 選項若啟用順序集成，分數是原順序與反向順序兩次推論的平均；情緒分解若啟用，四類分數由兩個是非判斷按獨立假設相乘。這是 Jev-style 實驗路徑，不代表 Jev 的專有模型或 RLCD。'
   } };
 }
